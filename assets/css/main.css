@@ -598,6 +598,22 @@ body {
   font-size: 1.1rem;
 }
 
+/* About Page */
+.about-page h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: var(--text-color);
+}
+
+.about-page p {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  max-width: 700px;
+}
+
 /* Talks Page */
 .talks-page {
   padding: 2rem 0 4rem;
