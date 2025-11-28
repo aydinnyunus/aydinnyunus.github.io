@@ -122,15 +122,16 @@ Until now, I try 3 Audio Door Locks and all of them have default passwords (incl
 
 ![Statistics](https://miro.medium.com/v2/resize:fit:1122/format:webp/0*v4sneCtbZPjIdYVD)
 
-## Github Repository
+## Github Repository for Default Passwords
 
-Enter the ID for getting information about the Model. The gateCracker tool is now connected to the API.
+Enter the ID for getting information about the Model. Use the REST API with gateCracker tool.
 
 ![Models](https://miro.medium.com/v2/resize:fit:1140/format:webp/0*aRFq5D78zydmjtjZ)
 
 ## Source Code
 
-- [https://github.com/aydinnyunus/gateCracker](https://github.com/aydinnyunus/gateCracker)
+- [https://github.com/aydinnyunus/gateCracker-REST](https://github.com/aydinnyunus/gateCracker-REST) - REST API
+- [https://github.com/aydinnyunus/gateCracker](https://github.com/aydinnyunus/gateCracker) - Main tool (connect to REST API)
 
 ---
 
