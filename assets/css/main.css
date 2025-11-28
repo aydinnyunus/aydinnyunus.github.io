@@ -614,6 +614,14 @@ body {
   min-height: 300px;
 }
 
+.talks-intro {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  font-size: 1.1rem;
+  margin-bottom: 3rem;
+  max-width: 700px;
+}
+
 .empty-state {
   text-align: center;
   color: var(--text-secondary);
