@@ -3,6 +3,8 @@ layout: default
 title: About
 ---
 
+<div class="about-page">
+
 # About Me
 
 ## $ whoami
