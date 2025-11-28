@@ -660,6 +660,25 @@ body {
   transform: translateY(-2px);
 }
 
+.talk-item-featured {
+  border-color: var(--link-color);
+  border-width: 2px;
+  background: linear-gradient(135deg, var(--card-bg) 0%, rgba(37, 99, 235, 0.05) 100%);
+}
+
+.talk-item-featured:hover {
+  border-color: var(--link-hover);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.2);
+}
+
+[data-theme="dark"] .talk-item-featured {
+  background: linear-gradient(135deg, var(--card-bg) 0%, rgba(88, 166, 255, 0.08) 100%);
+}
+
+[data-theme="dark"] .talk-item-featured:hover {
+  box-shadow: 0 6px 16px rgba(88, 166, 255, 0.25);
+}
+
 .talk-date {
   min-width: 140px;
   font-size: 0.9rem;
