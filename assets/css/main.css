@@ -62,6 +62,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
 .site-title {
@@ -107,22 +108,36 @@ body {
 
 /* Theme Toggle */
 .theme-toggle {
-  background: none;
+  background: var(--card-bg);
   border: 1px solid var(--border-color);
   color: var(--text-color);
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.75rem;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 1rem;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-left: 1rem;
+  flex-shrink: 0;
 }
 
 .theme-toggle:hover {
-  background-color: var(--card-bg);
+  background-color: var(--border-color);
   border-color: var(--text-secondary);
+  transform: scale(1.05);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+#theme-icon {
+  display: block;
+  line-height: 1;
 }
 
 /* Ana Sayfa */
@@ -379,12 +394,19 @@ body {
   }
 
   .site-header .wrapper {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
   }
 
   .site-nav {
     gap: 1.25rem;
     font-size: 0.9rem;
+  }
+
+  .theme-toggle {
+    margin-left: 0.5rem;
+    width: 36px;
+    height: 36px;
+    padding: 0.4rem;
   }
 
   .hero-name {
@@ -428,10 +450,19 @@ body {
     font-size: 2rem;
   }
 
+  .site-header .wrapper {
+    flex-wrap: wrap;
+  }
+
   .site-nav {
-    flex-direction: column;
     gap: 0.75rem;
-    width: 100%;
-    margin-top: 1rem;
+    font-size: 0.85rem;
+  }
+
+  .theme-toggle {
+    position: absolute;
+    top: 1.5rem;
+    right: 20px;
+    margin-left: 0;
   }
 }
