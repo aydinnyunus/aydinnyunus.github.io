@@ -1,0 +1,81 @@
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('header-search-input');
+  const searchResults = document.getElementById('header-search-results');
+  
+  if (!searchInput || !searchResults) return;
+  
+  // Get all posts data
+  const posts = [
+    {% for post in site.posts %}
+    {
+      title: {{ post.title | jsonify }},
+      url: {{ post.url | relative_url | jsonify }},
+      date: {{ post.date | date: "%B %d, %Y" | jsonify }},
+      excerpt: {{ post.excerpt | default: "" | strip_html | jsonify }},
+      content: {{ post.content | strip_html | jsonify }}
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ];
+  
+  function performSearch(query) {
+    if (!query || query.trim().length === 0) {
+      searchResults.innerHTML = '';
+      searchResults.classList.remove('active');
+      return;
+    }
+    
+    const lowerQuery = query.toLowerCase();
+    const results = posts.filter(post => {
+      const titleMatch = post.title.toLowerCase().includes(lowerQuery);
+      const contentMatch = post.content.toLowerCase().includes(lowerQuery);
+      const excerptMatch = post.excerpt && post.excerpt.toLowerCase().includes(lowerQuery);
+      return titleMatch || contentMatch || excerptMatch;
+    }).slice(0, 5); // Limit to 5 results
+    
+    if (results.length === 0) {
+      searchResults.innerHTML = '<div class="search-result-empty">No results found.</div>';
+      searchResults.classList.add('active');
+      return;
+    }
+    
+    let html = '';
+    results.forEach(post => {
+      const excerpt = post.excerpt || post.content.substring(0, 100);
+      html += `
+        <a href="${post.url}" class="search-result-item-header">
+          <div class="search-result-title">${post.title}</div>
+          <div class="search-result-meta-header">${post.date}</div>
+        </a>
+      `;
+    });
+    searchResults.innerHTML = html;
+    searchResults.classList.add('active');
+  }
+  
+  // Debounce search
+  let searchTimeout;
+  searchInput.addEventListener('input', function() {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+      performSearch(this.value);
+    }, 300);
+  });
+  
+  // Close search results when clicking outside
+  document.addEventListener('click', function(e) {
+    if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+      searchResults.classList.remove('active');
+    }
+  });
+  
+  // Handle Escape key
+  searchInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      searchResults.classList.remove('active');
+      this.blur();
+    }
+  });
+});
+</script>
+
