@@ -6,7 +6,7 @@ url: https://aydinnyunus.github.io
 baseurl: ""
 
 # Jekyll ayarları
-theme: minima
+# theme: minima  # GitHub Pages otomatik build için theme gerekmez
 plugins:
   - jekyll-feed
   - jekyll-sitemap
