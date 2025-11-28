@@ -682,6 +682,20 @@ body {
     font-size: 1rem;
   }
 
+  .hero-social {
+    gap: 1rem;
+  }
+
+  .hero-social a {
+    width: 36px;
+    height: 36px;
+  }
+
+  .hero-social a svg {
+    width: 18px;
+    height: 18px;
+  }
+
   .hero-links {
     flex-direction: column;
     gap: 1rem;
