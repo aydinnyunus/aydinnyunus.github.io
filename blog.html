@@ -1,0 +1,23 @@
+---
+layout: default
+title: Blog
+---
+
+<div class="blog-page">
+  <h1>Blog Yazıları</h1>
+  
+  <ul class="post-list">
+    {% for post in site.posts %}
+    <li class="post-item">
+      <span class="post-meta">{{ post.date | date: "%d.%m.%Y" }}</span>
+      <h2>
+        <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title }}</a>
+      </h2>
+      {% if post.excerpt %}
+      <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 50 }}</p>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+

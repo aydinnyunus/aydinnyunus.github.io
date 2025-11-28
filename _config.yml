@@ -1,0 +1,33 @@
+# Site ayarları
+title: Yunus Aydın Blog
+description: Kişisel blog sayfası
+author: Yunus Aydın
+url: https://aydinnyunus.github.io
+baseurl: ""
+
+# Jekyll ayarları
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+# Blog ayarları
+permalink: /:year/:month/:day/:title/
+paginate: 5
+paginate_path: "/blog/page:num/"
+
+# Markdown ayarları
+markdown: kramdown
+kramdown:
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: 'highlight'
+
+# Exclude ayarları
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - README.md
+

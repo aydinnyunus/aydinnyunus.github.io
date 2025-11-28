@@ -1,0 +1,33 @@
+---
+layout: default
+title: Ana Sayfa
+---
+
+<div class="home">
+  <div class="hero">
+    <h1 class="site-title">{{ site.title }}</h1>
+    <p class="site-description">{{ site.description }}</p>
+  </div>
+
+  <div class="posts">
+    <h2>Son Yazılar</h2>
+    <ul class="post-list">
+      {% for post in site.posts limit:5 %}
+      <li>
+        <span class="post-meta">{{ post.date | date: "%d.%m.%Y" }}</span>
+        <h3>
+          <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        </h3>
+        {% if post.excerpt %}
+        <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="more-posts">
+    <a href="/blog/">Tüm yazıları görüntüle →</a>
+  </div>
+</div>
+
