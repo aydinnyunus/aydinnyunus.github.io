@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr" data-theme="light">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,9 +11,9 @@
     <div class="wrapper">
       <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
       <nav class="site-nav">
-        <a href="{{ '/' | relative_url }}">Ana Sayfa</a>
-        <a href="{{ '/blog/' | relative_url }}">Tüm Yazılar</a>
-        <a href="{{ '/about/' | relative_url }}">Hakkımda</a>
+        <a href="{{ '/' | relative_url }}">Home</a>
+        <a href="{{ '/blog/' | relative_url }}">All Posts</a>
+        <a href="{{ '/about/' | relative_url }}">About</a>
         <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
           <span id="theme-icon">🌙</span>
         </button>
@@ -29,7 +29,7 @@
 
   <footer class="site-footer">
     <div class="wrapper">
-      <p>&copy; {{ 'now' | date: "%Y" }} {{ site.author }}. Tüm hakları saklıdır.</p>
+      <p>&copy; {{ 'now' | date: "%Y" }} {{ site.author }}. All rights reserved.</p>
     </div>
   </footer>
 

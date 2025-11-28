@@ -1,8 +1,8 @@
 ---
 layout: default
-title: Hakkımda
+title: About
 ---
 
-# Hakkımda
+# About
 
 

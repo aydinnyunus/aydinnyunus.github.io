@@ -1,29 +1,29 @@
-# Site ayarları
+# Site settings
 title: Yunus Aydın Blog
-description: Kişisel blog sayfası
+description: Personal blog
 author: Yunus Aydın
 url: https://aydinnyunus.github.io
 baseurl: ""
 
-# Jekyll ayarları
-# theme: minima  # GitHub Pages otomatik build için theme gerekmez
+# Jekyll settings
+# theme: minima  # Theme not required for GitHub Pages automatic build
 plugins:
   - jekyll-feed
   - jekyll-sitemap
 
-# Blog ayarları
+# Blog settings
 permalink: /:year/:month/:day/:title/
 paginate: 5
 paginate_path: "/blog/page:num/"
 
-# Markdown ayarları
+# Markdown settings
 markdown: kramdown
 kramdown:
   syntax_highlighter: rouge
   syntax_highlighter_opts:
     css_class: 'highlight'
 
-# Exclude ayarları
+# Exclude settings
 exclude:
   - Gemfile
   - Gemfile.lock
