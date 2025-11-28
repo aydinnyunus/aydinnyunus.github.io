@@ -710,6 +710,36 @@ body {
   font-size: 1.1rem;
 }
 
+.about-page ul li.achievement-featured {
+  border-color: var(--link-color);
+  border-width: 2px;
+  background: linear-gradient(135deg, var(--card-bg) 0%, rgba(37, 99, 235, 0.08) 100%);
+  position: relative;
+}
+
+.about-page ul li.achievement-featured::after {
+  content: "⭐";
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+}
+
+.about-page ul li.achievement-featured:hover {
+  border-color: var(--link-hover);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+  transform: translateX(4px) translateY(-2px);
+}
+
+[data-theme="dark"] .about-page ul li.achievement-featured {
+  background: linear-gradient(135deg, var(--card-bg) 0%, rgba(88, 166, 255, 0.12) 100%);
+}
+
+[data-theme="dark"] .about-page ul li.achievement-featured:hover {
+  box-shadow: 0 4px 12px rgba(88, 166, 255, 0.25);
+}
+
 .about-page ul li strong {
   color: var(--link-color);
   font-weight: 600;
