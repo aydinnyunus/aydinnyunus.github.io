@@ -133,11 +133,6 @@ Enter the ID for getting information about the Model. Use the REST API with gate
 - [https://github.com/aydinnyunus/gateCracker-REST](https://github.com/aydinnyunus/gateCracker-REST) - REST API
 - [https://github.com/aydinnyunus/gateCracker](https://github.com/aydinnyunus/gateCracker) - Main tool (connect to REST API)
 
-## Blog Post
-
-- Medium: [https://sockpuppets.medium.com/bypassing-door-passwords-4004b8d7995](https://sockpuppets.medium.com/bypassing-door-passwords-4004b8d7995)
-- GitHub Pages: [https://aydinnyunus.github.io/2022/01/07/bypassing-door-passwords/](https://aydinnyunus.github.io/2022/01/07/bypassing-door-passwords/)
-
 ---
 
 **Contact me:** [aydinnyunus@gmail.com](mailto:aydinnyunus@gmail.com)
