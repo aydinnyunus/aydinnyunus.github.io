@@ -382,6 +382,119 @@ body {
   color: var(--link-hover);
 }
 
+/* Search Page */
+.search-page {
+  padding: 2rem 0 4rem;
+}
+
+.search-page h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: var(--text-color);
+}
+
+.search-container {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.search-input {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  font-size: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+  margin-bottom: 2rem;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--link-color);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.search-results {
+  min-height: 200px;
+}
+
+.search-results-list {
+  list-style: none;
+}
+
+.search-result-item {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.search-result-item h3 {
+  margin-bottom: 0.5rem;
+}
+
+.search-result-item h3 a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-size: 1.25rem;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.search-result-item h3 a:hover {
+  color: var(--link-color);
+}
+
+.search-result-meta {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.search-result-excerpt {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.no-results {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 3rem 0;
+  font-size: 1.1rem;
+}
+
+/* Talks Page */
+.talks-page {
+  padding: 2rem 0 4rem;
+}
+
+.talks-page h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 3rem;
+  color: var(--text-color);
+}
+
+.talks-list {
+  min-height: 300px;
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 4rem 0;
+  font-size: 1.1rem;
+}
+
 /* Footer */
 .site-footer {
   margin-top: 6rem;
