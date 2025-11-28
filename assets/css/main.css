@@ -638,6 +638,64 @@ body {
   max-width: 700px;
 }
 
+.talks-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.talk-item {
+  display: flex;
+  gap: 2rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--card-bg);
+  transition: all 0.3s ease;
+}
+
+.talk-item:hover {
+  border-color: var(--link-color);
+  box-shadow: 0 4px 12px var(--shadow);
+  transform: translateY(-2px);
+}
+
+.talk-date {
+  min-width: 120px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  padding-top: 0.25rem;
+}
+
+.talk-content {
+  flex: 1;
+}
+
+.talk-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.talk-title a {
+  color: var(--text-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.talk-title a:hover {
+  color: var(--link-color);
+}
+
+.talk-role {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
 .empty-state {
   text-align: center;
   color: var(--text-secondary);
@@ -741,6 +799,15 @@ body {
 
   .post-link {
     font-size: 1.25rem;
+  }
+
+  .talk-item {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .talk-date {
+    min-width: auto;
   }
 }
 
