@@ -617,12 +617,52 @@ body {
   color: var(--text-color);
 }
 
+.about-page h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.about-page h2:first-of-type {
+  margin-top: 0;
+}
+
 .about-page p {
   color: var(--text-secondary);
   line-height: 1.8;
   font-size: 1.1rem;
   margin-bottom: 1.5rem;
   max-width: 700px;
+}
+
+.about-page ul {
+  list-style: none;
+  padding-left: 0;
+  max-width: 700px;
+}
+
+.about-page ul li {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.about-page ul li::before {
+  content: "•";
+  color: var(--link-color);
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+}
+
+.about-page strong {
+  color: var(--text-color);
+  font-weight: 600;
 }
 
 /* Talks Page */
