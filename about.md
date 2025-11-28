@@ -32,3 +32,5 @@ I started my journey in cybersecurity with a focus on vulnerability research and
 - **GHSA-w228-rfpx-fhm4** - cg vulnerable to an Open Redirect Vulnerability on Referer Header (Moderate)
 - **CVE-2024-29190** - SSRF Vulnerability on assetlinks_check(act_name, well_knowns) in mobsfscan (High)
 - **CVE-2015-5521** - Cross-site scripting (XSS) vulnerability in BlackCat CMS 1.1.2 allows remote attackers to inject arbitrary web script or HTML via the name in a new group to backend/groups/index.php
+
+</div>
