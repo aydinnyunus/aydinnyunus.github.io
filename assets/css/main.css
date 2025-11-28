@@ -12,9 +12,7 @@
   --shadow: rgba(0, 0, 0, 0.1);
 }
 
-html[data-theme="dark"],
-body[data-theme="dark"],
-[data-theme="dark"] {
+html[data-theme="dark"] {
   --bg-color: #0d1117;
   --text-color: #c9d1d9;
   --text-secondary: #8b949e;
@@ -25,6 +23,11 @@ body[data-theme="dark"],
   --link-hover: #79c0ff;
   --code-bg: #21262d;
   --shadow: rgba(0, 0, 0, 0.3);
+}
+
+html[data-theme="dark"] body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
 /* Genel Stiller */
