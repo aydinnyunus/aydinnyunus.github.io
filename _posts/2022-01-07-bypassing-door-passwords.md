@@ -11,6 +11,8 @@ Some keypad locks have an integrated security feature that keeps the door locked
 
 The purpose of this research is to understand how insecure we live.
 
+![Audio Smart Lock](https://miro.medium.com/v2/resize:fit:1000/format:webp/0*XEZo3-Sq09f2CK-O)
+
 ## Audio Smart Lock
 
 Most Popular Entry Door Keypads in Turkey
@@ -112,18 +114,24 @@ Also, we don't need to know the passwords, we can reset the admin password using
 3. After 10 seconds passed, stop the pressing button and unplug the socket again at the same time.
 4. After that, you can use default admin password :)
 
+![Real Life Test](https://miro.medium.com/v2/resize:fit:1400/format:webp/0*mGGgCG6CaxKqC6WJ)
+
 ## Statistics
 
 Until now, I try 3 Audio Door Locks and all of them have default passwords (including the admin password). You can contribute the statistics.
+
+![Statistics](https://miro.medium.com/v2/resize:fit:1122/format:webp/0*v4sneCtbZPjIdYVD)
 
 ## Github Repository for Default Passwords
 
 Enter the ID for getting information about the Model.
 
+![Models](https://miro.medium.com/v2/resize:fit:1140/format:webp/0*aRFq5D78zydmjtjZ)
 [https://github.com/aydinnyunus/gateCracker-REST](https://github.com/aydinnyunus/gateCracker-REST)
 
 ## Demo
 
+![Demo](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*5_uuIY6L1S4jdEFMVxyzQA.png)
 [https://aydinnyunus-gatecracker-main-y5wdmi.streamlit.app/](https://aydinnyunus-gatecracker-main-y5wdmi.streamlit.app/)
 
 ## Source Code
