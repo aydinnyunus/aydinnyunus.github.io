@@ -122,21 +122,14 @@ Until now, I try 3 Audio Door Locks and all of them have default passwords (incl
 
 ![Statistics](https://miro.medium.com/v2/resize:fit:1122/format:webp/0*v4sneCtbZPjIdYVD)
 
-## Github Repository for Default Passwords
+## Github Repository
 
-Enter the ID for getting information about the Model.
+Enter the ID for getting information about the Model. The gateCracker tool is now connected to the API.
 
 ![Models](https://miro.medium.com/v2/resize:fit:1140/format:webp/0*aRFq5D78zydmjtjZ)
-[https://github.com/aydinnyunus/gateCracker-REST](https://github.com/aydinnyunus/gateCracker-REST)
-
-## Demo
-
-![Demo](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*5_uuIY6L1S4jdEFMVxyzQA.png)
-[https://aydinnyunus-gatecracker-main-y5wdmi.streamlit.app/](https://aydinnyunus-gatecracker-main-y5wdmi.streamlit.app/)
 
 ## Source Code
 
-- [https://github.com/aydinnyunus/gateCracker-REST](https://github.com/aydinnyunus/gateCracker-REST)
 - [https://github.com/aydinnyunus/gateCracker](https://github.com/aydinnyunus/gateCracker)
 
 ---
