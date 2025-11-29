@@ -13,10 +13,96 @@ document.addEventListener('DOMContentLoaded', function() {
       url: {{ post.url | relative_url | jsonify }},
       date: {{ post.date | date: "%B %d, %Y" | jsonify }},
       excerpt: {{ post.excerpt | default: "" | strip_html | jsonify }},
-      content: {{ post.content | strip_html | jsonify }}
+      content: {{ post.content | strip_html | jsonify }},
+      type: 'post'
     }{% unless forloop.last %},{% endunless %}
     {% endfor %}
   ];
+  
+  // Get all pages data (excluding posts)
+  const pages = [
+    {% for page in site.pages %}
+    {% unless page.layout == 'post' or page.url == '/' or page.url == '/blog/' or page.url == '/feed.xml' or page.url == '/sitemap.xml' %}
+    {
+      title: {{ page.title | default: page.name | jsonify }},
+      url: {{ page.url | relative_url | jsonify }},
+      description: {{ page.description | default: "" | strip_html | jsonify }},
+      content: {{ page.content | strip_html | jsonify }},
+      type: 'page'
+    }{% unless forloop.last %},{% endunless %}
+    {% endunless %}
+    {% endfor %}
+  ];
+  
+  // Projects data (manually added for better search)
+  const projects = [
+    {
+      title: 'exifLooter',
+      url: '/projects/',
+      description: 'ExifLooter finds geolocation on all image urls and directories also integrates with OpenStreetMap',
+      type: 'project',
+      keywords: 'exiflooter kali linux geolocation metadata'
+    },
+    {
+      title: 'PassDetective',
+      url: '/projects/',
+      description: 'Scans shell command history to detect accidentally written passwords, API keys, and secrets',
+      type: 'project',
+      keywords: 'passdetective kali linux password detection secrets'
+    },
+    {
+      title: 'ai-captcha-bypass',
+      url: '/projects/',
+      description: 'AI Captcha Bypass tool for security research and testing',
+      type: 'project',
+      keywords: 'ai captcha bypass black hat security'
+    },
+    {
+      title: 'gateCracker',
+      url: '/projects/',
+      description: 'Main tool for bypassing door passwords. Connects to REST API to get default passwords for door lock models',
+      type: 'project',
+      keywords: 'gatecracker door password bypass iwcon'
+    },
+    {
+      title: 'gateCracker-REST',
+      url: '/projects/',
+      description: 'REST API for gateCracker tool. Provides default password database for various door lock models',
+      type: 'project',
+      keywords: 'gatecracker rest api door password database'
+    },
+    {
+      title: 'Keylogger',
+      url: '/projects/',
+      description: 'Get Keyboard, Mouse, ScreenShot, Microphone Inputs from Target Computer and Send to your Mail',
+      type: 'project',
+      keywords: 'keylogger keyboard mouse screenshot'
+    },
+    {
+      title: 'WifiPassword-Stealer',
+      url: '/projects/',
+      description: 'Get All Registered Wifi Passwords from Target Computer',
+      type: 'project',
+      keywords: 'wifi password stealer network'
+    },
+    {
+      title: 'WhatsappBOT',
+      url: '/projects/',
+      description: 'Send messages to any person in any time how much you want',
+      type: 'project',
+      keywords: 'whatsapp bot messaging automation'
+    },
+    {
+      title: 'wallet-tracker',
+      url: '/projects/',
+      description: 'Detect real scammers with Wallet-Tracker CLI from anywhere',
+      type: 'project',
+      keywords: 'wallet tracker cryptocurrency scam detection'
+    }
+  ];
+  
+  // Combine all searchable items
+  const allItems = [...posts, ...pages, ...projects];
   
   function performSearch(query) {
     if (!query || query.trim().length === 0) {
@@ -26,12 +112,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     const lowerQuery = query.toLowerCase();
-    const results = posts.filter(post => {
-      const titleMatch = post.title.toLowerCase().includes(lowerQuery);
-      const contentMatch = post.content.toLowerCase().includes(lowerQuery);
-      const excerptMatch = post.excerpt && post.excerpt.toLowerCase().includes(lowerQuery);
-      return titleMatch || contentMatch || excerptMatch;
-    }).slice(0, 5); // Limit to 5 results
+    const results = allItems.filter(item => {
+      const titleMatch = item.title.toLowerCase().includes(lowerQuery);
+      const contentMatch = item.content && item.content.toLowerCase().includes(lowerQuery);
+      const excerptMatch = item.excerpt && item.excerpt.toLowerCase().includes(lowerQuery);
+      const descMatch = item.description && item.description.toLowerCase().includes(lowerQuery);
+      const keywordsMatch = item.keywords && item.keywords.toLowerCase().includes(lowerQuery);
+      return titleMatch || contentMatch || excerptMatch || descMatch || keywordsMatch;
+    }).slice(0, 8); // Limit to 8 results
     
     if (results.length === 0) {
       searchResults.innerHTML = '<div class="search-result-empty">No results found.</div>';
@@ -40,12 +128,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     let html = '';
-    results.forEach(post => {
-      const excerpt = post.excerpt || post.content.substring(0, 100);
+    results.forEach(item => {
+      let meta = '';
+      if (item.date) {
+        meta = item.date;
+      } else if (item.type === 'project') {
+        meta = 'Project';
+      } else if (item.type === 'page') {
+        meta = 'Page';
+      }
       html += `
-        <a href="${post.url}" class="search-result-item-header">
-          <div class="search-result-title">${post.title}</div>
-          <div class="search-result-meta-header">${post.date}</div>
+        <a href="${item.url}" class="search-result-item-header">
+          <div class="search-result-title">${item.title}</div>
+          <div class="search-result-meta-header">${meta}</div>
         </a>
       `;
     });
