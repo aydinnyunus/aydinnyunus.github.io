@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
   
   if (!searchInput || !searchResults) return;
   
-  // Get all posts data
   const posts = [
     {% for post in site.posts %}
     {
@@ -19,7 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
     {% endfor %}
   ];
   
-  // Get all pages data (excluding posts)
   const pages = [
     {% for page in site.pages %}
     {% unless page.layout == 'post' or page.url == '/' or page.url == '/blog/' or page.url == '/feed.xml' or page.url == '/sitemap.xml' %}
@@ -34,7 +32,6 @@ document.addEventListener('DOMContentLoaded', function() {
     {% endfor %}
   ];
   
-  // Projects data (manually added for better search)
   const projects = [
     {
       title: 'exifLooter',
@@ -101,8 +98,50 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   ];
   
-  // Combine all searchable items
   const allItems = [...posts, ...pages, ...projects];
+  
+  function escapeHtml(text) {
+    if (text == null) return '';
+    const str = String(text);
+    const map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#x27;',
+      '/': '&#x2F;'
+    };
+    return str.replace(/[&<>"'\/]/g, function(m) { return map[m]; });
+  }
+  
+  function sanitizeUrl(url) {
+    if (!url || typeof url !== 'string') return '#';
+    
+    const trimmed = url.trim();
+    if (!trimmed) return '#';
+    
+    if (trimmed.startsWith('/') || trimmed.startsWith('./') || trimmed.startsWith('../')) {
+      if (!/^[a-z]+:/i.test(trimmed)) {
+        return trimmed;
+      }
+    }
+    
+    try {
+      const urlObj = new URL(trimmed, window.location.origin);
+      const protocol = urlObj.protocol.toLowerCase();
+      
+      if (protocol === 'http:' || protocol === 'https:') {
+        return urlObj.href;
+      }
+      
+      return '#';
+    } catch (e) {
+      if (trimmed.startsWith('#') || trimmed.startsWith('?')) {
+        return trimmed;
+      }
+      return '#';
+    }
+  }
   
   function performSearch(query) {
     if (!query || query.trim().length === 0) {
@@ -119,36 +158,50 @@ document.addEventListener('DOMContentLoaded', function() {
       const descMatch = item.description && item.description.toLowerCase().includes(lowerQuery);
       const keywordsMatch = item.keywords && item.keywords.toLowerCase().includes(lowerQuery);
       return titleMatch || contentMatch || excerptMatch || descMatch || keywordsMatch;
-    }).slice(0, 8); // Limit to 8 results
+    }).slice(0, 8);
     
     if (results.length === 0) {
-      searchResults.innerHTML = '<div class="search-result-empty">No results found.</div>';
+      const emptyDiv = document.createElement('div');
+      emptyDiv.className = 'search-result-empty';
+      emptyDiv.textContent = 'No results found.';
+      searchResults.innerHTML = '';
+      searchResults.appendChild(emptyDiv);
       searchResults.classList.add('active');
       return;
     }
     
-    let html = '';
+    searchResults.innerHTML = '';
+    
     results.forEach(item => {
       let meta = '';
       if (item.date) {
-        meta = item.date;
+        meta = escapeHtml(item.date);
       } else if (item.type === 'project') {
         meta = 'Project';
       } else if (item.type === 'page') {
         meta = 'Page';
       }
-      html += `
-        <a href="${item.url}" class="search-result-item-header">
-          <div class="search-result-title">${item.title}</div>
-          <div class="search-result-meta-header">${meta}</div>
-        </a>
-      `;
+      
+      const link = document.createElement('a');
+      link.href = sanitizeUrl(item.url);
+      link.className = 'search-result-item-header';
+      
+      const titleDiv = document.createElement('div');
+      titleDiv.className = 'search-result-title';
+      titleDiv.textContent = item.title;
+      
+      const metaDiv = document.createElement('div');
+      metaDiv.className = 'search-result-meta-header';
+      metaDiv.textContent = meta;
+      
+      link.appendChild(titleDiv);
+      link.appendChild(metaDiv);
+      searchResults.appendChild(link);
     });
-    searchResults.innerHTML = html;
+    
     searchResults.classList.add('active');
   }
   
-  // Debounce search
   let searchTimeout;
   searchInput.addEventListener('input', function() {
     clearTimeout(searchTimeout);
@@ -157,14 +210,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 300);
   });
   
-  // Close search results when clicking outside
   document.addEventListener('click', function(e) {
     if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
       searchResults.classList.remove('active');
     }
   });
   
-  // Handle Escape key
   searchInput.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
       searchResults.classList.remove('active');

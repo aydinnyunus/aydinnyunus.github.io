@@ -1182,13 +1182,25 @@ body {
 }
 
 .kali-badge {
-  background-color: #557c3e;
-  color: #ffffff;
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
 }
 
 .kali-badge:hover {
-  background-color: #4a6b35;
-  color: #ffffff;
+  background-color: var(--border-color);
+  border-color: var(--link-color);
+  color: var(--text-color);
+}
+
+.kali-badge .kali-logo {
+  filter: brightness(0) invert(1);
+  opacity: 0.9;
+}
+
+[data-theme="dark"] .kali-badge .kali-logo {
+  filter: brightness(0) invert(1);
+  opacity: 1;
 }
 
 .kali-logo {
