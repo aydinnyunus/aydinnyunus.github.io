@@ -136,8 +136,3 @@ Enter the ID for getting information about the Model. Use the REST API with gate
 
 - [https://github.com/aydinnyunus/gateCracker-REST](https://github.com/aydinnyunus/gateCracker-REST) - REST API
 - [https://github.com/aydinnyunus/gateCracker](https://github.com/aydinnyunus/gateCracker) - Main tool (connect to REST API)
-
----
-
-**Contact me:** [aydinnyunus@gmail.com](mailto:aydinnyunus@gmail.com)
-
