@@ -1043,3 +1043,167 @@ body {
     padding: 0.3rem;
   }
 }
+
+/* Projects Page */
+.projects-page {
+  padding: 2rem 0 4rem;
+}
+
+.projects-page h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 3rem;
+  color: var(--text-color);
+}
+
+.projects-list {
+  min-height: 300px;
+}
+
+.projects-intro {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  font-size: 1.1rem;
+  margin-bottom: 3rem;
+  max-width: 700px;
+}
+
+.projects-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.project-item {
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--card-bg);
+  transition: all 0.3s ease;
+}
+
+.project-item:hover {
+  border-color: var(--link-color);
+  box-shadow: 0 4px 12px var(--shadow);
+  transform: translateY(-2px);
+}
+
+.project-item-featured {
+  border-color: var(--link-color);
+  border-width: 2px;
+  background: linear-gradient(135deg, var(--card-bg) 0%, rgba(37, 99, 235, 0.05) 100%);
+}
+
+.project-item-featured:hover {
+  border-color: var(--link-hover);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.2);
+}
+
+[data-theme="dark"] .project-item-featured {
+  background: linear-gradient(135deg, var(--card-bg) 0%, rgba(88, 166, 255, 0.08) 100%);
+}
+
+[data-theme="dark"] .project-item-featured:hover {
+  box-shadow: 0 6px 16px rgba(88, 166, 255, 0.25);
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.project-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.project-title a {
+  color: var(--text-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.project-title a:hover {
+  color: var(--link-color);
+}
+
+.project-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.kali-badge {
+  background-color: #557c3e;
+  color: #ffffff;
+}
+
+.project-description {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.project-meta {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  flex-wrap: wrap;
+}
+
+.project-stars {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.project-language {
+  padding: 0.25rem 0.5rem;
+  background-color: var(--code-bg);
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+}
+
+.projects-footer {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.projects-footer a {
+  color: var(--link-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.projects-footer a:hover {
+  color: var(--link-hover);
+}
+
+@media (max-width: 768px) {
+  .project-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .project-meta {
+    font-size: 0.8rem;
+  }
+}

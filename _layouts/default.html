@@ -4,6 +4,73 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+  
+  {% if page.description %}
+  <meta name="description" content="{{ page.description }}">
+  {% elsif page.excerpt %}
+  <meta name="description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}">
+  {% else %}
+  <meta name="description" content="{{ site.description }}">
+  {% endif %}
+  
+  {% if page.keywords %}
+  <meta name="keywords" content="{{ page.keywords }}">
+  {% endif %}
+  
+  {% if page.author %}
+  <meta name="author" content="{{ page.author }}">
+  {% else %}
+  <meta name="author" content="{{ site.author }}">
+  {% endif %}
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:title" content="{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}">
+  {% if page.description %}
+  <meta property="og:description" content="{{ page.description }}">
+  {% elsif page.excerpt %}
+  <meta property="og:description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}">
+  {% else %}
+  <meta property="og:description" content="{{ site.description }}">
+  {% endif %}
+  {% if page.image %}
+    {% if page.image contains 'http' %}
+  <meta property="og:image" content="{{ page.image }}">
+    {% else %}
+  <meta property="og:image" content="{{ site.url }}{{ page.image }}">
+    {% endif %}
+  {% endif %}
+  <meta property="og:site_name" content="{{ site.title }}">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="{{ site.url }}{{ page.url }}">
+  <meta name="twitter:title" content="{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}">
+  {% if page.description %}
+  <meta name="twitter:description" content="{{ page.description }}">
+  {% elsif page.excerpt %}
+  <meta name="twitter:description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}">
+  {% else %}
+  <meta name="twitter:description" content="{{ site.description }}">
+  {% endif %}
+  {% if page.image %}
+    {% if page.image contains 'http' %}
+  <meta name="twitter:image" content="{{ page.image }}">
+    {% else %}
+  <meta name="twitter:image" content="{{ site.url }}{{ page.image }}">
+    {% endif %}
+  {% endif %}
+  
+  {% if page.canonical_url %}
+  <link rel="canonical" href="{{ page.canonical_url }}">
+  {% else %}
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  {% endif %}
+  
+  <!-- RSS Feed -->
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ '/feed.xml' | relative_url }}">
+  
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
   {% include analytics.html %}
 </head>

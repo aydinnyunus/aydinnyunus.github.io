@@ -1,6 +1,6 @@
 # Site settings
 title: Yunus Aydın Blog
-description: Personal blog
+description: Security researcher exploring cybersecurity, vulnerability research, and responsible disclosure. Discover CVEs, conference talks, and security research.
 author: Yunus Aydın
 url: https://aydinnyunus.github.io
 baseurl: ""
@@ -10,6 +10,11 @@ baseurl: ""
 plugins:
   - jekyll-feed
   - jekyll-sitemap
+
+# Feed settings
+feed:
+  path: feed.xml
+  excerpt_only: true
 
 # Blog settings
 permalink: /:year/:month/:day/:title/

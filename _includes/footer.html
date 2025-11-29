@@ -1,6 +1,15 @@
 <footer class="site-footer">
   <div class="wrapper">
     <p>&copy; {{ 'now' | date: "%Y" }} {{ site.author }}. All rights reserved.</p>
+    <p>
+      <a href="{{ '/feed.xml' | relative_url }}" title="RSS Feed" aria-label="RSS Feed">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; margin-right: 4px;">
+          <path d="M6.503 20.752c0 1.794-1.456 3.248-3.251 3.248-1.796 0-3.252-1.454-3.252-3.248 0-1.794 1.456-3.248 3.252-3.248 1.795.001 3.251 1.454 3.251 3.248zm-6.503-12.572v4.811c6.05.062 10.96 4.966 11.022 11.009h4.817c-.062-8.71-7.232-15.82-15.839-15.82zm0-3.368c10.58 0 19.152 8.594 19.183 19.185h4.817c-.03-13.231-10.755-23.954-24-24v4.815z"/>
+        </svg>
+        RSS Feed
+      </a>
+    </p>
   </div>
 </footer>
+
 

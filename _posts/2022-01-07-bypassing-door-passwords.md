@@ -3,6 +3,10 @@ layout: post
 title: "Bypassing Door Passwords"
 date: 2022-01-07
 author: Yunus Aydın
+description: "Security research on bypassing door password locks. Discover default passwords, vulnerabilities in keypad door locks, and real-world security testing of Audio smart locks and other popular entry door keypads in Turkey."
+keywords: "door password bypass, keypad lock security, default passwords, door lock vulnerabilities, smart lock security, Audio door lock, security research, physical security"
+canonical_url: "https://aydinnyunus.github.io/2022/01/07/bypassing-door-passwords/"
+image: "https://miro.medium.com/v2/resize:fit:1000/format:webp/0*XEZo3-Sq09f2CK-O"
 ---
 
 Instead of a key, this type of lock system requires a numerical code to grant entry to a facility or property. The code is punched in by users via a numerical pad, similar to those on a basic calculator. If the correct code is entered, the door lock or deadbolt should release. Some mechanisms require batteries or a small electrical current to unlock.
@@ -11,7 +15,7 @@ Some keypad locks have an integrated security feature that keeps the door locked
 
 The purpose of this research is to understand how insecure we live.
 
-![Audio Smart Lock](https://miro.medium.com/v2/resize:fit:1000/format:webp/0*XEZo3-Sq09f2CK-O)
+![Audio Smart Lock showing keypad entry system](https://miro.medium.com/v2/resize:fit:1000/format:webp/0*XEZo3-Sq09f2CK-O)
 
 ## Audio Smart Lock
 
@@ -114,19 +118,19 @@ Also, we don't need to know the passwords, we can reset the admin password using
 3. After 10 seconds passed, stop the pressing button and unplug the socket again at the same time.
 4. After that, you can use default admin password :)
 
-![Real Life Test](https://miro.medium.com/v2/resize:fit:1400/format:webp/0*mGGgCG6CaxKqC6WJ)
+![Real life security test demonstrating door lock password bypass](https://miro.medium.com/v2/resize:fit:1400/format:webp/0*mGGgCG6CaxKqC6WJ)
 
 ## Statistics
 
 Until now, I try 3 Audio Door Locks and all of them have default passwords (including the admin password). You can contribute the statistics.
 
-![Statistics](https://miro.medium.com/v2/resize:fit:1122/format:webp/0*v4sneCtbZPjIdYVD)
+![Statistics showing default password usage in door locks](https://miro.medium.com/v2/resize:fit:1122/format:webp/0*v4sneCtbZPjIdYVD)
 
 ## Github Repository for Default Passwords
 
 Enter the ID for getting information about the Model. Use the REST API with gateCracker tool.
 
-![Models](https://miro.medium.com/v2/resize:fit:1140/format:webp/0*aRFq5D78zydmjtjZ)
+![List of door lock models with default password vulnerabilities](https://miro.medium.com/v2/resize:fit:1140/format:webp/0*aRFq5D78zydmjtjZ)
 
 ## Source Code
 
