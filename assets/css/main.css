@@ -871,6 +871,34 @@ body {
   color: var(--link-color);
 }
 
+.talk-title a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.youtube-icon {
+  width: 18px;
+  height: 18px;
+  fill: #ff0000;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+  vertical-align: middle;
+}
+
+.talk-title a:hover .youtube-icon {
+  transform: scale(1.1);
+  fill: #cc0000;
+}
+
+[data-theme="dark"] .youtube-icon {
+  fill: #ff4444;
+}
+
+[data-theme="dark"] .talk-title a:hover .youtube-icon {
+  fill: #ff6666;
+}
+
 .talk-role {
   font-size: 0.95rem;
   color: var(--text-secondary);
@@ -1135,18 +1163,39 @@ body {
 }
 
 .project-badge {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   padding: 0.25rem 0.75rem;
   border-radius: 12px;
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.project-badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .kali-badge {
   background-color: #557c3e;
   color: #ffffff;
+}
+
+.kali-badge:hover {
+  background-color: #4a6b35;
+  color: #ffffff;
+}
+
+.kali-logo {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  vertical-align: middle;
 }
 
 .project-description {
