@@ -13,7 +13,7 @@ canonical_url: "https://aydinnyunus.github.io/blog/"
   
   <ul class="post-list">
     {% for post in site.posts %}
-    {% unless post.lang == 'tr' %}
+    {% if post.lang == 'en' or post.lang == null %}
     <li class="post-item">
       <div class="post-meta">
         <span class="post-date">{{ post.date | date: "%d %B %Y" }}</span>
@@ -29,7 +29,7 @@ canonical_url: "https://aydinnyunus.github.io/blog/"
       <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 50 }}</p>
       {% endif %}
     </li>
-    {% endunless %}
+    {% endif %}
     {% endfor %}
   </ul>
 </div>

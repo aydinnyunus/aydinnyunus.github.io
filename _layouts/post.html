@@ -19,7 +19,12 @@ layout: default
   </div>
 
   <footer class="post-footer">
+    {% if page.lang == 'tr' %}
+    <a href="/tr/">← Ana sayfaya dön</a>
+    <a href="/tr/blog/">Tüm yazılar →</a>
+    {% else %}
     <a href="{{ '/' | relative_url }}">← Back to home</a>
     <a href="{{ '/blog/' | relative_url }}">All posts →</a>
+    {% endif %}
   </footer>
 </article>
