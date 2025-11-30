@@ -4,17 +4,17 @@ title: "Kapı Şifrelerini Atlama"
 date: 2022-01-07
 author: Yunus Aydın
 lang: tr
-description: "Kapı şifreli kilitlerini atlama üzerine güvenlik araştırması. Varsayılan şifreleri, tuş takımı kapı kilitlerindeki güvenlik açıklarını ve Audio akıllı kilitler ile Türkiye'deki diğer popüler giriş kapısı tuş takımlarının gerçek hayat güvenlik testlerini keşfedin."
+description: "Kapı şifreli kilitlerini atlama üzerine yaptığım güvenlik araştırması. Varsayılan şifreler, tuş takımı kapı kilitlerindeki güvenlik açıkları ve Audio akıllı kilitler ile Türkiye'deki diğer popüler giriş kapısı tuş takımlarının gerçek hayat güvenlik testleri."
 keywords: "kapı şifresi atlama, tuş takımı kilit güvenliği, varsayılan şifreler, kapı kilidi güvenlik açıkları, akıllı kilit güvenliği, Audio kapı kilidi, güvenlik araştırması, fiziksel güvenlik"
 canonical_url: "https://aydinnyunus.github.io/2022/01/07/bypassing-door-passwords-tr/"
 image: "https://miro.medium.com/v2/resize:fit:1000/format:webp/0*XEZo3-Sq09f2CK-O"
 ---
 
-Anahtar yerine, bu tür kilit sistemleri bir tesise veya mülke giriş için sayısal bir kod gerektirir. Kod, temel bir hesap makinesindekine benzer sayısal bir tuş takımı üzerinden girilir. Doğru kod girilirse kapı kilidi veya ölü kilit açılır. Bazı mekanizmalar kilidi açmak için pil veya küçük bir elektrik akımı gerektirir.
+Anahtar yerine, bu tür kilit sistemleri bir yere giriş için sayısal bir kod istiyor. Kodu, hesap makinesine benzer bir tuş takımından giriyorsunuz. Doğru kodu girerseniz kapı açılıyor. Bazıları kilidi açmak için pil veya küçük bir elektrik akımı kullanıyor.
 
-Bazı tuş takımı kilitleri, birkaç yanlış denemeden sonra kapıyı belirli bir süre (genellikle 10-15 dakika) kilitli tutan bir güvenlik özelliğine sahiptir.
+Bazı tuş takımı kilitleri, birkaç yanlış denemeden sonra kapıyı belirli bir süre (genellikle 10-15 dakika) kilitli tutuyor. Bu bir güvenlik özelliği.
 
-Bu araştırmanın amacı ne kadar güvensiz yaşadığımızı göstermek.
+Bu araştırmayı yapmamın amacı, aslında ne kadar güvensiz yaşadığımızı göstermek.
 
 ![Audio Smart Lock tuş takımı giriş sistemini gösteriyor](https://miro.medium.com/v2/resize:fit:1000/format:webp/0*XEZo3-Sq09f2CK-O)
 
@@ -110,26 +110,26 @@ Türkiye'de en popüler giriş kapısı tuş takımları:
 
 ## Gerçek Hayat Testleri
 
-"Audio Şifreli Kapı Kiliti"nde admin şifresini denedim ve başarılı oldu. Artık tüm kullanıcıların şifrelerini değiştirebilir, alarmı kapatabilir, tüm kullanıcıları silebiliriz.
+"Audio Şifreli Kapı Kiliti"nde admin şifresini denedim ve işe yaradı. Artık tüm kullanıcıların şifrelerini değiştirebilir, alarmı kapatabilir, hatta tüm kullanıcıları silebiliriz.
 
-Ayrıca şifreleri bilmemize gerek yok, basit birkaç adımla admin şifresini sıfırlayabiliriz:
+Üstelik şifreleri bilmemize bile gerek yok, basit birkaç adımla admin şifresini sıfırlayabiliyoruz:
 
-1. Kutu arkasındaki reset butonuna 10 saniye basın.
-2. DT-8 soketini çıkarın, 5 saniye bekleyin ve tekrar takın.
-3. 10 saniye sonra butona basmayı bırakın ve aynı anda soketi tekrar çıkarın.
+1. Kutu arkasındaki reset butonuna 10 saniye basıyorsunuz.
+2. DT-8 soketini çıkarıp 5 saniye bekliyorsunuz, sonra tekrar takıyorsunuz.
+3. 10 saniye sonra butona basmayı bırakıp aynı anda soketi tekrar çıkarıyorsunuz.
 4. Bundan sonra varsayılan admin şifresini kullanabilirsiniz :)
 
 ![Kapı kilidi şifresi atlamayı gösteren gerçek hayat güvenlik testi](https://miro.medium.com/v2/resize:fit:1400/format:webp/0*mGGgCG6CaxKqC6WJ)
 
 ## İstatistikler
 
-Şu ana kadar 3 Audio kapı kilidi denedim ve hepsinde varsayılan şifreler vardı (admin şifresi dahil). İstatistiklere katkıda bulunabilirsiniz.
+Şu ana kadar 3 Audio kapı kilidi denedim ve hepsinde varsayılan şifreler vardı (admin şifresi dahil). İstatistiklere katkıda bulunmak isterseniz, siz de test edebilirsiniz.
 
 ![Kapı kilitlerinde varsayılan şifre kullanımını gösteren istatistikler](https://miro.medium.com/v2/resize:fit:1122/format:webp/0*v4sneCtbZPjIdYVD)
 
 ## Varsayılan Şifreler için GitHub Deposu
 
-Model hakkında bilgi almak için ID'yi girin. gateCracker aracı ile REST API kullanabilirsiniz.
+Model hakkında bilgi almak için ID'yi giriyorsunuz. gateCracker aracı ile REST API'yi kullanabilirsiniz.
 
 ![Varsayılan şifre güvenlik açıkları olan kapı kilidi modellerinin listesi](https://miro.medium.com/v2/resize:fit:1140/format:webp/0*aRFq5D78zydmjtjZ)
 
