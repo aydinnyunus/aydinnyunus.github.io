@@ -8,31 +8,44 @@
     if (path.startsWith('/en/')) {
       return path.replace('/en/', '/tr/');
     }
+    // Blog post URLs: /2022/04/11/title/ -> /2022/04/11/title-tr/
     if (path.match(/^\/\d{4}\/\d{2}\/\d{2}\/[^\/]+\/$/)) {
       const parts = path.split('/');
       const title = parts[parts.length - 2];
-      return '/tr' + path.replace(title, title + '-tr');
+      // Don't add -tr if it already exists
+      if (title.endsWith('-tr')) {
+        return path;
+      }
+      return path.replace('/' + title + '/', '/' + title + '-tr/');
     }
-    if (path.match(/^\/\d{4}\/\d{2}\/\d{2}\/[^\/]+$/)) {
-      const parts = path.split('/');
-      const title = parts[parts.length - 1];
-      return '/tr' + path.replace(title, title + '-tr') + '/';
-    }
-    if (path.endsWith('/')) {
+    // Regular pages: /blog/ -> /tr/blog/
+    if (path.startsWith('/blog/') || path.startsWith('/projects/') || 
+        path.startsWith('/talks/') || path.startsWith('/about/')) {
       return '/tr' + path;
     }
-    return '/tr' + path + '/';
+    if (path.endsWith('/') && !path.startsWith('/tr/')) {
+      return '/tr' + path;
+    }
+    if (!path.endsWith('/') && !path.startsWith('/tr/')) {
+      return '/tr' + path + '/';
+    }
+    return path;
   }
   
   function getEnglishPath(path) {
+    if (path === '/tr/') return '/';
     if (path.startsWith('/tr/')) {
       let newPath = path.replace('/tr/', '/');
+      // Blog post URLs: /2022/04/11/title-tr/ -> /2022/04/11/title/
       if (newPath.match(/\/\d{4}\/\d{2}\/\d{2}\/[^\/]+-tr\/$/)) {
         newPath = newPath.replace(/-tr\/$/, '/');
       }
       return newPath;
     }
-    if (path === '/tr/') return '/';
+    // Blog post URLs without /tr/: /2022/04/11/title-tr/ -> /2022/04/11/title/
+    if (path.match(/^\/\d{4}\/\d{2}\/\d{2}\/[^\/]+-tr\/$/)) {
+      return path.replace(/-tr\/$/, '/');
+    }
     return path;
   }
   
@@ -40,7 +53,11 @@
     const currentPath = window.location.pathname;
     let newPath;
     
-    if (isTurkish) {
+    // Update isTurkish check based on current path
+    const currentIsTurkish = currentPath.startsWith('/tr/') || 
+                             (currentPath.match(/^\/\d{4}\/\d{2}\/\d{2}\/[^\/]+-tr\/$/) !== null);
+    
+    if (currentIsTurkish) {
       newPath = getEnglishPath(currentPath);
     } else {
       newPath = getTurkishPath(currentPath);
