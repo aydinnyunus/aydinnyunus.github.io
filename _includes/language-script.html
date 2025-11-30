@@ -99,9 +99,14 @@
       });
     }
     
-    updateUIText(isTurkish ? 'tr' : 'en');
+    // Check if current page is Turkish (either /tr/ prefix or -tr suffix in blog posts)
+    const currentPath = window.location.pathname;
+    const currentIsTurkish = currentPath.startsWith('/tr/') || 
+                             (currentPath.match(/^\/\d{4}\/\d{2}\/\d{2}\/[^\/]+-tr\/$/) !== null);
     
-    if (isTurkish) {
+    updateUIText(currentIsTurkish ? 'tr' : 'en');
+    
+    if (currentIsTurkish) {
       document.documentElement.lang = 'tr';
     }
   });
