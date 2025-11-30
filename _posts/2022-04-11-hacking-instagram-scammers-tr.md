@@ -4,7 +4,7 @@ title: "Instagram Dolandırıcılarını Hacklemek"
 date: 2022-04-11
 author: Yunus Aydın
 lang: tr
-description: "Instagram phishing dolandırıcılıkları konusunda güvenlik araştırması. Dolandırıcıların phishing web siteleri aracılığıyla Instagram hesaplarını nasıl çaldığını ve OSINT teknikleri ve XSS güvenlik açıklarını kullanarak nasıl araştırılacağını öğrenin."
+description: "Instagram phishing dolandırıcılıkları üzerine güvenlik araştırması. Dolandırıcıların phishing siteleri aracılığıyla Instagram hesaplarını nasıl çaldığını ve OSINT teknikleri ile XSS güvenlik açıklarını kullanarak nasıl araştırılacağını öğrenin."
 keywords: "instagram dolandırıcıları, phishing, OSINT, XSS, güvenlik araştırması, sosyal mühendislik, siber güvenlik, dolandırıcılık araştırması"
 canonical_url: "https://aydinnyunus.github.io/2022/04/11/hacking-instagram-scammers-tr/"
 ---
