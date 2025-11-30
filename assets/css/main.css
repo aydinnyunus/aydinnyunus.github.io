@@ -68,7 +68,7 @@ body {
   justify-content: space-between;
   align-items: center;
   position: relative;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .site-title {
@@ -83,20 +83,21 @@ body {
 
 .site-nav {
   display: flex;
-  gap: 1.25rem;
+  gap: 1rem;
   align-items: center;
   flex-wrap: nowrap;
-  flex-shrink: 1;
+  flex-shrink: 0;
   min-width: 0;
 }
 
 .site-nav a {
   color: var(--text-secondary);
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   transition: color 0.3s ease;
   position: relative;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .site-nav a:hover {
@@ -163,9 +164,9 @@ body {
 }
 
 .header-search-input {
-  width: 180px;
+  width: 160px;
   padding: 0.5rem 2.5rem 0.5rem 0.75rem;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   border: 1px solid var(--border-color);
   border-radius: 6px;
   background-color: var(--card-bg);
@@ -173,7 +174,7 @@ body {
   transition: all 0.3s ease;
   outline: none;
   flex-shrink: 1;
-  min-width: 120px;
+  min-width: 100px;
 }
 
 .header-search-input::placeholder {
@@ -181,7 +182,7 @@ body {
 }
 
 .header-search-input:focus {
-  width: 220px;
+  width: 200px;
   border-color: var(--link-color);
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
