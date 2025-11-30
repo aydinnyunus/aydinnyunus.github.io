@@ -4,22 +4,22 @@ title: "Instagram Dolandırıcılarını Hacklemek"
 date: 2022-04-11
 author: Yunus Aydın
 lang: tr
-description: "Instagram phishing dolandırıcılıkları üzerine güvenlik araştırması. Dolandırıcıların phishing siteleri aracılığıyla Instagram hesaplarını nasıl çaldığını ve OSINT teknikleri ile XSS güvenlik açıklarını kullanarak nasıl araştırılacağını öğrenin."
+description: "Instagram phishing dolandırıcılıkları üzerine yaptığım güvenlik araştırması. Dolandırıcıların phishing siteleri aracılığıyla Instagram hesaplarını nasıl çaldığını ve OSINT teknikleri ile XSS güvenlik açıklarını kullanarak nasıl araştırdığımı anlatıyorum."
 keywords: "instagram dolandırıcıları, phishing, OSINT, XSS, güvenlik araştırması, sosyal mühendislik, siber güvenlik, dolandırıcılık araştırması"
 canonical_url: "https://aydinnyunus.github.io/2022/04/11/hacking-instagram-scammers-tr/"
 ---
 
-Son zamanlarda çok fazla phishing sitesi ve mesaj görüyorum. Bu yüzden dolandırıcıların nasıl çalıştığını ve yüzlerce Instagram hesabını nasıl çaldıklarını araştırmaya karar verdim. Bu siteler muhtemelen anormal aktiviteleri fark ettikleri için kapatıldı.
+Son zamanlarda çok fazla phishing sitesi ve mesaj görüyorum. Bu yüzden dolandırıcıların nasıl çalıştığını ve yüzlerce Instagram hesabını nasıl çaldıklarını araştırmaya karar verdim. Bu siteler muhtemelen anormal aktiviteleri fark ettikleri için kapatılmış.
 
 ## Phishing Sitelerini Bulma
 
-Twitter ve Instagram'da gezinirken telif hakkı ihlali mesajları hakkında tweetler ve hikayeler gördüm. İnsanların phishing konusunda bilinçli olması güzel (hepsi değil tabii). Bu siteleri incelemeye başladım ve kimlik bilgilerini nasıl çaldıklarını anladım.
+Twitter ve Instagram'da gezinirken telif hakkı ihlali mesajları hakkında tweetler ve hikayeler gördüm. İnsanların phishing konusunda bilinçli olması güzel (hepsi değil tabii ki). Bu siteleri incelemeye başladım ve kimlik bilgilerini nasıl çaldıklarını anladım.
 
 ## Nasıl Çalışıyor?
 
 İlk tweet'te gördüğüm bir sitede başladım. Phishing mesajlarından birinde, dolandırıcı **Inhelptechnicanalyse** adlı hesap üzerinden Instagram kullanıcısına mesaj gönderiyordu. Telif hakkı ihlali olduğunu söylüyor ve hesabı doğrulamak için [https://veriyfycontacsupports.com/](https://veriyfycontacsupports.com/) adresine gitmesini ve form doldurmasını istiyordu.
 
-Kullanıcı adı girildikten sonra, kullanıcının profil resmi indirilip arka planda gösteriliyordu. Bu sayede şifre istenen sayfa daha güvenilir görünüyordu.
+Kullanıcı adı girildikten sonra, kullanıcının profil resmi indirilip arka planda gösteriliyor. Bu sayede şifre istenen sayfa daha güvenilir görünüyor.
 
 **İlk Phishing Sitesi:**
 
@@ -37,11 +37,11 @@ Birisi siber güvenlik hakkında soruyor [Ömer Çitak](https://twitter.com/om3r
 
 > [https://twitter.com/om3rcitak/status/1499341391427776520](https://twitter.com/om3rcitak/status/1499341391427776520)
 
-Kullanıcı adı ve şifre girildikten sonra, site e-posta ve şifrenizi de istiyor. Sonra hesabınızda istediklerini yapabiliyorlar. Tüm bu süreç otomatik çalışıyor.
+Kullanıcı adı ve şifre girildikten sonra, site e-posta ve şifrenizi de istiyor. Sonra hesabınızda istediklerini yapabiliyorlar. Tüm bu süreç otomatik olarak çalışıyor.
 
 Dizin brute force için [ffuf](https://github.com/ffuf/ffuf) kullandım, wordlist olarak [SecLists](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/directory-list-2.3-medium.txt) kullandım. Ama önemli bir dizin bulamadım. Sonra ilk sayfaya döndüm ve "<h1>a</h1>" gibi bir kullanıcı adı girdim. HTML etiketi çalıştığını görünce, geçerli bir kullanıcı adı ve şifre alanına Blind XSS payload'ı gönderdim. 2-3 saat sonra XSSHunter'da bildirimler geldi. 78.180.5.144 ve 178.246.104.93 IP'leri admin panelini izliyordu. URL rastgele bir string olduğu için [ffuf](https://github.com/ffuf/ffuf) bulamıyordu. Bu linke tıkladım ve kimlik doğrulama yoktu. Phishing sayfasında giriş yapmaya çalışan tüm hesapları görebiliyordum.
 
-2FA açıksa (açık olmalı), script 2FA'yı kapatıyor. Çünkü kurban phishing sayfasına e-posta ve şifre bilgilerini girmiş oluyor.
+2FA açıksa (ki açık olmalı), script 2FA'yı kapatıyor. Çünkü kurban phishing sayfasına e-posta ve şifre bilgilerini girmiş oluyor.
 
 ![](https://miro.medium.com/v2/resize:fit:794/0*bGu8IOfaxouh33b9)
 
@@ -51,7 +51,7 @@ Bu dolandırıcılar 3 günde 3 hesap çalıyor. Yapabileceğim tek şey sitedek
 
 ## Saldırganları Araştırma
 
-IP adreslerini [whatismyipaddress.com](http://whatismyipaddress.com) üzerinden kontrol edebilirsiniz.
+IP adreslerini [whatismyipaddress.com](http://whatismyipaddress.com) üzerinden kontrol ettim.
 
 ![İlk Phishing Sitesinde XSSHunter Raporu](https://miro.medium.com/v2/resize:fit:1400/1*8Y40S0GOWN8lRe-QWkpp3w.png)
 
@@ -114,7 +114,7 @@ Saatte kaç hesap hackleniyor?
 
 ## Bu bilgileri nasıl aldım?
 
-Osintgram, herhangi bir kullanıcının Instagram hesabını takma adına göre analiz etmek için etkileşimli bir shell sunuyor. Şunları alabilirsiniz:
+Osintgram, herhangi bir kullanıcının Instagram hesabını takma adına göre analiz etmek için etkileşimli bir shell sunuyor. Şunları alabiliyorsunuz:
 
 -   addrs - Hedef fotoğraflarından kayıtlı tüm adresleri al
 -   captions - Kullanıcının fotoğraf açıklamalarını al
@@ -145,7 +145,7 @@ Takipçi sayısı ve HD profil resmi URL'sini almak için "info" komutunu kullan
 
 ![Etkilenen kullanıcı sayısı](https://miro.medium.com/v2/resize:fit:624/1*8_K0AVmGJUx3BSSXj63OVA.jpeg)
 
-Bu istatistikler sadece **bir gün** için geçerli. Diğer günleri takip edemedim çünkü siteler kapatıldı.
+Bu istatistikler sadece **bir gün** için geçerli. Diğer günleri takip edemedim çünkü siteler kapatılmış.
 
 Profil resimlerini aldıktan sonra yaş ve cinsiyet bilgilerini tahmin etmek için "age-gender-estimation" aracını kullandım.
 
@@ -153,5 +153,5 @@ Profil resimlerini aldıktan sonra yaş ve cinsiyet bilgilerini tahmin etmek iç
 
 > [https://github.com/yu4u/age-gender-estimation](https://github.com/yu4u/age-gender-estimation)
 
-Sonuç olarak, tanımadığınız kaynaklardan gelen linklere tıklamayın ve bilgilerinizi girmeyin. Mümkün olan tüm hesaplarda iki faktörlü kimlik doğrulamayı kullanın. Farkındalık için bu yazıyı sosyal medya kullanan arkadaşlarınızla paylaşmanızı öneririm.
+Sonuç olarak, tanımadığınız kaynaklardan gelen linklere tıklamayın ve bilgilerinizi girmeyin. Mümkün olan tüm hesaplarda iki faktörlü kimlik doğrulamayı kullanın. Farkındalık için bu yazıyı sosyal medya kullanan arkadaşlarınızla paylaşmanızı öneriyorum.
 
