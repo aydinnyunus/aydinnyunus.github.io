@@ -9,8 +9,6 @@ keywords: "instagram scammers, phishing, OSINT, XSS, security research, social e
 canonical_url: "https://aydinnyunus.github.io/2022/04/11/hacking-instagram-scammers/"
 ---
 
-# Hacking Instagram Scammers
-
 ## Summary
 
 I see many phishing websites and messages these days. So I decided to make research how scammers scam people and stole hundreds of Instagram accounts. Also, these websites are shut down because probably they understand the abnormal activities.
