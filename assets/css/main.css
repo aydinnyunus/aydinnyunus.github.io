@@ -163,7 +163,7 @@ body {
 }
 
 .header-search-input {
-  width: 200px;
+  width: 180px;
   padding: 0.5rem 2.5rem 0.5rem 0.75rem;
   font-size: 0.9rem;
   border: 1px solid var(--border-color);
@@ -172,6 +172,8 @@ body {
   color: var(--text-color);
   transition: all 0.3s ease;
   outline: none;
+  flex-shrink: 1;
+  min-width: 120px;
 }
 
 .header-search-input::placeholder {
