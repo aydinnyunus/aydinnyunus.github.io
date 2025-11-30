@@ -9,11 +9,6 @@
       <a href="{{ '/about/' | relative_url }}" data-en="About" data-tr="Hakkımda">About</a>
     </nav>
     <div class="header-actions">
-      <div class="language-selector" id="language-selector">
-        <span class="lang-link active" id="current-lang">EN</span>
-        <span class="lang-separator">|</span>
-        <a href="#" class="lang-link" id="switch-lang">TR</a>
-      </div>
       <div class="search-container-header">
         <input type="text" id="header-search-input" class="header-search-input" placeholder="{% if page.lang == 'tr' %}Ara...{% else %}Search...{% endif %}" autocomplete="off">
         <div id="header-search-results" class="header-search-results"></div>
@@ -21,6 +16,11 @@
       <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
         <span id="theme-icon">🌙</span>
       </button>
+      <div class="language-selector" id="language-selector">
+        <span class="lang-link active" id="current-lang">EN</span>
+        <span class="lang-separator">|</span>
+        <a href="#" class="lang-link" id="switch-lang">TR</a>
+      </div>
     </div>
   </div>
 </header>
