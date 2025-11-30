@@ -1,0 +1,93 @@
+<script>
+(function() {
+  const currentPath = window.location.pathname;
+  const isTurkish = currentPath.includes('-tr') || currentPath.includes('/tr/');
+  
+  function getTurkishPath(path) {
+    if (path === '/') return '/index-tr.html';
+    if (path.endsWith('/')) {
+      const basePath = path.slice(0, -1);
+      if (basePath.match(/\/\d{4}\/\d{2}\/\d{2}\/[^\/]+$/)) {
+        const parts = basePath.split('/');
+        const title = parts[parts.length - 1];
+        return basePath.replace(title, title + '-tr') + '/';
+      }
+      return basePath + '-tr.html';
+    }
+    if (path.match(/\/\d{4}\/\d{2}\/\d{2}\/[^\/]+$/)) {
+      const parts = path.split('/');
+      const title = parts[parts.length - 1];
+      return path.replace(title, title + '-tr') + '/';
+    }
+    if (path.endsWith('.html')) {
+      return path.replace('.html', '-tr.html');
+    }
+    return path + '-tr.html';
+  }
+  
+  function getEnglishPath(path) {
+    if (path.includes('-tr')) {
+      let newPath = path.replace('-tr.html', '.html').replace('-tr/', '/');
+      if (newPath.match(/\/\d{4}\/\d{2}\/\d{2}\/[^\/]+-tr\/$/)) {
+        newPath = newPath.replace(/-tr\/$/, '/');
+      }
+      return newPath.replace('/tr/', '/');
+    }
+    return path;
+  }
+  
+  function switchLanguage() {
+    const currentPath = window.location.pathname;
+    let newPath;
+    
+    if (isTurkish) {
+      newPath = getEnglishPath(currentPath);
+    } else {
+      newPath = getTurkishPath(currentPath);
+    }
+    
+    window.location.href = newPath;
+  }
+  
+  function updateUIText(lang) {
+    document.querySelectorAll('[data-en][data-tr]').forEach(el => {
+      el.textContent = lang === 'tr' ? el.getAttribute('data-tr') : el.getAttribute('data-en');
+    });
+    
+    const searchInput = document.getElementById('header-search-input');
+    if (searchInput) {
+      searchInput.placeholder = lang === 'tr' ? 'Ara...' : 'Search...';
+    }
+    
+    const langSelector = document.getElementById('language-selector');
+    if (langSelector) {
+      const currentLang = langSelector.querySelector('#current-lang');
+      const switchLang = langSelector.querySelector('#switch-lang');
+      if (lang === 'tr') {
+        currentLang.textContent = 'TR';
+        switchLang.textContent = 'EN';
+      } else {
+        currentLang.textContent = 'EN';
+        switchLang.textContent = 'TR';
+      }
+    }
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    const switchLangBtn = document.getElementById('switch-lang');
+    if (switchLangBtn) {
+      switchLangBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        switchLanguage();
+      });
+    }
+    
+    updateUIText(isTurkish ? 'tr' : 'en');
+    
+    if (isTurkish) {
+      document.documentElement.lang = 'tr';
+    }
+  });
+})();
+</script>
+
