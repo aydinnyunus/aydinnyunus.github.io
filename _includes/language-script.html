@@ -1,38 +1,38 @@
 <script>
 (function() {
   const currentPath = window.location.pathname;
-  const isTurkish = currentPath.includes('-tr') || currentPath.includes('/tr/');
+  const isTurkish = currentPath.startsWith('/tr/');
   
   function getTurkishPath(path) {
-    if (path === '/') return '/index-tr.html';
-    if (path.endsWith('/')) {
-      const basePath = path.slice(0, -1);
-      if (basePath.match(/\/\d{4}\/\d{2}\/\d{2}\/[^\/]+$/)) {
-        const parts = basePath.split('/');
-        const title = parts[parts.length - 1];
-        return basePath.replace(title, title + '-tr') + '/';
-      }
-      return basePath + '-tr.html';
+    if (path === '/') return '/tr/';
+    if (path.startsWith('/en/')) {
+      return path.replace('/en/', '/tr/');
     }
-    if (path.match(/\/\d{4}\/\d{2}\/\d{2}\/[^\/]+$/)) {
+    if (path.match(/^\/\d{4}\/\d{2}\/\d{2}\/[^\/]+\/$/)) {
+      const parts = path.split('/');
+      const title = parts[parts.length - 2];
+      return '/tr' + path.replace(title, title + '-tr');
+    }
+    if (path.match(/^\/\d{4}\/\d{2}\/\d{2}\/[^\/]+$/)) {
       const parts = path.split('/');
       const title = parts[parts.length - 1];
-      return path.replace(title, title + '-tr') + '/';
+      return '/tr' + path.replace(title, title + '-tr') + '/';
     }
-    if (path.endsWith('.html')) {
-      return path.replace('.html', '-tr.html');
+    if (path.endsWith('/')) {
+      return '/tr' + path;
     }
-    return path + '-tr.html';
+    return '/tr' + path + '/';
   }
   
   function getEnglishPath(path) {
-    if (path.includes('-tr')) {
-      let newPath = path.replace('-tr.html', '.html').replace('-tr/', '/');
+    if (path.startsWith('/tr/')) {
+      let newPath = path.replace('/tr/', '/');
       if (newPath.match(/\/\d{4}\/\d{2}\/\d{2}\/[^\/]+-tr\/$/)) {
         newPath = newPath.replace(/-tr\/$/, '/');
       }
-      return newPath.replace('/tr/', '/');
+      return newPath;
     }
+    if (path === '/tr/') return '/';
     return path;
   }
   

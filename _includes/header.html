@@ -2,11 +2,19 @@
   <div class="wrapper">
     <a class="site-title" href="{{ '/' | relative_url }}">aydinnyunus</a>
     <nav class="site-nav">
+      {% if page.lang == 'tr' %}
+      <a href="/tr/" data-en="Home" data-tr="Ana Sayfa">Ana Sayfa</a>
+      <a href="/tr/blog/" data-en="All Posts" data-tr="Tüm Yazılar">Tüm Yazılar</a>
+      <a href="/tr/projects/" data-en="Projects" data-tr="Projeler">Projeler</a>
+      <a href="/tr/talks/" data-en="Conference Talks" data-tr="Konferanslar">Konferanslar</a>
+      <a href="/tr/about/" data-en="About" data-tr="Hakkımda">Hakkımda</a>
+      {% else %}
       <a href="{{ '/' | relative_url }}" data-en="Home" data-tr="Ana Sayfa">Home</a>
       <a href="{{ '/blog/' | relative_url }}" data-en="All Posts" data-tr="Tüm Yazılar">All Posts</a>
       <a href="{{ '/projects/' | relative_url }}" data-en="Projects" data-tr="Projeler">Projects</a>
       <a href="{{ '/talks/' | relative_url }}" data-en="Conference Talks" data-tr="Konferanslar">Conference Talks</a>
       <a href="{{ '/about/' | relative_url }}" data-en="About" data-tr="Hakkımda">About</a>
+      {% endif %}
     </nav>
     <div class="header-actions">
       <div class="search-container-header">

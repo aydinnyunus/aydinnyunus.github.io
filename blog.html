@@ -1,6 +1,8 @@
 ---
 layout: default
 title: Blog
+lang: en
+permalink: /blog/
 description: "Security research blog by Yunus Aydın. Read about vulnerability research, door lock security, cybersecurity discoveries, and responsible disclosure practices."
 keywords: "security blog, cybersecurity blog, vulnerability research, security research, door lock security, penetration testing"
 canonical_url: "https://aydinnyunus.github.io/blog/"
@@ -11,6 +13,7 @@ canonical_url: "https://aydinnyunus.github.io/blog/"
   
   <ul class="post-list">
     {% for post in site.posts %}
+    {% unless post.lang == 'tr' %}
     <li class="post-item">
       <div class="post-meta">
         <span class="post-date">{{ post.date | date: "%d %B %Y" }}</span>
@@ -26,6 +29,7 @@ canonical_url: "https://aydinnyunus.github.io/blog/"
       <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 50 }}</p>
       {% endif %}
     </li>
+    {% endunless %}
     {% endfor %}
   </ul>
 </div>
