@@ -7,6 +7,7 @@ lang: en
 description: "Security research on Instagram phishing scams. Learn how scammers steal Instagram accounts through phishing websites and how to investigate them using OSINT techniques and XSS vulnerabilities."
 keywords: "instagram scammers, phishing, OSINT, XSS, security research, social engineering, cybersecurity, scam investigation"
 canonical_url: "https://aydinnyunus.github.io/2022/04/11/hacking-instagram-scammers/"
+excerpt: "Security research on Instagram phishing scams. Learn how scammers steal Instagram accounts through phishing websites and how to investigate them using OSINT techniques and XSS vulnerabilities."
 ---
 
 ## Summary
