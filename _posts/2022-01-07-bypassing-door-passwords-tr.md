@@ -10,17 +10,17 @@ canonical_url: "https://aydinnyunus.github.io/2022/01/07/bypassing-door-password
 image: "https://miro.medium.com/v2/resize:fit:1000/format:webp/0*XEZo3-Sq09f2CK-O"
 ---
 
-Anahtar yerine, bu tür kilit sistemi bir tesise veya mülke giriş izni vermek için sayısal bir kod gerektirir. Kod, kullanıcılar tarafından temel bir hesap makinesindekilere benzer sayısal bir tuş takımı üzerinden girilir. Doğru kod girilirse, kapı kilidi veya ölü kilit açılmalıdır. Bazı mekanizmalar kilidi açmak için pil veya küçük bir elektrik akımı gerektirir.
+Anahtar yerine, bu tür kilit sistemleri bir tesise veya mülke giriş için sayısal bir kod gerektirir. Kod, temel bir hesap makinesindekine benzer sayısal bir tuş takımı üzerinden girilir. Doğru kod girilirse kapı kilidi veya ölü kilit açılır. Bazı mekanizmalar kilidi açmak için pil veya küçük bir elektrik akımı gerektirir.
 
-Bazı tuş takımı kilitleri, kodu girmek için birkaç yanlış denemeden sonra kapıyı belirli bir süre (genellikle 10 ila 15 dakika) kilitli tutan entegre bir güvenlik özelliğine sahiptir.
+Bazı tuş takımı kilitleri, birkaç yanlış denemeden sonra kapıyı belirli bir süre (genellikle 10-15 dakika) kilitli tutan bir güvenlik özelliğine sahiptir.
 
-Bu araştırmanın amacı, ne kadar güvensiz yaşadığımızı anlamaktır.
+Bu araştırmanın amacı ne kadar güvensiz yaşadığımızı göstermek.
 
 ![Audio Smart Lock tuş takımı giriş sistemini gösteriyor](https://miro.medium.com/v2/resize:fit:1000/format:webp/0*XEZo3-Sq09f2CK-O)
 
 ## Audio Smart Lock
 
-Türkiye'de En Popüler Giriş Kapısı Tuş Takımları
+Türkiye'de en popüler giriş kapısı tuş takımları:
 
 - Perkotek
 - ERD-1120
@@ -51,7 +51,7 @@ Türkiye'de En Popüler Giriş Kapısı Tuş Takımları
 - D45
 - A20 Kapı Kilidi
 
-## En Çok Kullanılan Varsayılan Şifreler
+## En Çok Kullanılan Varsayılan Şifreler:
 
 - #0000
 - 0000
@@ -110,30 +110,30 @@ Türkiye'de En Popüler Giriş Kapısı Tuş Takımları
 
 ## Gerçek Hayat Testleri
 
-"Audio Şifreli Kapı Kiliti"nde yönetici şifresini deniyorum ve başarılı. Artık tüm kullanıcıların şifrelerini değiştirebilir, alarmı kapatabilir, tüm kullanıcıları silebiliriz.
+"Audio Şifreli Kapı Kiliti"nde admin şifresini denedim ve başarılı oldu. Artık tüm kullanıcıların şifrelerini değiştirebilir, alarmı kapatabilir, tüm kullanıcıları silebiliriz.
 
-Ayrıca, şifreleri bilmemize gerek yok, bazı basit adımlar kullanarak yönetici şifresini sıfırlayabiliriz:
+Ayrıca şifreleri bilmemize gerek yok, basit birkaç adımla admin şifresini sıfırlayabiliriz:
 
-1. Kutu arkasındaki sıfırlama düğmesine 10 saniye basın.
-2. DT-8 soketini çıkarın ve 5 saniye bekleyin ve takın.
-3. 10 saniye geçtikten sonra, düğmeye basmayı durdurun ve aynı anda soketi tekrar çıkarın.
-4. Bundan sonra, varsayılan yönetici şifresini kullanabilirsiniz :)
+1. Kutu arkasındaki reset butonuna 10 saniye basın.
+2. DT-8 soketini çıkarın, 5 saniye bekleyin ve tekrar takın.
+3. 10 saniye sonra butona basmayı bırakın ve aynı anda soketi tekrar çıkarın.
+4. Bundan sonra varsayılan admin şifresini kullanabilirsiniz :)
 
 ![Kapı kilidi şifresi atlamayı gösteren gerçek hayat güvenlik testi](https://miro.medium.com/v2/resize:fit:1400/format:webp/0*mGGgCG6CaxKqC6WJ)
 
 ## İstatistikler
 
-Şu ana kadar 3 Audio Kapı Kilidi denedim ve hepsinde varsayılan şifreler var (yönetici şifresi dahil). İstatistiklere katkıda bulunabilirsiniz.
+Şu ana kadar 3 Audio kapı kilidi denedim ve hepsinde varsayılan şifreler vardı (admin şifresi dahil). İstatistiklere katkıda bulunabilirsiniz.
 
 ![Kapı kilitlerinde varsayılan şifre kullanımını gösteren istatistikler](https://miro.medium.com/v2/resize:fit:1122/format:webp/0*v4sneCtbZPjIdYVD)
 
-## Varsayılan Şifreler için Github Deposu
+## Varsayılan Şifreler için GitHub Deposu
 
-Model hakkında bilgi almak için ID'yi girin. gateCracker aracı ile REST API kullanın.
+Model hakkında bilgi almak için ID'yi girin. gateCracker aracı ile REST API kullanabilirsiniz.
 
 ![Varsayılan şifre güvenlik açıkları olan kapı kilidi modellerinin listesi](https://miro.medium.com/v2/resize:fit:1140/format:webp/0*aRFq5D78zydmjtjZ)
 
-## Kaynak Kodu
+## Kaynak Kod
 
 - [https://github.com/aydinnyunus/gateCracker-REST](https://github.com/aydinnyunus/gateCracker-REST) - REST API
 - [https://github.com/aydinnyunus/gateCracker](https://github.com/aydinnyunus/gateCracker) - Ana araç (REST API'ye bağlanır)
