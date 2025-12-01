@@ -137,3 +137,7 @@ Enter the ID for getting information about the Model. Use the REST API with gate
 
 - [https://github.com/aydinnyunus/gateCracker-REST](https://github.com/aydinnyunus/gateCracker-REST) - REST API
 - [https://github.com/aydinnyunus/gateCracker](https://github.com/aydinnyunus/gateCracker) - Main tool (connect to REST API)
+
+## Related Content
+
+This research demonstrates how physical security systems can be vulnerable. For more security research on digital threats, check out my [Hacking Instagram Scammers](/2022/04/11/hacking-instagram-scammers/) post where I investigate phishing attacks and OSINT techniques. You can also explore more of my [security projects](/projects/) and tools.

@@ -155,3 +155,7 @@ Profil resimlerini aldıktan sonra yaş ve cinsiyet bilgilerini tahmin etmek iç
 
 Sonuç olarak, tanımadığınız kaynaklardan gelen linklere tıklamayın ve bilgilerinizi girmeyin. Mümkün olan tüm hesaplarda iki faktörlü kimlik doğrulamayı kullanın. Farkındalık için bu yazıyı sosyal medya kullanan arkadaşlarınızla paylaşmanızı öneriyorum.
 
+## İlgili İçerikler
+
+Bu güvenlik araştırması gibi, fiziksel güvenlik konularında da benzer güvenlik açıkları bulunabilir. [Kapı şifrelerini atlama](/2022/01/07/bypassing-door-passwords-tr/) yazımda, günlük hayatta kullandığımız fiziksel güvenlik sistemlerindeki zafiyetleri araştırdım. Daha fazla güvenlik araştırması için [projelerim](/tr/projects/) sayfasını ziyaret edebilirsiniz.
+

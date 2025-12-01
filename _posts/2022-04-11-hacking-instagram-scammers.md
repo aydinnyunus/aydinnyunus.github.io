@@ -157,3 +157,7 @@ After I get the profile pictures, I use the "age-gender-estimation" tool for pre
 > [https://github.com/yu4u/age-gender-estimation](https://github.com/yu4u/age-gender-estimation)
 
 As a result, do not click on links from unfamiliar sources and do not enter your information. Use two-factor authentication on all possible accounts. Finally, for the sake of awareness, I suggest that they share this article with their friends who use social networks/media.
+
+## Related Content
+
+Similar to this security research, physical security systems also have vulnerabilities. In my [Bypassing Door Passwords](/2022/01/07/bypassing-door-passwords/) post, I researched vulnerabilities in physical security systems we use in daily life. You can visit my [projects](/projects/) page for more security research tools.
