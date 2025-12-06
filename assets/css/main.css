@@ -1421,8 +1421,8 @@ body {
 }
 
 .kali-badge .kali-logo {
-  filter: brightness(0) invert(1);
-  opacity: 0.9;
+  filter: none;
+  opacity: 1;
 }
 
 [data-theme="dark"] .kali-badge .kali-logo {
@@ -1448,8 +1448,8 @@ body {
   flex-shrink: 0;
   vertical-align: middle;
   object-fit: contain;
-  filter: brightness(0) invert(1);
-  opacity: 0.9;
+  filter: none;
+  opacity: 1;
 }
 
 [data-theme="dark"] .blackarch-badge .blackarch-logo {
@@ -1484,6 +1484,48 @@ body {
   text-decoration: underline;
 }
 
+.project-blog-link {
+  margin-top: 1rem;
+  margin-bottom: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.blog-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  padding: 0.875rem 1.25rem;
+  border-radius: 8px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.blog-link:hover {
+  color: var(--link-color);
+  background-color: var(--border-color);
+  border-color: var(--link-color);
+  box-shadow: 0 2px 8px var(--shadow);
+  transform: translateY(-1px);
+}
+
+.blog-link-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.blog-link span:last-child {
+  flex: 1;
+  line-height: 1.5;
+}
+
 .project-meta {
   display: flex;
   gap: 1rem;
@@ -1499,12 +1541,15 @@ body {
   gap: 0.25rem;
 }
 
-.project-language {
+.project-language,
+.project-tag {
   padding: 0.25rem 0.5rem;
-  background-color: var(--code-bg);
+  background-color: var(--border-color);
   border-radius: 4px;
-  font-family: 'Courier New', monospace;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
 }
 
 .projects-footer {
