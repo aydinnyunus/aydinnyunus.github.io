@@ -9,7 +9,7 @@ keywords: "exiflooter, EXIF metadata, GPS coordinates, OSINT, Kali Linux, OpenSt
 canonical_url: "https://aydinnyunus.github.io/2025/12/07/exiflooter-kali-linux-tr/"
 ---
 
-OSINT araştırmalarında exiftool kullanırken, GPS coordinates'ı daha kolay çıkarabilmek ve OpenStreetMap ile görselleştirebilmek için exifLooter adında bir araç geliştirdim. exifLooter, exiftool'un geliştirilmiş bir versiyonu olarak, özellikle GPS coordinates çıkarma ve harita üzerinde görselleştirme konusunda daha pratik bir çözüm sunuyor. Üstelik artık Kali Linux'un resmi araçları arasında yer alıyor.
+Son zamanlarda OSINT araştırmalarında fotoğrafların metadata'sından ne kadar fazla bilgi çıkarılabileceğini fark ettim. Bu yüzden, exiftool'un yeteneklerini daha da genişleten ve kullanımı kolaylaştıran exifLooter adında bir araç geliştirdim. Bu araç, fotoğrafların EXIF verilerinden GPS koordinatlarını çıkarıyor ve OpenStreetMap ile entegre çalışıyor. Üstelik artık Kali Linux'un resmi araçları arasında yer alıyor.
 
 ## exifLooter Nedir?
 
