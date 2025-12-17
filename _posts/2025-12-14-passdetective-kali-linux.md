@@ -181,3 +181,5 @@ The tool is open source and actively developed on GitHub. You can visit the [Git
 - [exifLooter: Extracting Hidden Location Information from Photos](/2025/12/07/exiflooter-kali-linux/)
 - [SQL Injection Vulnerability: Security Issue in GeoPandas to_postgis() Function](/sql-injection-geopandas/)
 
+
+

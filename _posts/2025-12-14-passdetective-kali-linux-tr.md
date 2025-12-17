@@ -181,3 +181,5 @@ Araç açık kaynak ve GitHub'da aktif olarak geliştiriliyor. Daha fazla bilgi 
 - [exifLooter: Fotoğraflardan Gizli Konum Bilgilerini Çıkarmak](/2025/12/07/exiflooter-kali-linux-tr/)
 - [SQL Injection Zafiyeti: GeoPandas to_postgis() Fonksiyonunda Güvenlik Açığı](/sql-injection-geopandas-tr/)
 
+
+
