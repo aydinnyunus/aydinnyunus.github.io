@@ -1,7 +1,7 @@
 /* CSS Variables for Theme */
 :root {
   --bg-color: #ffffff;
-  --text-color: #1a1a1a;
+  --text-color: #1a1a1a; /* Better contrast for readability */
   --text-secondary: #666;
   --border-color: #e5e5e5;
   --card-bg: #ffffff;
@@ -468,58 +468,260 @@ body {
 }
 
 .post-content {
-  font-size: 1.1rem;
-  line-height: 1.8;
+  font-size: 1.125rem; /* 18px - optimal reading size */
+  line-height: 1.75; /* Better line spacing for readability */
   color: var(--text-color);
+  letter-spacing: 0.01em; /* Slight letter spacing for better readability */
+  word-spacing: 0.05em; /* Better word spacing */
 }
 
 .post-content h2 {
-  margin-top: 2.5rem;
-  margin-bottom: 1rem;
-  font-size: 1.75rem;
-  font-weight: 600;
+  margin-top: 3rem;
+  margin-bottom: 1.25rem;
+  font-size: 1.875rem; /* 30px */
+  font-weight: 700;
   color: var(--text-color);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
 }
 
 .post-content h3 {
-  margin-top: 2rem;
-  margin-bottom: 0.75rem;
-  font-size: 1.4rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  font-size: 1.5rem; /* 24px */
   font-weight: 600;
   color: var(--text-color);
+  line-height: 1.4;
+  letter-spacing: -0.005em;
+}
+
+.post-content h4 {
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem; /* 20px */
+  font-weight: 600;
+  color: var(--text-color);
+  line-height: 1.5;
 }
 
 .post-content p {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem; /* More breathing room between paragraphs */
+  max-width: 100%;
+}
+
+.post-content p:last-child {
+  margin-bottom: 0;
 }
 
 .post-content ul,
 .post-content ol {
-  margin-left: 2rem;
-  margin-bottom: 1.25rem;
+  margin-left: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding-left: 0.5rem;
 }
 
 .post-content li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.7;
+  padding-left: 0.5rem;
+}
+
+.post-content ul li {
+  list-style-type: disc;
+}
+
+.post-content ol li {
+  list-style-type: decimal;
+}
+
+.post-content li > p {
+  margin-bottom: 0.75rem;
+}
+
+.post-content li > ul,
+.post-content li > ol {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Blockquotes */
+.post-content blockquote {
+  margin: 2rem 0;
+  padding: 1.25rem 1.5rem;
+  border-left: 4px solid var(--link-color);
+  background-color: var(--code-bg);
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.post-content blockquote p {
+  margin-bottom: 0.75rem;
+}
+
+.post-content blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* Strong and Emphasis */
+.post-content strong {
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.post-content em {
+  font-style: italic;
+  color: var(--text-color);
+}
+
+/* Links */
+.post-content a {
+  color: var(--link-color);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.post-content a:hover {
+  color: var(--link-hover);
+  text-decoration-color: var(--link-hover);
+}
+
+.post-content a code {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+.post-content a:hover code {
+  color: var(--link-hover);
+}
+
+/* Horizontal Rules */
+.post-content hr {
+  margin: 3rem 0;
+  border: none;
+  border-top: 2px solid var(--border-color);
+  background: none;
+}
+
+/* Tables */
+.post-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  font-size: 0.95em;
+}
+
+.post-content table th,
+.post-content table td {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  text-align: left;
+}
+
+.post-content table th {
+  background-color: var(--code-bg);
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.post-content table tr:nth-child(even) {
+  background-color: var(--code-bg);
+}
+
+.post-content table tr:hover {
+  background-color: var(--border-color);
+}
+
+/* Images */
+.post-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 2.5rem 0;
+  box-shadow: 0 4px 12px var(--shadow);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Mobile Responsive Improvements */
+@media (max-width: 768px) {
+  .post-content {
+    font-size: 1rem; /* 16px on mobile */
+    line-height: 1.7;
+  }
+
+  .post-content h2 {
+    font-size: 1.625rem; /* 26px */
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .post-content h3 {
+    font-size: 1.375rem; /* 22px */
+    margin-top: 2rem;
+    margin-bottom: 0.875rem;
+  }
+
+  .post-content h4 {
+    font-size: 1.125rem; /* 18px */
+  }
+
+  .post-content pre,
+  .post-content .highlight {
+    padding: 1rem;
+    font-size: 0.8125rem; /* 13px on mobile */
+    margin-left: -1rem;
+    margin-right: -1rem;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+
+  .post-content ul,
+  .post-content ol {
+    margin-left: 1.25rem;
+  }
+
+  .post-content blockquote {
+    margin-left: -1rem;
+    margin-right: -1rem;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
 
 .post-content code {
   background-color: var(--code-bg);
-  padding: 0.2rem 0.5rem;
+  padding: 0.25rem 0.5rem;
   border-radius: 4px;
   font-family: 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', monospace;
-  font-size: 0.9em;
+  font-size: 0.875em; /* 14px - better readability */
   color: var(--text-color);
   border: 1px solid var(--border-color);
+  font-weight: 500;
+  letter-spacing: 0;
 }
 
 .post-content pre {
   background-color: var(--code-bg);
-  padding: 1.25rem;
+  padding: 1.5rem;
   border-radius: 8px;
   overflow-x: auto;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  margin-top: 1.5rem;
   border: 1px solid var(--border-color);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+html[data-theme="dark"] .post-content pre {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .post-content pre code {
@@ -533,9 +735,15 @@ body {
   background-color: var(--code-bg);
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  padding: 1.25rem;
-  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  margin-top: 1.5rem;
   overflow-x: auto;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+html[data-theme="dark"] .post-content .highlight {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .post-content .highlight pre {
@@ -551,8 +759,9 @@ body {
   padding: 0;
   border: none;
   font-family: 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', monospace;
-  font-size: 0.9em;
-  line-height: 1.6;
+  font-size: 0.875em; /* 14px - better readability */
+  line-height: 1.7; /* Better line spacing for code */
+  letter-spacing: 0;
 }
 
 /* Syntax highlighting colors - Light theme */
@@ -690,17 +899,6 @@ html[data-theme="dark"] .post-content .highlight .vc { color: #ffa657; } /* Name
 html[data-theme="dark"] .post-content .highlight .vg { color: #ffa657; } /* Name.Variable.Global */
 html[data-theme="dark"] .post-content .highlight .vi { color: #ffa657; } /* Name.Variable.Instance */
 html[data-theme="dark"] .post-content .highlight .il { color: #79c0ff; } /* Literal.Number.Integer.Long */
-
-.post-content img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 8px;
-  margin: 2rem 0;
-  box-shadow: 0 4px 12px var(--shadow);
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
 
 .post-footer {
   margin-top: 4rem;
