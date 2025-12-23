@@ -142,12 +142,6 @@ target_srid = connection.execute(
 - PostgreSQL, parametreleri otomatik olarak escape eder
 - SQL injection payload'ları artık çalışmaz
 
-## Impact
-
-- **Confidentiality:** YÜKSEK - Veritabanı bilgisi sızıntısı
-- **Exploitability:** YÜKSEK - `rename_geometry()` ile kolayca exploit edilebilir
-- **Real-World Risk:** Kullanıcı girdisi ile `to_postgis()` kullanan uygulamalar zafiyetli
-
 ## Proof of Concept
 
 Tam çalışan exploit kodu:
