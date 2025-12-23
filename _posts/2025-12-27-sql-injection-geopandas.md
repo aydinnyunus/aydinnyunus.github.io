@@ -75,12 +75,12 @@ SELECT Find_SRID('public', 'test_table', 'geom'); SELECT CAST(version() AS int);
 
 PostgreSQL attempts to cast the `version()` function to an integer, which causes an error. The error message leaks the PostgreSQL version information:
 
-```
+```text
 ✅ EXTRACTED PostgreSQL version: PostgreSQL 15.4 (Debian 15.4-1.pgdg110+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit
 ```
 
 **Error Message:**
-```
+```text
 invalid input syntax for type integer: "PostgreSQL 15.4..."
 ```
 

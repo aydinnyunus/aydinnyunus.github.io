@@ -75,7 +75,7 @@ cp .env.example .env
 
 Open the `.env` file and add your API keys:
 
-```
+```text
 OPENAI_API_KEY="sk-..."
 GOOGLE_API_KEY="..."
 ```
