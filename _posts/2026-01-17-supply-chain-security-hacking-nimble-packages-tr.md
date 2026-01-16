@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Supply Chain Security: Nimble Package Manager'da Zafiyet Keşfi"
+title: "Package Takeover: Nimble Package Manager'da Supply Chain Security Zafiyeti"
 date: 2026-01-17
 author: Yunus Aydın
 lang: tr

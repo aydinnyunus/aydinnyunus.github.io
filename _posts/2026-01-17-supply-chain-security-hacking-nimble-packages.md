@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Supply Chain Security: Vulnerability Discovery in Nimble Package Manager"
+title: "Package Takeover: Supply Chain Security Vulnerability in Nimble Package Manager"
 date: 2026-01-17
 author: Yunus Aydın
 lang: en
