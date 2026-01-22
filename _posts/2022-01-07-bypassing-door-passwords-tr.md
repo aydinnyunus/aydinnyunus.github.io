@@ -138,7 +138,4 @@ Model hakkında bilgi almak için ID'yi giriyorsunuz. gateCracker aracı ile RES
 - [https://github.com/aydinnyunus/gateCracker-REST](https://github.com/aydinnyunus/gateCracker-REST) - REST API
 - [https://github.com/aydinnyunus/gateCracker](https://github.com/aydinnyunus/gateCracker) - Ana araç (REST API'ye bağlanır)
 
-## İlgili İçerikler
-
-Bu araştırma, fiziksel güvenlik sistemlerinin ne kadar savunmasız olabileceğini gösteriyor. Dijital tehditler hakkında daha fazla güvenlik araştırması için [Instagram Dolandırıcılarını Hacklemek](/2022/04/11/hacking-instagram-scammers-tr/) yazımı inceleyebilirsiniz. Bu yazıda phishing saldırıları ve OSINT tekniklerini araştırdım. Ayrıca daha fazla [güvenlik projelerim](/tr/projects/) ve araçlarımı keşfedebilirsiniz.
-
+## İlgili İçeriklerBu araştırma, fiziksel güvenlik sistemlerinin ne kadar savunmasız olabileceğini gösteriyor. Dijital tehditler hakkında daha fazla güvenlik araştırması için [Instagram Dolandırıcılarını Hacklemek](/2022/04/11/hacking-instagram-scammers-tr/) yazımı inceleyebilirsiniz. Bu yazıda phishing saldırıları ve OSINT tekniklerini araştırdım. Ayrıca daha fazla [güvenlik projelerim](/tr/projects/) ve araçlarımı keşfedebilirsiniz.
