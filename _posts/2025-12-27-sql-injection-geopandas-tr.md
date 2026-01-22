@@ -176,7 +176,7 @@ Bu tür zafiyetleri bulmak ve fix etmek, açık kaynak kütüphanelerinin güven
 
 **İlgili içerikler:**
 - [CVE-2025-66019: pypdf Kütüphanesinde LZW Decompression DoS Zafiyeti](/2025/12/20/cve-2025-66019-pypdf-lzw-dos-tr/)
-- [SSRF Zafiyeti: DNS Rebinding Saldırısı ile Bypass](/ssrf-dns-rebinding-vulnerability-tr/)
+- [exifLooter: Fotoğraflardan Gizli Konum Bilgilerini Çıkarmak](/2025/12/07/exiflooter-kali-linux-tr/)
 
 **Kaynaklar:**
 - [GitHub PR: BUG: SQL Injection Exploit Report - GeoPandas to_postgis()](https://github.com/geopandas/geopandas/pull/3681)

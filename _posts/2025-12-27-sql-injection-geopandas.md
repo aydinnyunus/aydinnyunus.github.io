@@ -176,7 +176,7 @@ Finding and fixing such vulnerabilities is critical for improving the security o
 
 **Related content:**
 - [CVE-2025-66019: LZW Decompression DoS Vulnerability in pypdf Library](/2025/12/20/cve-2025-66019-pypdf-lzw-dos/)
-- [SSRF Vulnerability: Bypassing Protection with DNS Rebinding Attack](/ssrf-dns-rebinding-vulnerability/)
+- [exifLooter: Extracting Hidden Location Data from Images](/2025/12/07/exiflooter-kali-linux/)
 
 **Resources:**
 - [GitHub PR: BUG: SQL Injection Exploit Report - GeoPandas to_postgis()](https://github.com/geopandas/geopandas/pull/3681)
