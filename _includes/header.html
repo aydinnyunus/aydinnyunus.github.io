@@ -26,8 +26,43 @@
       </button>
       <div class="language-selector" id="language-selector">
         <span class="lang-link active" id="current-lang">EN</span>
-        <span class="lang-separator">|</span>
-        <a href="#" class="lang-link" id="switch-lang">TR</a>
+        {% if page.layout == 'post' and page.lang == 'en' %}
+          {% assign current_slug = page.url | split: '/' | last | replace: '/', '' %}
+          {% assign tr_slug = current_slug | append: '-tr' %}
+          {% assign has_tr_version = false %}
+          {% for post in site.posts %}
+            {% if post.lang == 'tr' and post.date == page.date %}
+              {% assign post_slug = post.url | split: '/' | last | replace: '/', '' %}
+              {% if post_slug == tr_slug %}
+                {% assign has_tr_version = true %}
+                {% break %}
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+          {% if has_tr_version %}
+            <span class="lang-separator">|</span>
+            <a href="#" class="lang-link" id="switch-lang">TR</a>
+          {% endif %}
+        {% elsif page.layout == 'post' and page.lang == 'tr' %}
+          {% assign current_slug = page.url | split: '/' | last | replace: '/', '' | replace: '-tr', '' %}
+          {% assign has_en_version = false %}
+          {% for post in site.posts %}
+            {% if post.lang == 'en' and post.date == page.date %}
+              {% assign post_slug = post.url | split: '/' | last | replace: '/', '' %}
+              {% if post_slug == current_slug %}
+                {% assign has_en_version = true %}
+                {% break %}
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+          {% if has_en_version %}
+            <span class="lang-separator">|</span>
+            <a href="#" class="lang-link" id="switch-lang">EN</a>
+          {% endif %}
+        {% else %}
+          <span class="lang-separator">|</span>
+          <a href="#" class="lang-link" id="switch-lang">TR</a>
+        {% endif %}
       </div>
     </div>
   </div>
