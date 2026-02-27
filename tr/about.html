@@ -48,9 +48,9 @@ canonical_url: "https://aydinnyunus.github.io/tr/about/"
   <li><strong>Utrecht Üniversitesi Hall of Fame</strong> - Sorumlu açıklama için tanındım</li>
 </ul>
 
-<h2>Keşfedilen CVE'ler</h2>
+<h2>Keşfedilen CVE'ler - <span id="cve-count"></span> records</h2>
 
-<ul>
+<ul id="cve-list">
   <li><strong><a href="/2026/01/24/bokeh-websocket-hijacking-cve-2026-21883-tr/">CVE-2026-21883</a></strong> - Bokeh server Cross-Site WebSocket Hijacking (CSWSH) güvenlik açığı, match_host fonksiyonunda eksik origin doğrulaması nedeniyle</li>
   <li><strong><a href="/2026/01/17/cve-2026-22787-html2pdf-xss-vulnerability-tr/">CVE-2026-22787</a></strong> - html2pdf.js innerHTML'de sanitize edilmemiş kullanıcı girdisi nedeniyle Cross-Site Scripting (XSS) güvenlik açığı (Yüksek)</li>
   <li><strong><a href="https://www.cve.org/CVERecord?id=CVE-2026-0562" target="_blank" rel="noopener noreferrer">CVE-2026-0562</a></strong></li>
@@ -58,13 +58,28 @@ canonical_url: "https://aydinnyunus.github.io/tr/about/"
   <li><strong><a href="https://www.cve.org/CVERecord?id=CVE-2026-0558" target="_blank" rel="noopener noreferrer">CVE-2026-0558</a></strong></li>
   <li><strong><a href="https://www.cve.org/CVERecord?id=CVE-2025-3777" target="_blank" rel="noopener noreferrer">CVE-2025-3777</a></strong> - Hugging Face Transformers image_utils.py'de uygunsuz girdi doğrulama güvenlik açığı URL kullanıcı adı enjeksiyon atlamasına izin veriyor (Düşük)</li>
   <li><strong><a href="/2025/12/20/cve-2025-66019-pypdf-lzw-dos-tr/">CVE-2025-66019</a></strong> - pypdf'in LZWDecode akışları RAM'i tüketmek için manipüle edilebilir (Orta)</li>
+  <li><strong><a href="https://www.cve.org/CVERecord?id=CVE-2025-69660" target="_blank" rel="noopener noreferrer">CVE-2025-69660</a></strong></li>
+  <li><strong><a href="https://www.cve.org/CVERecord?id=CVE-2025-69661" target="_blank" rel="noopener noreferrer">CVE-2025-69661</a></strong></li>
+  <li><strong><a href="https://www.cve.org/CVERecord?id=CVE-2025-69662" target="_blank" rel="noopener noreferrer">CVE-2025-69662</a></strong></li>
   <li><strong><a href="https://www.cve.org/CVERecord?id=CVE-2024-54000" target="_blank" rel="noopener noreferrer">CVE-2024-54000</a></strong> - MobSF güvenlik açığı allow_redirects=True parametresi nedeniyle SSRF'ye izin veriyor (Yüksek)</li>
   <li><strong><a href="https://www.cve.org/CVERecord?id=CVE-2024-29409" target="_blank" rel="noopener noreferrer">CVE-2024-29409</a></strong> - nest Content-Type başlığı aracılığıyla uzaktan saldırganın keyfi kod çalıştırmasına izin veriyor (Orta)</li>
   <li><strong><a href="https://www.cve.org/CVERecord?id=CVE-2024-27763" target="_blank" rel="noopener noreferrer">CVE-2024-27763</a></strong> - XPixelGroup BasicSR Komut Enjeksiyonu (Orta)</li>
   <li><strong><a href="https://github.com/advisories/GHSA-w228-rfpx-fhm4" target="_blank" rel="noopener noreferrer">GHSA-w228-rfpx-fhm4</a></strong> - cg Referer Başlığında Açık Yönlendirme Güvenlik Açığına karşı savunmasız (Orta)</li>
   <li><strong><a href="https://www.cve.org/CVERecord?id=CVE-2024-29190" target="_blank" rel="noopener noreferrer">CVE-2024-29190</a></strong> - mobsfscan'de assetlinks_check(act_name, well_knowns) üzerinde SSRF Güvenlik Açığı (Yüksek)</li>
+  <li><strong><a href="https://www.cve.org/CVERecord?id=CVE-2024-32356" target="_blank" rel="noopener noreferrer">CVE-2024-32356</a></strong></li>
+  <li><strong><a href="https://www.cve.org/CVERecord?id=CVE-2024-32357" target="_blank" rel="noopener noreferrer">CVE-2024-32357</a></strong></li>
+  <li><strong><a href="https://www.cve.org/CVERecord?id=CVE-2024-28607" target="_blank" rel="noopener noreferrer">CVE-2024-28607</a></strong></li>
+  <li><strong><a href="https://www.cve.org/CVERecord?id=CVE-2024-28608" target="_blank" rel="noopener noreferrer">CVE-2024-28608</a></strong></li>
   <li><strong><a href="https://www.cve.org/CVERecord?id=CVE-2015-5521" target="_blank" rel="noopener noreferrer">CVE-2015-5521</a></strong> - BlackCat CMS 1.1.2'de çapraz site komut dosyası çalıştırma (XSS) güvenlik açığı, uzaktan saldırganların backend/groups/index.php'de yeni bir gruba ad aracılığıyla keyfi web komut dosyası veya HTML enjekte etmesine izin veriyor</li>
 </ul>
+
+<script>
+(function() {
+  var list = document.getElementById('cve-list');
+  var el = document.getElementById('cve-count');
+  if (list && el) el.textContent = list.getElementsByTagName('li').length;
+})();
+</script>
 
 </div>
 
