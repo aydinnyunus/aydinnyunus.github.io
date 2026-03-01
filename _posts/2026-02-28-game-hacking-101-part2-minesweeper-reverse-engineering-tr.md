@@ -236,5 +236,6 @@ Game hacking ve reverse engineering, yazılımın düşük seviyede nasıl çal�
 
 ## İlgili İçerik
 
+- [Game Hacking 101 Part 1: Memory Manipulation in Mount and Blade Warband](/2026/01/03/game-hacking-101-memory-manipulation-tr/)
 - [Kapı Şifrelerini Atlama](/2022/01/07/bypassing-door-passwords-tr/)
 - [Instagram Dolandırıcılarını Hacklemek](/2022/04/11/hacking-instagram-scammers-tr/)
