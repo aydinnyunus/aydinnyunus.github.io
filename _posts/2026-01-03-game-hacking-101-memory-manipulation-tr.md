@@ -9,21 +9,21 @@ keywords: "game hacking, memory manipulation, Cheat Engine, C++ game hacking, Mo
 canonical_url: "https://aydinnyunus.github.io/2026/01/03/game-hacking-101-memory-manipulation-tr/"
 ---
 
-Game hacking, oyunların verileri memory'de nasıl sakladığını ve yönettiğini anlamak için bir pencere açar. Memory manipulation'ı öğrenerek, oyun içi değerleri değiştirebilir, oyun mekaniklerini deneyebilir ve yazılımın düşük seviyede nasıl çalıştığına dair derinlemesine bilgi edinebilirsin. Bu rehberde, Mount and Blade Warband'ı hedef alarak memory manipulation tekniklerini keşfedeceğiz. Temel kavramlardan başlayıp, oyun memory'sini okuyan ve yazan C++ kodu yazmaya kadar her şeyi ele alacağız.
+Game hacking, oyunların veriyi memory’de nasıl tuttuğunu anlamak için iyi bir giriş. Memory manipulation ile oyun içi değerleri okuyup yazabilir, mekanikleri deneyebilirsin. Bu yazıda **Mount and Blade Warband** üzerinden adım adım gidiyoruz: virtual memory, Cheat Engine ile tarama ve C++ ile programatik okuma/yazma.
 
-## Mount and Blade Warband Nedir?
+## Mount and Blade Warband nedir?
 
-Mount and Blade Warband, TaleWorlds Entertainment tarafından geliştirilen orta çağ temalı bir aksiyon rol yapma oyunu. Calradia adlı kurgusal bir kıtada geçen oyun, stratejik oynanış, savaş ve açık dünya keşfini birleştiriyor. Oyuncular karakter oluşturabilir, ordu kurabilir, savaşlara katılabilir ve krallık kurabilir. Sandbox tarzı oynanışı ve mod desteği, game hacking tekniklerini öğrenmek için mükemmel bir seçim.
+TaleWorlds’ün orta çağ temalı aksiyon RPG’si. Calradia’da karakter, ordu ve krallık kuruyorsun; sandbox ve mod desteği var. Game hacking pratiği için uygun bir hedef.
 
 ![Mount and Blade Warband](https://cdn.taleworlds.com/static/screenshots/1920x1080/mnb-wb-07.jpg)
 
-## Memory'yi Anlamak
+## Memory’yi anlamak
 
-Memory, bir bilgisayarın veri ve talimatları sakladığı yerdir. Game hacking'de, oyun process'inin volatile memory'sine odaklanırız. Burada değişkenler, değerler ve oyun durumları bulunur. Bu memory'yi manipüle ederek, oyun değişkenlerini değiştirebilir ve oynanışın çeşitli yönlerini kontrol edebiliriz.
+Oyun process’inin çalışan memory’sinde değişkenler, değerler ve oyun durumu tutuluyor. Bu memory’yi okuyup yazarak değişkenleri değiştirip oynanışı etkileyebilirsin.
 
-### Virtual Memory Nedir?
+### Virtual memory
 
-Virtual memory, her process'e fiziksel memory'den bağımsız kendi virtual address space'ini sağlayan bir memory yönetim tekniğidir. Programlar, fiziksel olarak yüklenenden daha fazla memory'ye erişimi varmış gibi çalışabilir. Bu virtual address space, sayfalara (pages) bölünür ve bunlar fiziksel memory'ye veya ikincil depolama cihazlarına eşlenebilir.
+Her process’e kendi sanal adres alanı veriliyor; sayfalar fiziksel memory veya diske eşleniyor. Program fizikselden fazla memory’ye erişiyormuş gibi çalışabiliyor.
 
 ![Virtual Memory vs Physical Memory](https://miro.medium.com/v2/resize:fit:1240/format:webp/1*Lbc8Ng41sKlo7oCGUvuxHg.png)
 
@@ -38,34 +38,21 @@ Bir program çalıştığında, virtual address space'e yüklenir. Bu genellikle
 3. **Verimli Memory Kullanımı**: Kullanılmayan kısımlar diske saklanabilir, fiziksel memory'yi serbest bırakır
 4. **Memory Paylaşımı**: Birden fazla process aynı dosya eşlemelerini paylaşabilir
 
-### Memory Adreslerini Bulma
+### Memory adresini bulma ve değiştirme
 
-Memory'yi manipüle etmek için, oyun değişkenlerinin saklandığı spesifik adresleri bulmamız gerekir. Memory adresleri, her veri parçası için benzersiz tanımlayıcılar görevi görür. Değişkenin mevcut değeri veya veri tipi gibi kriterlere dayanarak adresleri aramak için memory tarama tekniklerini kullanırız.
+Manipülasyon için önce hedef değişkenin adresini bulman lazım. Değer veya veri tipine göre tarama yapıyorsun; adresi bulunca okuyup yazıyorsun (kaynak, sağlık, para vb.).
 
-### Memory'yi Değiştirme
+### Pointer’lar
 
-Memory adreslerini belirledikten sonra, bu adreslerde saklanan değerleri değiştirebiliriz. Bu, kaynakları artırmayı, sağlık veya dayanıklılığı ayarlamayı veya özellikleri açmayı içerebilir. Memory değiştirme genellikle şunları içerir:
+Dinamik yapılarda adresler her açılışta değişebiliyor. Pointer’lar başka adreslere işaret ediyor; pointer zincirini takip ederek doğru hücreye ulaşıyorsun.
 
-1. Bir memory adresinden mevcut değeri okuma
-2. Hesaplamalar veya değişiklikler yapma
-3. Değiştirilmiş değeri aynı adrese yazma
+## Araçlar
 
-### Pointer'lar ve Dinamik Memory Analizi
+**Memory editor / trainer:** Değer tarayıp değiştiren arayüzler. **Debugger:** Cheat Engine, OllyDbg gibi; breakpoint, memory inceleme, disassembly.
 
-Karmaşık game hacking senaryoları, dinamik memory yapıları ve pointer'ları içerir. Pointer'lar, başka konumlara işaret eden memory adresleridir. Dinamik olarak ayrılmış memory'ye erişmek veya karmaşık veri yapılarında gezinmek için kullanılırlar. Pointer'ları anlamak, oyunun memory alanında daha etkili bir şekilde gezinmemize ve manipülasyon için istenen değişkenleri veya yapıları bulmamıza olanak tanır.
+## Cheat Engine kullanımı
 
-## Memory Manipulation Araçları
-
-Memory manipülasyonuna yardımcı olan çeşitli araçlar var:
-
-- **Memory Editor'lar/Trainer'lar**: Gerçek zamanlı olarak memory değerlerini taramak ve değiştirmek için kullanıcı dostu arayüzler
-- **Debugger'lar**: Cheat Engine veya OllyDbg gibi araçlar, breakpoint'ler, memory inceleme ve disassembly gibi gelişmiş özellikler sağlar
-
-Bu araçlar, memory adreslerini bulmayı ve manipüle etmeyi basitleştirir, hassas ve verimli değişiklikler yapmamıza olanak tanır.
-
-## Cheat Engine: Memory Düzenleme Kolaylaştı
-
-Cheat Engine, game hacking topluluğunda yaygın olarak kullanılan popüler bir memory düzenleme aracıdır. Gerçek zamanlı olarak memory değerlerini taramanıza, değiştirmenize ve manipüle etmenize olanak tanır. Cheat Engine'i adım adım kullanmayı görelim.
+Cheat Engine, game hacking’te sık kullanılan memory tarama ve düzenleme aracı. Kısa adımlar:
 
 ### 1. Cheat Engine'i İndir ve Kur
 
@@ -123,18 +110,13 @@ Disket simgesine tıklayarak cheat table'ını kaydet. Bu, oyunu tekrar başlatt
 
 **Not**: Birçok oyun anti-cheat sistemleri kullanır. Cheat table'larını sorumlu bir şekilde kullan ve anti-cheat önlemleri hakkında güncel kal.
 
-## Memory Manipulation için C++ Kullanmak
+## C++ ile memory okuma/yazma
 
-Cheat Engine öğrenmek için harika olsa da, kendi C++ kodunu yazmak daha fazla kontrol ve anlayış sağlar. Memory'yi programatik olarak manipüle etmeyi keşfedelim.
+Cheat Engine ile offset’leri bulduktan sonra aynı mantığı C++ ile otomatikleştirebilirsin. Windows API: `ReadProcessMemory`, `WriteProcessMemory`, `OpenProcess` vb.
 
-### Offset'leri Bulma
+### Offset’leri bulma
 
-Offset'ler, güvenilir memory manipülasyonunun anahtarıdır. Cheat Engine kullanarak bunları bulma:
-
-1. Hedef değerinin memory adresini bul
-2. Adrese sağ tıkla ve "Find out what accesses this address" seçeneğini seç
-3. Cheat Engine, bu adrese erişen assembly talimatlarını gösterecektir
-4. Assembly'yi analiz ederek memory yapısını ve offset'leri anla
+Cheat Engine’de hedef değerin adresini bul, “Find out what accesses this address” ile erişen assembly’yi incele. Base + offset zincirini çıkar.
 
 **Assembly Analizi Örneği:**
 
@@ -486,40 +468,17 @@ function visualizeMemory() {
 }
 </script>
 
-## Etik Düşünceler
+## Etik ve anti-cheat
 
-Game hacking güçlü bir beceridir, ancak sorumluluklarla birlikte gelir:
+Tek oyunculu oyunlarda öğrenme ve deney genelde kabul edilir; çok oyunculuda başkalarının deneyimini bozmamak ve ToS’a uymak gerekir. Modern oyunlar memory taraması, kod bütünlüğü ve sunucu tarafı doğrulama kullanıyor; bu yüzden birçok hack sadece tek oyunculuda işe yarıyor.
 
-- **Tek oyunculu oyunlar**: Öğrenme ve deney için genellikle kabul edilebilir
-- **Çok oyunculu oyunlar**: Başkalarının deneyimini bozabilir ve hizmet şartlarını ihlal edebilir
-- **Geliştiricilere saygı**: Anti-cheat sistemlerinin iyi nedenlerle var olduğunu anla
-- **Sorumlu kullan**: Rekabetçi ortamlarda haksız avantaj sağlamak için hack kullanma
+## Özet
 
-## Anti-Cheat Sistemleri
+Memory manipulation, yazılımın nasıl çalıştığını anlamak için temel bir beceri. Virtual memory, Cheat Engine ve C++ ile oyun değerlerini okuyup yazabiliyorsun. Çok oyunculu ortamlarda sorumlu ve etik kullanım önemli.
 
-Modern oyunlar çeşitli anti-cheat önlemleri uygular:
+**Öne çıkanlar:** Virtual memory ve process izolasyonu; Cheat Engine ile adres bulma ve değiştirme; Windows API ile C++; offset ve pointer zincirleri; para ve yetenek manipülasyonu örnekleri.
 
-1. **Memory Tarama**: Yetkisiz değişiklikler için periyodik kontroller
-2. **Kod Bütünlüğü Kontrolleri**: Oyun kodunun değiştirilmediğinin doğrulanması
-3. **Davranış Analizi**: İmkansız veya şüpheli eylemlerin tespiti
-4. **Sunucu Tarafı Doğrulama**: Kritik değerler oyun sunucularında doğrulanır
-
-Bu sistemleri anlamak, bazı hack'lerin neden tek oyunculu oyunlarda çalıştığını ancak çok oyunculu oyunlarda çalışmadığını takdir etmene yardımcı olur.
-
-## Sonuç
-
-Memory manipulation, yazılımın nasıl çalıştığına dair derinlemesine bilgiler sağlayan temel bir game hacking tekniğidir. Virtual memory'i anlayarak, Cheat Engine gibi araçları kullanarak ve C++ kodu yazarak, oyun değerlerini değiştirebilir ve oyun mekaniklerini deneyebilirsin. Özellikle çok oyunculu ortamlarda bu becerileri sorumlu ve etik bir şekilde kullanmayı unutma.
-
-Ele aldığımız ana kavramlar:
-- Virtual memory ve process'lerin memory'yi nasıl izole ettiği
-- Memory adreslerini bulmak ve değiştirmek için Cheat Engine kullanımı
-- Windows API fonksiyonlarını kullanarak C++ kodu yazma
-- Offset'leri ve pointer zincirlerini anlama
-- Para ve yetenekleri manipüle etmek için pratik örnekler
-
-İster oyun geliştirme, ister reverse engineering, ister cybersecurity ile ilgilen, memory manipulation'ı anlamak birçok kapıyı açan değerli bir beceridir.
-
-## İlgili İçerik
+## İlgili içerik
 
 - [CVE-2025-66019: pypdf'te LZW Decompression DoS Zafiyeti](/2025/12/20/cve-2025-66019-pypdf-lzw-dos-tr/)
 - [GeoPandas'ta SQL Injection](/2025/12/27/sql-injection-geopandas-tr/)

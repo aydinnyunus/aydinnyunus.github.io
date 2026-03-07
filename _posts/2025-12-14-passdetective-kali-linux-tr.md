@@ -9,25 +9,19 @@ keywords: "passdetective, shell history, password detection, API key detection, 
 canonical_url: "https://aydinnyunus.github.io/2025/12/14/passdetective-kali-linux-tr/"
 ---
 
-Shell command history'nizde yanlışlıkla yazdığınız parolalar, API key'ler veya secret'lar olabilir. Bu bilgiler history dosyanızda saklanıyor ve güvenlik riski oluşturuyor. PassDetective, shell geçmişinizi tarayarak bu tür hassas bilgileri tespit eden bir komut satırı aracı. Hem Kali Linux'ta hem de NixOS'ta kullanılabilen bu araç, düzenli ifadeler kullanarak komut geçmişinizdeki potansiyel güvenlik açıklarını belirlemenize yardımcı oluyor.
+Shell geçmişinde yanlışlıkla yazılan parolalar, API key’ler veya secret’lar kalabiliyor; bunlar history dosyanda duruyor ve risk oluşturuyor. **PassDetective**, shell history’ni tarayıp bu tür hassas bilgileri tespit eden bir CLI aracı. Kali Linux ve NixOS’ta kullanılabiliyor; regex ile 40’tan fazla secret tipini tanıyabiliyor.
 
-## PassDetective Nedir?
+## PassDetective nedir?
 
-PassDetective, Go programlama dili ile yazılmış bir güvenlik aracı. Temel amacı, shell command history dosyalarınızı (ZSH ve Bash) tarayarak yanlışlıkla yazılmış parolaları, API key'leri ve diğer hassas bilgileri tespit etmek. Araç, güçlü regex pattern'leri kullanarak 40'tan fazla farklı secret tipini tanıyabiliyor.
+PassDetective Go ile yazılmış bir güvenlik aracı. ZSH ve Bash history dosyalarını tarayıp yanlışlıkla yazılmış parolaları, API key’leri ve diğer hassas bilgileri buluyor. 40’tan fazla secret tipi için regex pattern’leri kullanıyor.
 
-Araç şu ana kadar GitHub'da **141 star** topladı ve güvenlik topluluğu tarafından yaygın olarak kullanılıyor. Ayrıca Kali Linux'un resmi araçları arasında yer alıyor ve NixOS paket deposunda da mevcut.
+Araç Kali Linux’un resmi deposunda ve NixOS paketinde mevcut; GitHub’da da kullanılıyor.
 
 ## Neden PassDetective?
 
-Günlük kullanımda shell'de çalışırken, bazen parolaları veya API key'leri komut satırına yazmak zorunda kalıyoruz. Örneğin:
+Günlük kullanımda bazen parola veya API key’i doğrudan komut satırına yazmak zorunda kalıyoruz (ör. `curl -u user:pass ...`). Bu komutlar `.zsh_history` veya `.bash_history`’e yazılıyor. Dosya bir backup’ta veya paylaşılan sistemde erişilebilir olursa hassas bilgiler sızabilir.
 
-```bash
-curl -u username:password123 https://api.example.com
-```
-
-Bu tür komutlar shell history'nize kaydediliyor ve `.zsh_history` veya `.bash_history` dosyalarında saklanıyor. Eğer bu dosyalar bir şekilde erişilebilir hale gelirse (örneğin bir backup'ta veya paylaşılan bir sistemde), hassas bilgileriniz açığa çıkabilir.
-
-PassDetective, bu riski minimize etmek için history dosyalarınızı düzenli olarak tarayıp potansiyel tehlikeleri tespit ediyor. Böylece hassas bilgileri bulup gerekli önlemleri alabiliyorsunuz.
+PassDetective history’ni tarayıp bu tür girdileri buluyor; böylece nerede risk olduğunu görüp önlem alabiliyorsun.
 
 ## Kurulum
 
@@ -67,11 +61,11 @@ go install github.com/aydinnyunus/PassDetective@latest
 
 ## Kullanım
 
-PassDetective'in temel kullanımı oldukça basit. Araç, `extract` komutu ile shell history dosyalarınızı tarayabiliyor.
+Temel kullanım: `extract` komutu ile history taranıyor.
 
-### Yardım Menüsü
+### Yardım
 
-Önce aracın tüm seçeneklerini görmek için:
+Tüm seçenekler için:
 
 ```bash
 PassDetective -h
@@ -79,7 +73,7 @@ PassDetective -h
 
 ![PassDetective Help](https://i.imgur.com/UeMRWTd.png)
 
-### Shell History Analizi
+### Shell history taraması
 
 ZSH history'nizi taramak için:
 
@@ -101,25 +95,19 @@ PassDetective extract --all
 
 ![Extract All](https://i.imgur.com/zKjs3p8.png)
 
-### Secret Tespiti
+### Secret tespiti
 
-PassDetective, sadece parolaları değil, aynı zamanda API key'leri ve diğer secret'ları da tespit edebiliyor. Secret taraması için:
+PassDetective sadece parolaları değil API key’leri ve diğer secret’ları da tespit edebiliyor:
 
 ```bash
 PassDetective extract --secrets --zsh
 ```
 
-veya
+veya `--bash`. [secret-regex-list](https://github.com/h33tlit/secret-regex-list) projesindeki pattern’leri kullanıyor.
 
-```bash
-PassDetective extract --secrets --bash
-```
+## Tespit edilen secret tipleri
 
-![Secrets Detection](https://i.imgur.com/yw3v0RI.png)
-
-## Tespit Edilen Secret Tipleri
-
-PassDetective, aşağıdaki gibi birçok farklı secret tipini tespit edebiliyor:
+PassDetective şu tür secret’ları tespit edebiliyor (örnekler):
 
 - **Cloudinary URL'leri**: `cloudinary://` ile başlayan URL'ler
 - **Firebase URL'leri**: `firebaseio.com` içeren URL'ler
@@ -131,55 +119,48 @@ PassDetective, aşağıdaki gibi birçok farklı secret tipini tespit edebiliyor
 - **GitHub Token'ları**: GitHub API token'ları
 - **Stripe API Key'leri**: `sk_live_` ile başlayan key'ler
 - **Twilio API Key'leri**: `SK[0-9a-fA-F]{32}` formatındaki key'ler
-- **URL'lerdeki Parolalar**: `https://username:password@example.com` formatındaki URL'ler
+- **URL’de parola:** `https://user:password@example.com` formatı  
 
-Ve daha fazlası. PassDetective, [secret-regex-list](https://github.com/h33tlit/secret-regex-list) projesinden regex pattern'lerini kullanıyor.
+Ve daha fazlası. Pattern’ler [secret-regex-list](https://github.com/h33tlit/secret-regex-list) projesinden.
 
-## Pratik Kullanım Senaryoları
+## Pratik kullanım
 
-### Senaryo 1: Düzenli Güvenlik Kontrolü
+### Düzenli güvenlik kontrolü
 
-Güvenlik açısından, shell history dosyalarınızı düzenli olarak taramak iyi bir pratiktir. Örneğin, aylık bir kontrol için:
+History’yi düzenli taramak iyi bir alışkanlık. Örneğin aylık:
 
 ```bash
 PassDetective extract --all --secrets
 ```
 
-Bu komut, hem ZSH hem de Bash history'nizi tarayıp tüm secret'ları tespit eder.
+### Yeni projeye başlamadan önce
 
-### Senaryo 2: Yeni Bir Projeye Başlamadan Önce
-
-Yeni bir projeye başlamadan önce, mevcut shell history'nizde hassas bilgi olup olmadığını kontrol edebilirsiniz:
+Mevcut history’de hassas bilgi var mı diye bakmak için:
 
 ```bash
 PassDetective extract --zsh --secrets
 ```
 
-### Senaryo 3: Sistem Temizliği
+### Sistem temizliği
 
-Bir sistemden ayrılmadan önce veya bir backup oluşturmadan önce, history dosyalarınızı temizlemek istiyorsanız, önce ne tür hassas bilgiler olduğunu görmek için PassDetective kullanabilirsiniz.
+Sistemden çıkmadan veya backup almadan önce history’de ne olduğunu görmek için PassDetective kullanabilirsin. Araç sadece tespit ediyor; silme işlemini sen yapmalısın.
 
-## Güvenlik Önerileri
+## Güvenlik önerileri
 
-PassDetective kullanırken dikkat edilmesi gereken birkaç nokta:
+1. **Temizlik:** PassDetective sadece tespit ediyor; bulduklarını sen manuel temizliyorsun.  
+2. **Düzenli tarama:** Özellikle production ortamında history’yi düzenli tara.  
+3. **Backup öncesi:** Backup almadan önce history’yi kontrol et.  
+4. **Alias:** Araç config’teki alias’ları da tarıyor; alias’ta saklanan secret’lar da bulunabiliyor.
 
-1. **History Dosyalarını Temizleme**: PassDetective sadece tespit ediyor, temizlemiyor. Tespit edilen hassas bilgileri manuel olarak temizlemeniz gerekiyor.
+## Özet
 
-2. **Düzenli Tarama**: Shell history'nizi düzenli olarak tarayın. Özellikle production sistemlerinde çalışırken.
+PassDetective shell history’deki parola ve secret’ları tespit etmek için kullanışlı. Kali ve NixOS’ta kurulumu kolay; düzenli kullanıldığında yanlışlıkla history’ye girmiş hassas bilgileri bulmana yardımcı oluyor.
 
-3. **Backup Kontrolü**: Backup'larınızı oluşturmadan önce history dosyalarınızı kontrol edin.
+Kaynak kod ve güncellemeler: [GitHub - PassDetective](https://github.com/aydinnyunus/PassDetective).
 
-4. **Alias Kullanımı**: PassDetective, shell config dosyalarınızdaki alias'ları da kontrol ediyor. Bu sayede alias'larda saklanan hassas bilgileri de tespit edebiliyor.
-
-## Sonuç
-
-PassDetective, shell command history'nizdeki hassas bilgileri tespit etmek için kullanışlı bir araç. Hem Kali Linux'ta hem de NixOS'ta kolayca kurulup kullanılabiliyor. Düzenli olarak kullanıldığında, yanlışlıkla history'ye yazılmış parolaları ve secret'ları bulmanıza yardımcı oluyor.
-
-Araç açık kaynak ve GitHub'da aktif olarak geliştiriliyor. Daha fazla bilgi ve kaynak kod için [GitHub deposunu](https://github.com/aydinnyunus/PassDetective) ziyaret edebilirsiniz.
-
-**İlgili İçerikler:**
-- [exifLooter: Fotoğraflardan Gizli Konum Bilgilerini Çıkarmak](/2025/12/07/exiflooter-kali-linux-tr/)
-- [SQL Injection Zafiyeti: GeoPandas to_postgis() Fonksiyonunda Güvenlik Açığı](/sql-injection-geopandas-tr/)
+**İlgili içerik:**
+- [exifLooter: Fotoğraflardan gizli konum bilgilerini çıkarmak](/2025/12/07/exiflooter-kali-linux-tr/)
+- [SQL Injection: GeoPandas to_postgis()](/2025/12/27/sql-injection-geopandas-tr/)
 
 
 

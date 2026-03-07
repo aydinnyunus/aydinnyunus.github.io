@@ -11,11 +11,11 @@ canonical_url: "https://aydinnyunus.github.io/2022/04/11/hacking-instagram-scamm
 
 Son zamanlarda çok fazla phishing sitesi ve mesaj görüyorum. Bu yüzden dolandırıcıların nasıl çalıştığını ve yüzlerce Instagram hesabını nasıl çaldıklarını araştırmaya karar verdim. Bu siteler muhtemelen anormal aktiviteleri fark ettikleri için kapatılmış.
 
-## Phishing Sitelerini Bulma
+## Phishing sitelerini bulma
 
 Twitter ve Instagram'da gezinirken telif hakkı ihlali mesajları hakkında tweetler ve hikayeler gördüm. İnsanların phishing konusunda bilinçli olması güzel (hepsi değil tabii ki). Bu siteleri incelemeye başladım ve kimlik bilgilerini nasıl çaldıklarını anladım.
 
-## Nasıl Çalışıyor?
+## Nasıl çalışıyor?
 
 İlk tweet'te gördüğüm bir sitede başladım. Phishing mesajlarından birinde, dolandırıcı **Inhelptechnicanalyse** adlı hesap üzerinden Instagram kullanıcısına mesaj gönderiyordu. Telif hakkı ihlali olduğunu söylüyor ve hesabı doğrulamak için [https://veriyfycontacsupports.com/](https://veriyfycontacsupports.com/) adresine gitmesini ve form doldurmasını istiyordu.
 
@@ -49,7 +49,7 @@ Dizin brute force için [ffuf](https://github.com/ffuf/ffuf) kullandım, wordlis
 
 Bu dolandırıcılar 3 günde 3 hesap çalıyor. Yapabileceğim tek şey sitedeki bu bilgileri silmek ve insanları bilinçlendirmek.
 
-## Saldırganları Araştırma
+## Saldırganları araştırma
 
 IP adreslerini [whatismyipaddress.com](http://whatismyipaddress.com) üzerinden kontrol ettim.
 
@@ -73,7 +73,7 @@ IP adresleri Türkiye'de.
 
 Bu IP adresi Güney Afrika'da.
 
-## Phishing Sitesi Admin Paneli
+## Phishing sitesi admin paneli
 
 Admin paneli şu bilgileri içeriyor:
 
@@ -153,9 +153,9 @@ Profil resimlerini aldıktan sonra yaş ve cinsiyet bilgilerini tahmin etmek iç
 
 > [https://github.com/yu4u/age-gender-estimation](https://github.com/yu4u/age-gender-estimation)
 
-Sonuç olarak, tanımadığınız kaynaklardan gelen linklere tıklamayın ve bilgilerinizi girmeyin. Mümkün olan tüm hesaplarda iki faktörlü kimlik doğrulamayı kullanın. Farkındalık için bu yazıyı sosyal medya kullanan arkadaşlarınızla paylaşmanızı öneriyorum.
+Tanımadığın kaynaklardan gelen linklere tıklama, bilgilerini girme. Mümkün olan her hesapta 2FA kullan. Farkındalık için yazıyı paylaşabilirsin.
 
-## İlgili İçerikler
+## İlgili içerik
 
-Bu güvenlik araştırması gibi, fiziksel güvenlik konularında da benzer güvenlik açıkları bulunabilir. [Kapı şifrelerini atlama](/2022/01/07/bypassing-door-passwords-tr/) yazımda, günlük hayatta kullandığımız fiziksel güvenlik sistemlerindeki zafiyetleri araştırdım. Daha fazla güvenlik araştırması için [projelerim](/tr/projects/) sayfasını ziyaret edebilirsiniz.
+Bu araştırma gibi fiziksel güvenlikte de benzer zafiyetler var. [Kapı şifrelerini atlama](/2022/01/07/bypassing-door-passwords-tr/) yazısında günlük kullandığımız kilit sistemlerindeki zafiyetleri inceledim. Daha fazlası için [projelerim](/tr/projects/) sayfasına bakabilirsin.
 

@@ -35,7 +35,7 @@ if connection.dialect.has_table(connection, name, schema):
 
 Sorun açık: `schema_name`, `name` ve `geom_name` değişkenleri doğrudan f-string içine ekleniyor. Bu, SQL injection saldırılarına açık.
 
-### Attack Vector
+### Saldırı vektörü
 
 Geometry column adı (`geom_name`), `gdf.rename_geometry()` fonksiyonu ile kullanıcı tarafından kontrol edilebiliyor ve doğrudan SQL sorgusuna parameterization olmadan ekleniyor.
 
@@ -104,7 +104,7 @@ invalid input syntax for type integer: "PostgreSQL 15.4..."
 - Veri değiştirme: `"geom'); UPDATE users SET password='hacked'; --"`
 - Sistem komutları: `"geom'); COPY (SELECT 1) TO PROGRAM 'rm -rf /'; --"`
 
-## Fix: Parameterized Queries
+## Düzeltme: parameterized query
 
 Zafiyeti fix etmek için, f-string interpolation yerine parameterized queries kullandım. Parameterized queries, kullanıcı girdilerini SQL sorgularından ayırarak, SQL injection saldırılarını önler.
 
@@ -168,13 +168,11 @@ except Exception as e:
         print(f"✅ EXTRACTED PostgreSQL version: {match.group(1)}")
 ```
 
-## Sonuç
+## Özet
 
-SQL injection zafiyetleri, özellikle kullanıcı girdilerinin doğrudan SQL sorgularına eklenmesi durumunda çok tehlikeli olabilir. Bu zafiyeti bulmak ve fix etmek, GeoPandas kütüphanesinin güvenliğini önemli ölçüde artırdı.
+SQL injection, kullanıcı girdisinin doğrudan sorguya girmesiyle çok tehlikeli olabiliyor. Bu zafiyeti bulup düzeltmek GeoPandas tarafında güvenliği belirgin şekilde artırdı. Benzer bir şey bulursan sorumlu açıklama yap ve mümkünse fix’i kendin yaz.
 
-Bu tür zafiyetleri bulmak ve fix etmek, açık kaynak kütüphanelerinin güvenliğini artırmak için kritiktir. Eğer benzer zafiyetler bulursanız, sorumlu açıklama (responsible disclosure) prensiplerine uyarak geliştirici ekibine bildirmenizi ve mümkünse fix'i de kendiniz yazmanızı öneriyorum.
-
-**İlgili içerikler:**
+**İlgili içerik:**
 - [CVE-2025-66019: pypdf Kütüphanesinde LZW Decompression DoS Zafiyeti](/2025/12/20/cve-2025-66019-pypdf-lzw-dos-tr/)
 - [exifLooter: Fotoğraflardan Gizli Konum Bilgilerini Çıkarmak](/2025/12/07/exiflooter-kali-linux-tr/)
 

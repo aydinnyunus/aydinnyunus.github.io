@@ -1,55 +1,51 @@
 ---
 layout: post
-title: "AI-Powered CAPTCHA Bypass: GPT-4o ve Gemini ile Otomatik CAPTCHA Çözme"
+title: "AI ile CAPTCHA bypass: GPT-4o ve Gemini ile otomatik çözüm"
 date: 2025-12-08
 author: Yunus Aydın
 lang: tr
-description: "OpenAI GPT-4o ve Google Gemini kullanarak çeşitli CAPTCHA türlerini otomatik olarak çözen AI tabanlı araç. reCAPTCHA v2, puzzle, text ve audio CAPTCHA'ları için detaylı rehber."
+description: "GPT-4o ve Gemini kullanarak reCAPTCHA v2, puzzle, text ve audio CAPTCHA'ları otomatik çözen araç. Kurulum ve kullanım rehberi."
 keywords: "ai captcha bypass, GPT-4o, Gemini, CAPTCHA solver, reCAPTCHA v2, Selenium automation, AI security, Black Hat Sector 2025, captcha bypass tool"
 canonical_url: "https://aydinnyunus.github.io/2025/12/08/ai-captcha-bypass-tr/"
 ---
 
-Güvenlik araştırmaları yaparken, CAPTCHA'ların ne kadar etkili olduğunu test etmek istedim. Modern AI modellerinin görsel ve metin tabanlı CAPTCHA'ları ne kadar iyi çözebileceğini merak ediyordum. Bu yüzden, OpenAI'nin GPT-4o ve Google'ın Gemini gibi büyük çok modlu modelleri (LMM) kullanarak çeşitli CAPTCHA türlerini otomatik olarak çözen bir araç geliştirdim. Bu araç, Selenium ile web browser automation yaparak CAPTCHA'ları gerçek zamanlı olarak çözüyor ve başarılı çözümleri GIF formatında kaydediyor. Üstelik bu araştırma, Black Hat Sector 2025'te sunuldu.
+CAPTCHA'ların ne kadar dayanıklı olduğunu test etmek istedim; modern çok modlu modeller (LMM) görsel ve metin CAPTCHA'ları ne kadar iyi çözüyor merak ettim. Bu yüzden GPT-4o ve Gemini kullanarak çeşitli CAPTCHA türlerini otomatik çözen bir araç yazdım. Selenium ile tarayıcıyı açıp CAPTCHA’yı çözüyor, başarılı denemeleri GIF olarak kaydediyor. Araştırma Black Hat Sector 2025’te sunuldu.
 
-## ai-captcha-bypass Nedir?
+## ai-captcha-bypass nedir?
 
-ai-captcha-bypass, Python programlama dili ile yazılmış bir command-line tool. Temel olarak, OpenAI'nin GPT-4o ve Google'ın Gemini gibi gelişmiş AI modellerini kullanarak çeşitli CAPTCHA türlerini otomatik olarak çözüyor. Araç, Selenium ile web browser automation yaparak CAPTCHA'ları gerçek zamanlı olarak analiz ediyor ve çözüyor.
+ai-captcha-bypass, Python ile yazılmış bir CLI aracı. GPT-4o ve Gemini kullanarak farklı CAPTCHA türlerini otomatik çözüyor; Selenium ile sayfayı açıp CAPTCHA’yı analiz edip cevabı giriyor.
 
-Aracın en önemli özelliklerinden biri, hem görsel hem de metin tabanlı CAPTCHA'ları çözebilmesi. Ayrıca, audio CAPTCHA'ları da transcribe edebiliyor. Bu sayede güvenlik araştırmacıları, farklı CAPTCHA türlerinin güvenlik seviyelerini test edebiliyor.
+Hem görsel hem metin CAPTCHA’ları destekliyor, audio CAPTCHA’ları da transcribe edebiliyor. Böylece farklı CAPTCHA’ların dayanıklılığını test edebilirsin. Araç GitHub’da yaygın kullanılıyor ve Black Hat Sector 2025’te sunuldu.
 
-Araç şu ana kadar GitHub'da **949 star** topladı ve güvenlik topluluğu tarafından yaygın olarak kullanılıyor. Ayrıca Black Hat Sector 2025'te sunuldu.
+## Neden böyle bir araç?
 
-## Neden ai-captcha-bypass?
+Bug bounty veya güvenlik testlerinde CAPTCHA’yı elle çözmek zaman alıyor. Modern modellerin ne kadar iyi çözdüğünü görmek ve tekrarlayan testleri otomatikleştirmek için bu aracı yazdım.
 
-Güvenlik araştırmaları yaparken, CAPTCHA'ların ne kadar etkili olduğunu test etmek istedim. Modern AI modellerinin görsel ve metin tabanlı CAPTCHA'ları ne kadar iyi çözebileceğini merak ediyordum. Ayrıca, bug bounty araştırmalarında CAPTCHA'ları bypass etmek gerektiğinde, manuel olarak çözmek zaman alıcı olabiliyor.
+## Desteklenen CAPTCHA türleri
 
-## Desteklenen CAPTCHA Türleri
+1. **Text Captcha:** Basit metin tanıma
+2. **Complicated Text Captcha:** Daha fazla bozulma ve gürültü içeren metin CAPTCHA’ları
+3. **reCAPTCHA v2:** Google’ın “I'm not a robot” kutusu ve resim seçim challenge’ları
+4. **Puzzle Captcha:** Slider puzzle, parçayı doğru yere taşıma
+5. **Audio Captcha:** Ses dosyasından harf/sayı transcribe etme
 
-ai-captcha-bypass, şu CAPTCHA türlerini çözebiliyor:
+Her tür için özel prompt’lar var; modeller bu prompt’larla daha iyi sonuç veriyor.
 
-1. **Text Captcha**: Basit metin tanıma CAPTCHA'ları
-2. **Complicated Text Captcha**: Daha fazla distortion ve noise içeren metin CAPTCHA'ları
-3. **reCAPTCHA v2**: Google'ın "I'm not a robot" checkbox'ı ve image selection challenge'ları
-4. **Puzzle Captcha**: Slider puzzle'ları, bir parçanın doğru konuma taşınması gereken CAPTCHA'lar
-5. **Audio Captcha**: Ses dosyalarından harf veya sayı transcribe etme
+## Nasıl çalışıyor?
 
-Her CAPTCHA türü için özel prompt'lar hazırlandı ve AI modellerinin en iyi sonuçları vermesi için optimize edildi.
+Akış kısaca:
 
-## Nasıl Çalışıyor?
+1. **Browser:** Selenium ile Firefox açılıyor  
+2. **Sayfa:** Seçilen CAPTCHA türüne göre demo sayfasına gidiliyor  
+3. **Yakalama:** CAPTCHA (görsel, talimat veya puzzle) screenshot alınıyor  
+4. **AI:** Görüntü/audio seçilen provider’a (OpenAI veya Gemini) gönderilip CAPTCHA’ya özel prompt ile analiz ediliyor  
+5. **Aksiyon:** AI cevabı döndürüyor (metin, koordinat veya seçimler)  
+6. **Uygulama:** Selenium ile metin giriliyor, slider hareket ettiriliyor veya resimlere tıklanıyor  
+7. **Doğrulama:** Çözülüp çözülmediği kontrol ediliyor  
 
-ai-captcha-bypass'un çalışma mantığı oldukça basit:
+Başarılı çözümler `successful_solves` klasöründe GIF olarak kaydediliyor.
 
-1. **Browser Launch**: Selenium ile Firefox browser instance'ı başlatılıyor
-2. **Navigate**: Belirtilen CAPTCHA türü için demo sayfasına gidiliyor
-3. **Capture**: CAPTCHA challenge'ı (image, instruction veya puzzle) screenshot olarak yakalanıyor
-4. **AI Analysis**: Yakalanan görüntüler veya audio dosyaları, seçilen AI provider'a (OpenAI veya Gemini) gönderiliyor ve CAPTCHA türüne özel prompt ile analiz ediliyor
-5. **Get Action**: AI, çözümü (text, coordinates veya image selections) döndürüyor
-6. **Perform Action**: Selenium ile text giriliyor, slider hareket ettiriliyor veya doğru image'ler tıklanıyor
-7. **Verify**: CAPTCHA'nın başarıyla çözülüp çözülmediği kontrol ediliyor
-
-Başarılı çözümler, `successful_solves` dizininde GIF formatında kaydediliyor. Bu sayede hangi CAPTCHA'ların başarıyla çözüldüğünü görebiliyorsunuz.
-
-## Kurulum ve Kullanım
+## Kurulum ve kullanım
 
 ### Gereksinimler
 
@@ -112,13 +108,13 @@ python main.py audio --file files/radio.wav --provider openai
 python main.py puzzle --provider openai --model gpt-4o
 ```
 
-## Başarı Örnekleri
+## Başarı örnekleri
 
-Araç, çeşitli CAPTCHA türlerini başarıyla çözüyor. GitHub repository'sinde `successful_solves` dizininde başarılı çözümlerin GIF'leri bulunuyor. İşte bazı başarı örnekleri:
+Araç farklı CAPTCHA türlerini çözüyor. Başarılı denemelerin GIF’leri repo’daki `successful_solves` klasöründe.
 
 ### reCAPTCHA v2
 
-reCAPTCHA v2, Google'ın en yaygın kullanılan CAPTCHA türlerinden biri. Hem OpenAI (GPT-4o) hem de Gemini (2.5 Pro) ile başarıyla çözüldü:
+reCAPTCHA v2, Google’ın en çok kullanılan CAPTCHA’larından biri. Hem GPT-4o hem Gemini 2.5 Pro ile başarıyla çözüldü.
 
 ![reCAPTCHA v2 başarılı çözüm - OpenAI GPT-4o](https://raw.githubusercontent.com/aydinnyunus/ai-captcha-bypass/refs/heads/main/successful_solves/recaptcha_v2_openai/success_20250906_164422.gif)
 
@@ -130,7 +126,7 @@ reCAPTCHA v2, Google'ın en yaygın kullanılan CAPTCHA türlerinden biri. Hem O
 
 ### Puzzle Captcha
 
-Slider puzzle CAPTCHA'ları, bir parçanın doğru konuma taşınması gereken zorlu bir CAPTCHA türü. Her iki AI modeli de bu tür CAPTCHA'ları başarıyla çözüyor:
+Slider puzzle CAPTCHA’ları parçayı doğru yere taşımayı gerektiriyor. Her iki model de bunları çözebiliyor.
 
 ![Puzzle CAPTCHA başarılı çözüm - OpenAI GPT-4o](https://raw.githubusercontent.com/aydinnyunus/ai-captcha-bypass/refs/heads/main/successful_solves/puzzle_openai/success_20250727_173631.gif)
 
@@ -142,7 +138,7 @@ Slider puzzle CAPTCHA'ları, bir parçanın doğru konuma taşınması gereken z
 
 ### Complicated Text Captcha
 
-Yüksek distortion ve noise içeren metin CAPTCHA'ları, insanlar için bile zor olabilir. Ancak AI modelleri bu tür CAPTCHA'ları da başarıyla okuyor:
+Yüksek bozulma ve gürültülü metin CAPTCHA’ları insan için bile zor; modeller bunları da okuyabiliyor.
 
 ![Complicated Text CAPTCHA başarılı çözüm - OpenAI GPT-4o](https://raw.githubusercontent.com/aydinnyunus/ai-captcha-bypass/refs/heads/main/successful_solves/complicated_text_openai/success_20250906_165751.gif)
 
@@ -152,31 +148,31 @@ Yüksek distortion ve noise içeren metin CAPTCHA'ları, insanlar için bile zor
 
 *Complicated Text CAPTCHA başarılı çözüm - Gemini 2.5 Pro*
 
-Bu örnekler, modern AI modellerinin CAPTCHA'ları ne kadar etkili çözebileceğini gösteriyor. Her GIF, aracın gerçek zamanlı olarak CAPTCHA'yı nasıl çözdüğünü gösteriyor.
+Bu örnekler modern modellerin CAPTCHA’ları ne kadar iyi çözdüğünü gösteriyor. Her GIF aracın CAPTCHA’yı adım adım nasıl çözdüğünü gösteriyor.
 
-## Güvenlik ve Etik Kullanım
+## Güvenlik ve etik kullanım
 
-Bu araç, güvenlik araştırması ve test amaçlı geliştirilmiştir. CAPTCHA'ları otomatik olarak çözmek, bazı web sitelerinin kullanım koşullarını ihlal edebilir. Bu yüzden:
+Araç güvenlik araştırması ve test için yazıldı. CAPTCHA’yı otomatik çözmek bazı sitelerin kullanım koşullarına aykırı olabilir. Bu yüzden:
 
-- **Sadece kendi web sitenizde veya izin verilen test ortamlarında kullanın**
-- **Yasal ve etik kurallara dikkat edin**
-- **Başkalarının web sitelerinde izinsiz kullanmayın**
+- Sadece kendi sitende veya izin verilen test ortamlarında kullan  
+- Yasal ve etik kurallara uy  
+- Başkalarının sitelerinde izinsiz kullanma  
 
-Araç, güvenlik araştırmacılarının CAPTCHA'ların güvenlik seviyelerini test etmesi ve iyileştirmeler önermesi için geliştirilmiştir.
+Amaç, CAPTCHA’ların dayanıklılığını test etmek ve gerekirse iyileştirme önermek.
 
-## Proje Yapısı
+## Proje yapısı
 
-- `main.py`: Ana entry point, command-line argument'ları handle ediyor ve uygun test fonksiyonlarını çağırıyor
-- `ai_utils.py`: OpenAI ve Gemini API'leri ile etkileşim için fonksiyonlar içeriyor. Prompt'lar burada tanımlanıyor ve API call'ları yapılıyor
-- `puzzle_solver.py`: Multi-step slider puzzle CAPTCHA'ları çözmek için özel logic içeriyor
-- `benchmark.py`: Farklı solver'ların performansını ve başarı oranını değerlendirmek için multiple test çalıştıran script
-- `successful_solves/`: Başarılı çözümlerin GIF'lerinin kaydedildiği dizin
+- `main.py`: Ana giriş noktası, CLI argümanları ve test fonksiyonları  
+- `ai_utils.py`: OpenAI ve Gemini API çağrıları, prompt’lar  
+- `puzzle_solver.py`: Slider puzzle CAPTCHA mantığı  
+- `benchmark.py`: Farklı solver’ların başarı oranını ölçen script  
+- `successful_solves/`: Başarılı çözümlerin GIF’leri  
 
-## Sonuç
+## Özet
 
-ai-captcha-bypass, modern AI modellerini kullanarak CAPTCHA'ları otomatik olarak çözen yenilikçi bir araç. Hem güvenlik araştırmacıları hem de geliştiriciler için değerli bir kaynak. Araç, çeşitli CAPTCHA türlerini çözebiliyor ve başarılı çözümleri kaydediyor.
+ai-captcha-bypass, GPT-4o ve Gemini ile CAPTCHA’ları otomatik çözen bir araç. Hem güvenlik testi hem de tekrarlayan denemeler için kullanılabilir. Farklı CAPTCHA türleri destekleniyor, başarılı çözümler GIF olarak kaydediliyor.
 
-Eğer CAPTCHA güvenliği hakkında daha fazla bilgi edinmek istiyorsanız, [exifLooter: Fotoğraflardan Gizli Konum Bilgilerini Çıkarmak](/2025/12/07/exiflooter-kali-linux-tr/) yazısına göz atabilirsiniz. Ayrıca diğer [güvenlik projelerimi](/tr/projects/) de inceleyebilirsiniz.
+CAPTCHA güvenliği hakkında daha fazlası için [exifLooter: Fotoğraflardan gizli konum bilgilerini çıkarmak](/2025/12/07/exiflooter-kali-linux-tr/) yazısına bakabilirsin; diğer [güvenlik projelerime](/tr/projects/) de göz atabilirsin.
 
 ## Kaynaklar
 

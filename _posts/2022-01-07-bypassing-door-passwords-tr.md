@@ -51,7 +51,7 @@ Türkiye'de en popüler giriş kapısı tuş takımları:
 - D45
 - A20 Kapı Kilidi
 
-## En Çok Kullanılan Varsayılan Şifreler:
+## En çok kullanılan varsayılan şifreler
 
 - #0000
 - 0000
@@ -108,16 +108,16 @@ Türkiye'de en popüler giriş kapısı tuş takımları:
 - c2638
 - C6161
 
-## Gerçek Hayat Testleri
+## Gerçek hayat testleri
 
-"Audio Şifreli Kapı Kiliti"nde admin şifresini denedim ve işe yaradı. Artık tüm kullanıcıların şifrelerini değiştirebilir, alarmı kapatabilir, hatta tüm kullanıcıları silebiliriz.
+"Audio Şifreli Kapı Kiliti"nde varsayılan admin şifresini denedim, çalıştı. Bu sayede tüm kullanıcıların şifrelerini değiştirebiliyor, alarmı kapatıyor, hatta kullanıcıları silebiliyorsun.
 
-Üstelik şifreleri bilmemize bile gerek yok, basit birkaç adımla admin şifresini sıfırlayabiliyoruz:
+Şifreleri bilmene gerek yok; birkaç adımla admin şifresini sıfırlayabiliyorsun:
 
-1. Kutu arkasındaki reset butonuna 10 saniye basıyorsunuz.
-2. DT-8 soketini çıkarıp 5 saniye bekliyorsunuz, sonra tekrar takıyorsunuz.
-3. 10 saniye sonra butona basmayı bırakıp aynı anda soketi tekrar çıkarıyorsunuz.
-4. Bundan sonra varsayılan admin şifresini kullanabilirsiniz :)
+1. Kutu arkasındaki reset butonuna 10 saniye bas.
+2. DT-8 soketini çıkarıp 5 saniye bekle, sonra tekrar tak.
+3. 10 saniye sonra butonu bırakıp aynı anda soketi tekrar çıkar.
+4. Bundan sonra varsayılan admin şifresini kullanabiliyorsun.
 
 ![Kapı kilidi şifresi atlamayı gösteren gerçek hayat güvenlik testi](https://miro.medium.com/v2/resize:fit:1400/format:webp/0*mGGgCG6CaxKqC6WJ)
 
@@ -127,17 +127,17 @@ Türkiye'de en popüler giriş kapısı tuş takımları:
 
 ![Kapı kilitlerinde varsayılan şifre kullanımını gösteren istatistikler](https://miro.medium.com/v2/resize:fit:1122/format:webp/0*v4sneCtbZPjIdYVD)
 
-## Varsayılan Şifreler için GitHub Deposu
+## Varsayılan şifreler için GitHub deposu
 
-Model hakkında bilgi almak için ID'yi giriyorsunuz. gateCracker aracı ile REST API'yi kullanabilirsiniz.
+Model bilgisi için ID giriyorsun. gateCracker aracı ile REST API kullanılabiliyor.
 
 ![Varsayılan şifre güvenlik açıkları olan kapı kilidi modellerinin listesi](https://miro.medium.com/v2/resize:fit:1140/format:webp/0*aRFq5D78zydmjtjZ)
 
-## Kaynak Kod
+## Kaynak kod
 
 - [https://github.com/aydinnyunus/gateCracker-REST](https://github.com/aydinnyunus/gateCracker-REST) - REST API
 - [https://github.com/aydinnyunus/gateCracker](https://github.com/aydinnyunus/gateCracker) - Ana araç (REST API'ye bağlanır)
 
-## İlgili İçerikler
+## İlgili içerik
 
-Bu araştırma, fiziksel güvenlik sistemlerinin ne kadar savunmasız olabileceğini gösteriyor. Dijital tehditler hakkında daha fazla güvenlik araştırması için [Instagram Dolandırıcılarını Hacklemek](/2022/04/11/hacking-instagram-scammers-tr/) yazımı inceleyebilirsiniz. Bu yazıda phishing saldırıları ve OSINT tekniklerini araştırdım. Ayrıca daha fazla [güvenlik projelerim](/tr/projects/) ve araçlarımı keşfedebilirsiniz.
+Bu araştırma fiziksel güvenlik sistemlerinin ne kadar savunmasız olabildiğini gösteriyor. Dijital tarafta [Instagram dolandırıcılarını hacklemek](/2022/04/11/hacking-instagram-scammers-tr/) yazısında phishing ve OSINT’i anlattım. Daha fazla [güvenlik projesi](/tr/projects/) için projeler sayfasına bakabilirsin.

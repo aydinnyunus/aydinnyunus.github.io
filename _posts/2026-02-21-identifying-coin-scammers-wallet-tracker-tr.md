@@ -9,23 +9,23 @@ keywords: "wallet tracker, coin scammers, coin mixing, cryptocurrency security, 
 canonical_url: "https://aydinnyunus.github.io/2026/02/21/identifying-coin-scammers-wallet-tracker-tr/"
 ---
 
-Günümüzde online dolandırıcılık giderek yaygınlaşıyor. Phishing girişimlerinden sahte kripto para borsalarına kadar, kime güveneceğini bilmek zor. Kripto para dolandırıcılarından korunmak için kullanabileceğin bir araç var: **Wallet-Tracker**. Bu araç, Wallet-Tracker CLI, Neo4j veritabanı ve kullanıcı tarafından sağlanan dolandırıcı wallet adresi kullanarak tüm transaction'ları ve wallet'ları saklar, şüpheli aktiviteleri tespit etmeyi kolaylaştırır. Ayrıca, sağlanan dolandırıcı wallet adresinden ve ona gelen transaction'ları tarar ve coin mixing'i tespit edebilir.
+Online dolandırıcılık artıyor; phishing’den sahte kripto borsalarına kadar kime güveneceğin belli olmuyor. Kripto dolandırıcılarını ve coin mixing’i takip etmek için **Wallet-Tracker**’ı kullanabilirsin. Araç, bir dolandırıcı wallet adresi verdiğinde o adresten ve o adrese gelen transaction’ları tarayıp Neo4j’de saklıyor; böylece şüpheli aktivite ve coin mixing’i analiz etmek kolaylaşıyor.
 
 > **GitHub**: [https://github.com/aydinnyunus/wallet-tracker](https://github.com/aydinnyunus/wallet-tracker)
 
 ![Wallet-Tracker](https://miro.medium.com/v2/resize:fit:1400/format:webp/0*LaMJYY9HgTLGcoPN.png)
 
-## Coin Mixing Nedir?
+## Coin mixing nedir?
 
-Coin mixing, kripto paranın kökenini gizlemek için diğer coin'lerle karıştırılması tekniğidir. Bu süreç, fon akışını takip etmeyi zorlaştırır ve para aklama veya yasadışı faaliyetleri gizlemek için kullanılabilir. Wallet-Tracker kullanarak, Neo4j veritabanında saklanan transaction'ları ve wallet'ları analiz ederek coin mixing'i tespit edebilirsin.
+Coin mixing, kripto paranın kaynağını gizlemek için başka coin’lerle karıştırılması. İz sürmeyi zorlaştırıyor; para aklama veya yasadışı faaliyetlerde kullanılabiliyor. Wallet-Tracker, Neo4j’deki transaction ve wallet verisiyle coin mixing pattern’lerini tespit etmeye yarıyor.
 
 ![Coin Mixing Visualization](https://d3i71xaburhd42.cloudfront.net/8f03f545ff791a70455ad4624208357e41dcfc0c/6-Figure2-1.png)
 
 Coin mixing, blockchain'deki transaction'ların izlenebilirliğini azaltmak için kullanılan bir teknik. Saldırganlar, yasadışı yollarla elde ettikleri kripto paraları, birçok farklı wallet arasında transfer ederek karıştırır. Bu sayede, paranın kaynağını bulmak neredeyse imkansız hale gelir.
 
-## Wallet-Tracker Nedir?
+## Wallet-Tracker ne yapar?
 
-Wallet-Tracker, kripto para dolandırıcılarını tespit etmek ve coin mixing aktivitelerini analiz etmek için geliştirilmiş bir araçtır. Araç, bir dolandırıcı wallet adresi verildiğinde, o wallet'tan ve ona gelen tüm transaction'ları tarar. Bu transaction'lar Neo4j graph veritabanında saklanır ve analiz edilir.
+Bir dolandırıcı wallet adresi verdiğinde, o adresten çıkan ve o adrese gelen tüm transaction’ları tarıyor. Veriler Neo4j graph veritabanında tutuluyor; analiz ve görselleştirme buradan yapılıyor.
 
 **Temel özellikler:**
 
@@ -35,13 +35,13 @@ Wallet-Tracker, kripto para dolandırıcılarını tespit etmek ve coin mixing a
 - Graph veritabanı ile görselleştirme
 - Exchange wallet tespiti
 
-## Wallet-Tracker Mimarisi
+## Mimari
 
-Wallet-Tracker, üç ana bileşenden oluşuyor: Neo4j, Redis ve Neodash. Her birinin kendine özgü bir rolü var.
+Üç bileşen: **Neo4j**, **Redis**, **Neodash**.
 
-### Neo4j: Graph Veritabanı
+### Neo4j
 
-Neo4j, Wallet-Tracker'da tüm transaction'ları ve wallet'ları saklamak için kullanılan bir graph veritabanıdır. Graph yapısı, wallet'lar arasındaki ilişkileri ve transaction akışını görselleştirmek için idealdir.
+Tüm transaction ve wallet’lar Neo4j’de tutuluyor. Graph yapısı wallet’lar arası ilişkileri ve para akışını göstermek için uygun.
 
 **Neo4j'nin avantajları:**
 
@@ -52,9 +52,9 @@ Neo4j, Wallet-Tracker'da tüm transaction'ları ve wallet'ları saklamak için k
 
 Neo4j'de her transaction, bir wallet'tan diğerine bir edge (kenar) olarak temsil edilir. Bu yapı, coin mixing pattern'lerini tespit etmek için mükemmeldir.
 
-### Redis: In-Memory Cache
+### Redis
 
-Redis, Wallet-Tracker'da caching ve hızlı veri erişimi için kullanılan bir in-memory veri yapısı deposudur. Büyük miktarda veriyi işlemek ve gerçek zamanlı analiz sağlamak için kritik bir rol oynar.
+Cache ve hızlı erişim için. Özellikle bilinen exchange wallet’ları key-value olarak tutuluyor; Neo4j sorgularını hızlandırıyor.
 
 **Redis'in kullanım alanları:**
 
@@ -64,9 +64,9 @@ Redis, Wallet-Tracker'da caching ve hızlı veri erişimi için kullanılan bir 
 
 Exchange wallet'ları Redis'te saklanır çünkü bunlar sık sorgulanır ve hızlı erişim gerektirir. Bu sayede, bir wallet'ın bir exchange'e ait olup olmadığını hızlıca kontrol edebilirsin.
 
-### Neodash: Web Arayüzü
+### Neodash
 
-Neodash, Neo4j'de saklanan verileri görselleştirmek için kullanılan bir web sunucusudur. Kullanıcılara interaktif ve sezgisel bir arayüz sunar, transaction geçmişini kolayca anlamalarını sağlar.
+Neo4j verisini web arayüzüyle görselleştiriyor. Hazır sorgular ve özel sorgularla transaction akışını ve coin mixing pattern’lerini inceleyebilirsin.
 
 **Neodash özellikleri:**
 
@@ -77,9 +77,9 @@ Neodash, Neo4j'de saklanan verileri görselleştirmek için kullanılan bir web 
 
 Neodash, Neo4j veritabanındaki verileri web arayüzü üzerinden görselleştirir. Bu sayede, transaction akışını ve wallet'lar arasındaki ilişkileri kolayca analiz edebilirsin.
 
-## Wallet-Tracker Nasıl Çalışır?
+## Nasıl çalışıyor?
 
-Wallet-Tracker, sağlanan dolandırıcı wallet adresini kullanarak çalışır. İşlem süreci şöyle:
+Verdiğin dolandırıcı wallet adresinden (ve o adrese gelenlerden) transaction’ları tarıyor; komşu wallet’ları da ekliyor. Veriler Neo4j’e yazılıyor; coin mixing ve şüpheli pattern’ler bu grafik üzerinden analiz ediliyor.
 
 ### 1. Transaction Tarama
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Game Hacking 101 Part 2: Minesweeper Reverse Engineering ile Memory Analizi"
+title: "Game Hacking 101 Part 2: Minesweeper reverse engineering ve memory analizi"
 date: 2026-02-28
 author: Yunus Aydın
 lang: tr
@@ -9,19 +9,17 @@ keywords: "game hacking, reverse engineering, Minesweeper, Cheat Engine, x64dbg,
 canonical_url: "https://aydinnyunus.github.io/2026/02/28/game-hacking-101-part2-minesweeper-reverse-engineering-tr/"
 ---
 
-Game Hacking 101 serisinin ilk bölümünde, Mount and Blade Warband'da memory manipulation tekniklerini öğrendik. Bu ikinci bölümde, Minesweeper'ı reverse engineering yaparak daha gelişmiş teknikleri keşfedeceğiz. Cheat Engine ile pointer scanning, x64dbg ile hardware breakpoints ve memory analizi kullanarak oyunun iç mekanizmalarını çözeceğiz. Bu rehber, reverse engineering'in temellerini öğrenmek isteyenler için mükemmel bir başlangıç noktası.
+Serinin ilk bölümünde Mount and Blade Warband’da memory manipulation tekniklerini gördük. Bu bölümde Minesweeper’ı reverse engineering ile ele alıyoruz: Cheat Engine ile pointer scanning, x64dbg ile hardware breakpoints ve memory analiziyle oyunun içini çözüyoruz. Reverse engineering’e giriş için iyi bir adım.
 
-## Minesweeper Nedir?
+## Minesweeper nedir?
 
-Minesweeper, Windows'un klasik bir oyunu. Oyuncular, grid üzerindeki gizli mayınları açığa çıkarmaya çalışırken patlayıcı kazalardan kaçınmalı. Görünüşte basit bir oyun gibi görünse de, Minesweeper'ın kodlama teknikleri ve tasarımı reverse engineering için harika bir öğrenme aracı.
+Minesweeper Windows’un klasik mayın tarama oyunu. Grid üzerinde gizli mayınları açarken patlamadan ilerlemeye çalışıyorsun. Görünüşte basit; aslında reverse engineering için güzel bir laboratuvar: veri yapıları ve algoritmalar net.
 
 ![Minesweeper](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*Z9i0L_1LXSJGAAyzPrE7dw.jpeg)
 
-Minesweeper'ın görünürdeki basitliği, aslında içinde barındırdığı karmaşıklığı gizler. Reverse engineering, oyunun mimarisini ve veri yapılarını anlamamıza yardımcı olur. Bu yolculuk, oyunun iç mekanizmalarını çözmek için gerekli temel bilgileri sağlar.
+Minesweeper’ın basit görünen yapısı aslında net bir mimari ve veri yapıları barındırıyor. Reverse engineering tam da bunu ortaya çıkarıyor.
 
-## Grid'i Çözmek
-
-Minesweeper'ın kalbinde, oyuncuların sistematik olarak açtığı bir grid yapısı var. Bu grid'in memory temsilini analiz ederek, oyunun mayınlar, sayılar ve açık/kapalı hücreler hakkındaki bilgileri nasıl sakladığını anlayabiliriz.
+## Grid yapısı
 
 **Grid yapısı:**
 
@@ -30,9 +28,9 @@ Minesweeper'ın kalbinde, oyuncuların sistematik olarak açtığı bir grid yap
 - Hücre durumu (açık/kapalı) bir flag ile temsil edilir
 - Komşu mayın sayısı hesaplanır ve saklanır
 
-## Algoritmaları Kırmak
+## Algoritmalar
 
-Minesweeper, mayınlara komşu hücrelerdeki sayıları hesaplamak ve boş hücrelerin açılmasını sağlamak için algoritmalar kullanır. Bu algoritmaları reverse engineering yaparak, oyunun gerçek zamanlı mantık işleme sürecini anlayabiliriz.
+Mayın sayısı hesaplama, boş hücrelerin zincirleme açılması ve kazanma/kaybetme kontrolü oyunun temel mantığı. Bunları reverse edince gerçek zamanlı davranışı anlıyorsun.
 
 **Temel algoritmalar:**
 
@@ -40,27 +38,19 @@ Minesweeper, mayınlara komşu hücrelerdeki sayıları hesaplamak ve boş hücr
 - **Cascading açılma**: Boş hücrelerin otomatik olarak açılması
 - **Oyun durumu kontrolü**: Kazanma/kaybetme durumunu belirleme
 
-## Rastgeleliğin Perdesini Kaldırmak
+## Rastgelelik
 
-Minesweeper'da görünüşte rastgele mayın yerleşimi, aslında belirli pattern'ler ve öngörülebilirlik içerir. Random number generation mekanizmasını inceleyerek, mayın yerleşiminin gizemli yöntemini ortaya çıkarabiliriz.
+Görünüşte rastgele mayın yerleşimi aslında **pseudorandom**: `srand` ile üretilen sayılar. Aynı seed aynı diziyi veriyor; seed çoğunlukla sistem zamanından geliyor. Yani mayın yerleşimi tekrarlanabilir ve öngörülebilir.
 
 ![Random Number Generation](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*S6RdzkvwPEu5jXlZg2XTLw.png)
 
-`srand` kullanılarak üretilen random sayılar, gerçekten rastgele değil, pseudorandom'dur. Bu, aynı seed değeri verildiğinde, her seferinde aynı sayı dizisinin üretileceği anlamına gelir. Minesweeper'ın random number generation'ı `srand`'a dayandığı için, aynı seed (genellikle sistem zamanından türetilir) tekrarlanan oyun oturumlarında tutarlı sonuçlar garanti eder.
+## Cheat Engine ile bomb sayısını bulmak
 
-**Pseudorandom özellikleri:**
+Oyun içinde gösterilen mayın sayısı (bomb count) önemli bir değer; flag koyunca azalıyor. Reverse engineering ile bu değerin memory’de nerede tutulduğunu ve nasıl değiştirilebileceğini buluyoruz.
 
-- Seed değeri aynıysa, aynı sequence üretilir
-- Sistem zamanı genellikle seed olarak kullanılır
-- Bu, mayın yerleşiminin öngörülebilir olmasını sağlar
+### Cheat Engine kısa tanıtım
 
-## Cheat Engine ile Bomb Count Bulma
-
-Minesweeper'da bomb count (mayın sayısı) gösterimi kritik bir özellik. Oyunda, oyuncular flag yerleştirerek bu sayıyı azaltabilir. Reverse engineering, bu değeri manipüle etmenin bir yolunu açığa çıkarır.
-
-### Cheat Engine: Keşif Aracı
-
-Cheat Engine, game hacking ve reverse engineering için güçlü bir araçtır. Bu araç, çalışan bir oyunun memory'sine dalmanıza, Minesweeper'daki bomb count gibi spesifik değerleri bulmanıza ve iç işleyişini incelemenize olanak tanır.
+Cheat Engine, çalışan bir oyunun memory’sine bakıp belirli değerleri (ör. bomb count) bulup değiştirmeni sağlayan araç. Game hacking ve reverse engineering’de sık kullanılıyor.
 
 ![Cheat Engine](https://upload.wikimedia.org/wikipedia/commons/c/c2/Cheat_Engine_7.1.png)
 
