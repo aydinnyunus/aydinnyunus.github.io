@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "I Scanned PyPI, npm, and RubyGems for Leaked Secrets. Microsoft, Automattic, Palo Alto—and Many More"
+title: "I Scanned PyPI, npm, and RubyGems for Leaked Secrets. Microsoft, Automattic, Palo Alto and Many More"
 date: 2026-03-07
 author: Yunus Aydın
 lang: en
