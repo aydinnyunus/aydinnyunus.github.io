@@ -130,27 +130,6 @@ if '\r' in user_input or '\n' in user_input:
 self.send_header('X-Custom', user_input)
 ```
 
-## Bu pattern neden tekrar tekrar çıkıyor
-
-**Header injection**, daha geniş bir problemin alt kümesi: **protocol-level injection**. Kullanıcı girdisini bir protokol yapısına birleştirdiğiniz her yer — header'lar, SQL, command'lar, LDAP filterler, XPath sorgular — şunlardan birini yapmanız gerekiyor:
-
-1. **Validate/reject**: O protokolde özel olan karakterleri reddet
-2. **Escape/encode**: Bunları veri olarak işlet, syntax değil
-3. **Parameterized API**: Veriyi yapıdan ayır
-
-HTTP'nin iki özel karakteri vardır: `\r` ve `\n`. Protokol bu harflerle header'ları ayrıştırıyor. Eğer girdi bunları içerebilirse, girdi protokol yapısını kontrol ediyor.
-
-Python takımı seçenek #1'i seçti: reject. Çağıran kodu konteksti bilemeyeceğinden low-level kütüphane için doğru seçim.
-
-Aynı pattern'ı şuralarda görürsünüz:
-
-- **SQL injection**: Girdi `'` veya `--` veya `;` içeriyor
-- **Command injection**: Girdi `|`, `;`, `$()`, backtick içeriyor
-- **XPath injection**: Girdi `'` veya `"` içeriyor
-- **LDAP injection**: Girdi `*`, `(`, `)` içeriyor
-
-Düzeltme daima benzer: validate/reject ya da parameterize et. Zafiyet, biri unuttuğu için ya da girdinin o kod yoluna ulaşabileceğini fark etmediği için var.
-
 ## Raporlama zaman çizelgesi
 
 - **CPython'a raporlandı**: Security reporting process üzerinden (private disclosure)

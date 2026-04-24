@@ -130,26 +130,6 @@ if '\r' in user_input or '\n' in user_input:
 self.send_header('X-Custom', user_input)
 ```
 
-## Why this pattern keeps showing up
-
-**Header injection** is a subset of a larger problem: **protocol-level injection**. Whenever you concatenate user input into a protocol-level construct — headers, SQL, commands, LDAP filters, XPath queries — you need to either:
-
-1. **Validate/reject** characters that are special in that protocol
-2. **Escape/encode** them so they're treated as data, not syntax
-3. **Use parameterized** APIs that separate data from structure
-
-HTTP has two special characters: `\r` and `\n`. They're what the protocol uses to delimit headers from headers and headers from body. If input can contain them, input controls the protocol structure.
-
-The Python team chose option #1: reject. That's the right call for a low-level library that can't know what "escaping" means in the caller's context.
-
-This same pattern shows up in:
-- **SQL injection**: Input contains `'` or `--` or `;`
-- **Command injection**: Input contains `|`, `;`, `$()`, backticks
-- **XPath injection**: Input contains `'` or `"`
-- **LDAP injection**: Input contains `*`, `(`, `)`
-
-The fix is always similar: validate/reject or parameterize. The vulnerability exists because someone either forgot, or didn't realize the input could reach that code path.
-
 ## Disclosure timeline
 
 - **Reported to CPython**: via the security reporting process (private disclosure)
