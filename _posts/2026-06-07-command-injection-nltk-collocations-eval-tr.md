@@ -103,7 +103,6 @@ Genel çıkarım: `eval()`'ı kullanıcı kontrollü herhangi bir girdide (argv,
 
 ## Referanslar
 
-- **İlgili CVE**: [CVE-2026-0558: LollMS'de kimlik doğrulamasız dosya yükleme](https://www.cve.org/CVERecord?id=CVE-2026-0558)
 - **CWE-95**: Improper Neutralization of Directives in Dynamically Evaluated Code ('Eval Injection')
 - **NLTK**: [https://www.nltk.org/](https://www.nltk.org/)
 - **Python Security**: [https://peps.python.org/pep-0665/](https://peps.python.org/pep-0665/)

@@ -103,7 +103,6 @@ The broader lesson: `eval()` on any user-controlled input (argv, environment var
 
 ## References
 
-- **Related CVE**: [CVE-2026-0558: Unauthenticated file upload in LollMS](https://www.cve.org/CVERecord?id=CVE-2026-0558)
 - **CWE-95**: Improper Neutralization of Directives in Dynamically Evaluated Code ('Eval Injection')
 - **NLTK**: [https://www.nltk.org/](https://www.nltk.org/)
 - **Python Security**: [https://peps.python.org/pep-0665/](https://peps.python.org/pep-0665/)
