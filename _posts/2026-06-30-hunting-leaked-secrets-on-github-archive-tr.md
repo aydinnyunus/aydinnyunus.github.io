@@ -1,19 +1,21 @@
 ---
 layout: post
-title: "GitHub Archive üzerinde 34,794 commit taradım, 1,702'sinde canlı credential vardı"
+title: "AI Az Önce Bir Secret Sızdırdı"
 author: Yunus Aydın
 date: 2026-06-30
 lang: tr
-description: "Gemini 2.5 Flash Lite ile ~850 bin commit mesajını etiketledim, etiketleri regex'e dönüştürdüm, hayatta kalanları TruffleHog ile taradım. 1,702 unique commit'te 3,708 verified secret."
-keywords: "github archive, secret scanning, trufflehog, gemini, gh archive, sızdırılmış credential, secret detection, ai ile regex üretimi, commit mesaj analizi, push event scanner, leaked api key"
+description: "Microsoft, Google, Red Hat, Grafana ve LlamaIndex public GitHub repolarına canlı verified credential pushladı. Pipeline'ı ben yazdım: Gemini 2.5 ile etiketle, regex'e distil et, TruffleHog'u active verification ile koş. 3,830+ verified secret, 1,443 unique repo, %95 rotation."
+keywords: "github archive, secret scanning, trufflehog, gemini, gh archive, sızdırılmış credential, secret detection, ai ile regex, microsoft leak, google leak, red hat leak, weights and biases leak, vibe coding güvenlik, commit mesaj analizi, push event scanner"
 canonical_url: "https://aydinnyunus.github.io/2026/06/30/hunting-leaked-secrets-on-github-archive-tr/"
 ---
 
-**GitHub Archive** firehose'unu izleyip developer'ların yeni leak ettiği credential'lara benzeyen commit mesajlarını yakalayan bir pipeline yazdım. Pipeline **34,794 commit** taradı, diff'leri TruffleHog'a verdi, sonuçta **1,702 unique commit**'te **3,708 verified secret** çıktı. Verified demek: TruffleHog ilgili servisin API'sini çağırdı, key çalıştı.
+Public GitHub repolarında **Microsoft, Google, Red Hat, Grafana ve LlamaIndex**'ten canlı, verified credential sızdığını buldum. Eski, atılmış, çürümüş key'ler değil. Bulduğum anda hâlâ ilgili API'ye karşı authenticate eden token'lar. Microsoft Research'ün [`microsoft/maro`](https://github.com/microsoft/maro) repo'su `@microsoft.com` hesabından çalışan bir Weights & Biases token'ı pushlamış. Bir Google çalışanı WandB token'ı sızdırmış; token authenticate ediyor ve ardında Google'ın halka açıklamadığı `gemma_nemo_sft` adlı model dahil 10 internal proje ortaya çıkıyor. Başka bir `@google.com` hesabı production DNS altyapısında zone admin yetkisi olan bir Cloudflare token'ı pushlamış. Red Hat, Grafana, LlamaIndex, BerriAI, Intel: aynı pattern, başka repo.
 
-İlginç kısım TruffleHog tarafı değil. TruffleHog çözülmüş bir problem. İlginç kısım TruffleHog'dan önce gelen filtre. Tam volume'da GH Archive günde milyonlarca event akıtıyor. Çoğu gürültü. Her diff'i TruffleHog ile taramaya bütçen yetmez, her commit mesajını AI'a sormaya da yetmez. İkisini de denedim.
+Bunları bulan pipeline'ı ben yazdım. **GitHub Archive** firehose'unu izliyor, developer'ın yeni leak ettiği credential'lara benzeyen commit mesajlarını yakalıyor, diff'i çekiyor ve TruffleHog'u verification açık olarak koşuyor. Birkaç ayda **1,443 unique repo'da 3,830+ verified canlı secret** çıkardı. Doğrudan iletişime geçtikten sonra **%95'inden fazlası iki hafta içinde rotate edildi**.
 
-Çalışan şey şu oldu: bir dil modelini regex bootstrap'lamak için kullanmak, sonra modeli büyük ölçüde bir kenara bırakmak.
+![Etkilenen maintainer'lardan gelen disclosure cevapları: "thanks, I revoked and removed it", "fix api key for Cloudinary", "Removed Hard Coded API Key", "SECURITY FIX: Remove hardcoded MongoDB credentials"]({{ site.baseurl }}/assets/images/hunting-leaked-secrets/disclosure-replies.jpg)
+
+Bu sayının her ay daha kötüye gitmesinin sebebi bir isme sahip ve tahmin etmek zor değil. Developer'lar AI editor'larıyla daha hızlı kod yazıyor, security review küçülüyor, Cursor'ın ürettiği `config.py`'nin 42'nci satırındaki secret kimse diff'i okumadan public commit'e düşüyor. AI az önce bir secret sızdırdı. Daha doğrusu: sızdırmana yardım etti. Saldırganlar GitHub'da credential'ı tek haneli dakikalar içinde index'liyor.
 
 ![250k saatlik PushEvent'ten 1,702 unique commit ve verified canlı key'e]({{ site.baseurl }}/assets/images/hunting-leaked-secrets/funnel.png)
 
@@ -144,11 +146,43 @@ Planlamadığım iki yan fayda çıktı:
 
 Regex'in kaçırdığı her şey hâlâ Gemini'ye gidiyor, Gemini'nin bulduğu her yeni true positive bir sonraki regex update'i için aday oluyor. Model artık filtreyi train ediyor, filtreyi çalıştırmıyor.
 
-## TruffleHog ne buldu
+## Faz 4: active verification, sadece detection değil
 
-Bir commit mesajı filtreden geçtikten sonra pipeline diff'i GitHub'dan çekiyor ve TruffleHog'u verification açık olarak çalıştırıyor. Her "verified" sonuç, TruffleHog'un ilgili servisin API'sini çağırdığı ve key'in çalıştığı anlamına geliyor.
+Bir key şekline yapılan pattern match gürültüdür. Çalışan bir API call ise bulgudur. TruffleHog'un her detector'u bir verifier fonksiyonu ile geliyor: aday string'i al, ilgili servisin authentication request'ini kur, cevabı gözle. AWS access key'ler `sts:GetCallerIdentity`'ye çarpıyor. GitHub PAT'lar `/user`'a. Postgres URI'leri TCP connection açıp `SELECT 1` çekiyor. WandB token'lar `/graphql`'e gidip kullanıcı kimliğini resolve ediyor.
 
-Bir batch run'dan final rakamlar:
+False positive sorununu öldüren ve "ilginç görünen string"i "şu anda credentialed access"e çeviren şey verification. Benim dataset'imde filtrenin TruffleHog'a yolladığı yaklaşık **42,500 aday string'ten 3,708'i verified döndü** (yani **%8.7 verify oranı**). Geri kalan her şey test fixture, expired token, scramble edilmiş örnek ya da bir key şekline rastgele uyan non-credential string'ti.
+
+![Filtre çıktısı, TruffleHog'a giden aday string sayısı ve verified secret oranı: ~42,500 adayın 3,708'i verified, %8.7 verify oranı]({{ site.baseurl }}/assets/images/hunting-leaked-secrets/verification-rate.jpg)
+
+Verification ayrıca bir sonraki adımı açıyor: enumeration. Verified bir WandB token sadece "bu gerçek" demiyor; GraphQL şemasını yürümene, kullanıcının proje, run ve takım üyelerini listelemene izin veriyor. Aşağıdaki Microsoft ve Google vakalarının "leak"ten "blast radius haritalanmış"a dakikalar içinde geçmesinin yolu buydu.
+
+## Dikkat çeken kurbanlar
+
+Dataset'ten küçük bir seçki. Hepsi raporlandı, kurum tarafından doğrulandı ve rotate edildi. Leak'ler kötü niyetli değildi. Velocity'dendi.
+
+### Microsoft Research, MARO repo'su, Weights & Biases token
+
+[`microsoft/maro`](https://github.com/microsoft/maro) Microsoft Research'ün multi-agent reinforcement learning kütüphanesi, 885 yıldız. `@microsoft.com` hesabından bir çalışan çalışan bir W&B API token'ı commit'lemiş. Token authenticate ediyor. W&B GraphQL endpoint'i kullanıcı object'ini döndürüyor: tam isim, kurumsal email, takım, hesabın eriştiği training run'ların listesi. Microsoft VRP üzerinden raporlandı, 3 gün içinde rotate edildi.
+
+![microsoft/maro repo'sundaki commit diff'i: hardcoded bir WANDB_API_KEY içeren config dosyası eklenmiş]({{ site.baseurl }}/assets/images/hunting-leaked-secrets/microsoft-maro-wandb-diff.jpg)
+
+### Google çalışanı, Weights & Biases token, on internal proje
+
+`@google.com` hesabından bir çalışan WandB token'ı sızdırmış. Token ile authenticate edince Google'ın halka açıklamadığı eğitim altyapısı dahil 10 internal ML projesi ortaya çıkıyor. Proje isimlerinden tek bir tanesi bile başlı başına bir bulgu: halka açıklanmamış `gemma_nemo_sft` modeli. Diğerleri: `multimodal-function-calling`, `pytorch-sweeps`, `data-science-agent`. Raporlandı, 7 gün içinde rotate edildi.
+
+![Google çalışanının `data-science-agent` projesindeki commit diff'i: hardcoded WANDB_API_KEY ortaya 10 internal Google ML projesini çıkarıyor]({{ site.baseurl }}/assets/images/hunting-leaked-secrets/google-data-science-agent-wandb-diff.jpg)
+
+### Google hesabı, Cloudflare token, zone admin
+
+Farklı bir `@google.com` hesabı, farklı bir leak: production DNS altyapısında zone admin yetkisi olan bir Cloudflare API token'ı. Bu token ile attack chain kısa ve çirkin: DNS record'larını değiştir, trafiği yönlendir, edge'de MITM. Google VRP üzerinden raporlandı, 48 saat içinde rotate edildi.
+
+### Listenin geri kalanı
+
+`grafana/grafana` (69,202 yıldız) çalışan bir AWS access key pushlamış. `run-llama/llama_index` (43,358 yıldız) ve `BerriAI/litellm` (26,438 yıldız), ikisi de AI/LLM ekosisteminin core altyapısı, kendi servis token'larını sızdırmış. `intel/BigDL` (2,680 yıldız), Red Hat repoları, birden fazla LlamaIndex alt-projesi. Bu listedeki her isim, yetkin bir security team'in çalıştığı yer. Leak yine de oldu.
+
+## TruffleHog ne buldu, toplamda
+
+Bir commit mesajı filtreden geçtikten sonra pipeline diff'i GitHub'dan çekiyor ve TruffleHog'u verification açık olarak çalıştırıyor. Bir batch run'dan final rakamlar:
 
 ```text
 Filtreden sonra taranan PushEvent commit'leri   34,794
@@ -159,11 +193,25 @@ Verified secret içeren unique commit             1,702
 
 Bir mesaj sık sık yüzlerce commit'e karşılık geliyor: binlerce farklı developer aynen `remove api key` yazıyor, hepsi pull ediliyor. Yani 197 unique mesaj 34,794 commit'e açıldı.
 
-Yani **commit başına yaklaşık %4.9 verified-leak oranı**. İçindeki dominant detector'lar her zamanki şüpheliler: cloud provider key'leri, SaaS API key'leri, embedded credential içeren database connection string'leri. Kimse fark etmeden faturaya dönüşen şeyler.
+Detector dağılımı asıl işe yarayan grafik. Database credential'ları başı çekiyor (Postgres, MongoDB, blockchain RPC URI'leri), arkasından Telegram bot token'ları, HuggingFace token'ları, Vercel deploy token'ları ve AI altyapısının uzun kuyruğu: DeepSeek, Groq, Weights & Biases, ElevenLabs.
 
 ![Verified secret sayısına göre en üst detector'lar]({{ site.baseurl }}/assets/images/hunting-leaked-secrets/top-detectors.png)
 
-"GitHub'a leak" ile "exploit" arasındaki süreyi merak ediyorsanız, Mackenzie Jackson ve Andrzej Dyjak 2020'de canary deneyini yapmıştı: [canarytokens.org](https://canarytokens.org) ile üretilmiş bir AWS key, public repo'ya push'landı, push'tan **11 dakika sonra** ilk kez kötüye kullanıldı ([What actually happens when you leak credentials on GitHub](https://dev.to/advocatemack/what-actually-happens-when-you-leak-credentials-on-github-the-experiment-34md)). Benim pipeline GH Archive'a karşı 5 ila 15 dakika lag ile çalışıyor. Saldırgan benden daha yavaş değil.
+"GitHub'a leak" ile "exploit" arasındaki süreyi merak ediyorsanız, Mackenzie Jackson ve Andrzej Dyjak 2020'de canary deneyini yapmıştı: [canarytokens.org](https://canarytokens.org) ile üretilmiş bir AWS key, public repo'ya push'landı, push'tan **11 dakika sonra** ilk kez kötüye kullanıldı ([What actually happens when you leak credentials on GitHub](https://dev.to/advocatemack/what-actually-happens-when-you-leak-credentials-on-github-the-experiment-34md)). Benim pipeline GH Archive'a karşı 5 ila 15 dakika lag ile çalışıyor. Saldırgan benden daha yavaş değil ve artık yazan da insan değil.
+
+![Mackenzie Jackson'ın canary experiment'i: AWS key public repo'ya push'landıktan 11 dakika sonra ilk kötüye kullanım]({{ site.baseurl }}/assets/images/hunting-leaked-secrets/canary-timing.jpg)
+
+## AI tarafı: bu neden gittikçe kötüleşiyor
+
+İki gerçek yan yana:
+
+1. AI asistanları kodu, insanın review edebileceğinden hızlı yazıyor. Bileşik etki şu: developer başına günde üretilen satır artıyor, `git commit`'e giden yolda satır başına düşen göz sayısı aynı kalıyor. Generated boilerplate'in içine düşmüş hardcoded bir key'in review'da yakalanma olasılığı, autocomplete kabul oranı arttıkça monoton olarak düşüyor.
+
+2. LLM'ler GitHub üzerine train edildi. Modelin autocomplete ettiği pattern'ler zaten shipped olan pattern'lerden alındı, leak olanlar dahil. Bir asistana "bana S3'e upload yapan hızlı bir script yaz" de, scaffolding'in içine `AWS_ACCESS_KEY_ID = "..."` placeholder'ı ile `# replace with your key` yorumunu koyma olasılığı azımsanmayacak kadar yüksek. Developer bazen değiştiriyor. Bazen oraya gerçek key'i yapıştırıp save'liyor ve commit'liyor.
+
+![AI tarafından üretilmiş kodda hardcoded DeepSeek API key'i: yorumda "replace with your key" placeholder'ı bırakılmış ama gerçek key commit'lenmiş]({{ site.baseurl }}/assets/images/hunting-leaked-secrets/ai-coded-deepseek-leak.jpg)
+
+Defender'lar da AI kullanıyor. TruffleHog detector'ları artık context-aware classifier'lar ile tarihsel regex false positive'lerini azaltıyor. LLM scanner'lar near-miss obfuscation'larda düz regex'i geçiyor. Yani bu cidden bir arms race ve default'u kötü olan taraf daha hızlı kaybediyor.
 
 ## Kod yazıyorsan bu ne anlama geliyor
 
@@ -177,17 +225,21 @@ Pre-commit secret scanning bu yarışı gerçekten kazanan tek önlem. `git push
 
 Bir güvenlik pipeline'ında language model'i nasıl kullanmak gerektiği konusunda ise: bootstrap için kullan, operate etmek için değil. Unstructured text'te pattern fark etmek konusunda çok iyiler, ölçekte hot path olmak konusunda çok kötüler. Modelin çıktısını mine et, altta yatan kuralı kod olarak yaz ve modeli bir sonraki pattern discovery turuna kadar yedek kulübesine al.
 
+Takımın production kodunu AI ile yazıyorsa, bir sonraki commit'in credential içereceğini varsay ve buna göre tasarla. Pre-commit hook'lar. Short-lived token'lar. Gerçekten provada geçirdiğin bir `git history` rewrite planı. Yukarıdaki Microsoft ve Google örnekleri sadece dışarıdan birisi bulup raporladığı için yakalandı ve rotate edildi. Bir sonraki muhtemelen şu an birinin training dataset'inde.
+
 ## İlgili içerik
 
 - [GitHub'a leak ettiğinde gerçekte ne oluyor (Mackenzie Jackson)](https://dev.to/advocatemack/what-actually-happens-when-you-leak-credentials-on-github-the-experiment-34md)
 - [GH Archive](https://www.gharchive.org/)
 - [TruffleHog](https://github.com/trufflesecurity/trufflehog)
 - [TruffleHog pre-commit hooks docs](https://trufflesecurity.com/docs/pre-commit-hooks)
+- [Wiz Secure Rules: AI ile üretilmiş kod için AI ile üretilmiş güvenlik kuralları](https://github.com/wiz-sec-public/secure-rules-files)
 
 ## Referanslar
 
 - [GH Archive event reference](https://docs.github.com/en/webhooks-and-events/events/github-event-types)
 - [TruffleHog detector kataloğu](https://github.com/trufflesecurity/trufflehog/tree/main/pkg/detectors)
 - [Canary Tokens (Thinkst)](https://canarytokens.org/)
+- [GitHub: Repo'dan hassas veri kaldırma](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)
 - CWE-798: Use of Hard-coded Credentials
 - CWE-540: Inclusion of Sensitive Information in Source Code

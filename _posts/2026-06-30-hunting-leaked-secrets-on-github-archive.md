@@ -1,19 +1,21 @@
 ---
 layout: post
-title: "I scanned 34,794 GitHub commits for leaked secrets. 1,702 of them had live credentials."
+title: "Your AI Just Leaked a Secret"
 author: Yunus Aydın
 date: 2026-06-30
 lang: en
-description: "How I used Gemini 2.5 Flash Lite to label ~850k commit messages, distilled the labels into a regex-first filter, and ran TruffleHog on the survivors. 3,708 verified secrets in 1,702 unique commits."
-keywords: "github archive, secret scanning, trufflehog, gemini, gh archive, leaked credentials, secret detection, regex from ai, commit message mining, push event scanner, secret leak detection, ai bootstrapped heuristics"
+description: "Microsoft, Google, Red Hat, Grafana and LlamaIndex all shipped verified live credentials to public GitHub. I built the pipeline that found them: Gemini 2.5 distilled into regex, then TruffleHog with active verification. 3,830+ verified secrets, 1,443 unique repos, 95% rotation rate."
+keywords: "github archive, secret scanning, trufflehog, gemini, gh archive, leaked credentials, secret detection, regex from ai, microsoft leak, google leak, red hat leak, weights and biases leak, ai coded apps, vibe coding security, commit message mining, push event scanner, ai bootstrapped heuristics"
 canonical_url: "https://aydinnyunus.github.io/2026/06/30/hunting-leaked-secrets-on-github-archive/"
 ---
 
-I built a pipeline that watches the **GitHub Archive** firehose for commit messages that smell like a developer just leaked a credential. The pipeline scanned **34,794 commits**, ran TruffleHog on the diffs, and turned up **3,708 verified live secrets** across **1,702 unique commits**. Verified means TruffleHog called the issuing API and the key worked.
+I found verified, live credentials leaking from **Microsoft, Google, Red Hat, Grafana, and LlamaIndex** in public GitHub repositories. Not stale junk; tokens that, at the moment of discovery, still authenticated against their issuing API. Microsoft Research's [`microsoft/maro`](https://github.com/microsoft/maro) repo shipped a working Weights & Biases token from a `@microsoft.com` account. A Google employee leaked a WandB token that exposed ten internal Google projects, including an unreleased model called `gemma_nemo_sft`. Another Google account leaked a Cloudflare token with zone admin permissions on production infrastructure. Red Hat, Grafana, LlamaIndex, BerriAI, Intel: same pattern, different repo.
 
-The interesting part is not the TruffleHog scan. TruffleHog is solved. The interesting part is the filter that runs before it. GitHub Archive at full volume is millions of events per day. Most of it is noise. You cannot afford to TruffleHog every diff and you cannot afford to AI-classify every commit message either. I tried both.
+I built the pipeline that found them. It watches the **GitHub Archive** firehose for commit messages that smell like a developer just leaked a credential, fetches the diff, and runs TruffleHog with verification on. Over a few months it surfaced **3,830+ verified live secrets across 1,443 unique repositories**. After direct outreach, **95%+ rotated within two weeks**.
 
-What worked was using a language model to bootstrap a regex, and then mostly throwing the language model away.
+![A page of disclosure replies from affected maintainers: "thanks, I revoked and removed it", "fix api key for Cloudinary", "Removed Hard Coded API Key", "SECURITY FIX: Remove hardcoded MongoDB credentials"]({{ site.baseurl }}/assets/images/hunting-leaked-secrets/disclosure-replies.jpg)
+
+The reason this number keeps climbing has a name and you can guess it. Developers ship faster with AI in the editor, security review shrinks, and the secret that lives in line 42 of a Cursor-generated `config.py` lands in a public commit before anyone reads the diff. Your AI just leaked a secret. More precisely: it helped you ship one to GitHub, where attackers index credentials in single-digit minutes.
 
 ![From 250k hourly PushEvents down to 1,702 unique commits with verified live keys]({{ site.baseurl }}/assets/images/hunting-leaked-secrets/funnel.png)
 
@@ -144,11 +146,43 @@ Two side benefits I did not plan for:
 
 Anything the regex misses still gets sent to Gemini, and any new true positive Gemini finds becomes a candidate for the next regex update. The model is now training the filter, not running it.
 
-## What TruffleHog found
+## Phase 4: active verification, not just detection
 
-Once a commit message passed the filter, the pipeline fetched the diff from GitHub and ran TruffleHog with verification enabled. Every "verified" result means TruffleHog called the issuing service's API and the key worked.
+A pattern match on a key shape is noise. A working API call is a finding. Every TruffleHog detector ships with a verifier function: take the candidate string, build the issuing service's authentication request, observe the response. AWS access keys hit `sts:GetCallerIdentity`. GitHub PATs hit `/user`. Postgres URIs open a TCP connection and `SELECT 1`. WandB tokens hit `/graphql` and resolve the user identity.
 
-Final numbers from one batch run:
+Verification is what kills the false positive problem and what turns "interesting looking string" into "credentialed access right now". In my dataset, of roughly **42,500 candidate strings** the filter sent to TruffleHog, **3,708 returned verified** (an **8.7% verify rate**). Everything else was test fixtures, expired tokens, scrambled examples, or non-credential strings that happened to match a key shape.
+
+![TruffleHog verification rate: 3,708 verified out of 42,500 candidates — an 8.7% hit rate after the regex filter]({{ site.baseurl }}/assets/images/hunting-leaked-secrets/verification-rate.jpg)
+
+Verification also unlocks the next step: enumeration. A verified WandB token does not just say "this is real", it lets you walk the GraphQL schema and list the user's projects, runs, and team members. That was how the Microsoft and Google cases below went from "leak" to "blast radius mapped" in minutes.
+
+## Notable victims
+
+A small selection from the dataset. Every one of these was reported, verified by the org, and rotated. The leaks were not malicious. They were velocity.
+
+### Microsoft Research, MARO repo, Weights & Biases token
+
+[`microsoft/maro`](https://github.com/microsoft/maro) is a Microsoft Research multi-agent reinforcement learning library, 885 stars. A `@microsoft.com` employee committed a working W&B API token. The token authenticated. The W&B GraphQL endpoint returned the user object: full name, corporate email, team affiliation, and the list of training runs the account had access to. Reported through Microsoft's VRP, rotated within 3 days.
+
+![The remediation diff in microsoft/maro: `os.environ["WANDB_API_KEY"] = "116a4f287fd4fbaa6f790a50d2dd7f97ceae4a03"` and `wandb.login()` removed from examples/rl/main.py]({{ site.baseurl }}/assets/images/hunting-leaked-secrets/microsoft-maro-wandb-diff.jpg)
+
+### Google employee, Weights & Biases token, ten internal projects
+
+A `@google.com` employee leaked a WandB token. Authenticating with it revealed ten internal Google ML projects, including model training infrastructure that had not been publicly announced. One of the project names by itself was the finding: an unreleased model called `gemma_nemo_sft`. Others included `multimodal-function-calling`, `pytorch-sweeps`, `data-science-agent`. Reported, rotated within 7 days.
+
+![The leaked block from a Google `data-science-agent` config: agent model identifiers for gemini-2.5-flash, then a hardcoded WANDB_API_KEY and a WANDB_PROJECT_ID pointing at the internal `data-science-agent` project]({{ site.baseurl }}/assets/images/hunting-leaked-secrets/google-data-science-agent-wandb-diff.jpg)
+
+### Google account, Cloudflare token, zone admin
+
+Different `@google.com` account, different leak: a Cloudflare API token with zone admin permissions on production DNS infrastructure. With that token the attack chain is short and ugly: modify DNS records, redirect traffic, MITM at the edge. Reported through Google's VRP, rotated within 48 hours.
+
+### The rest of the wall
+
+`grafana/grafana` (69,202 stars) shipped a working AWS access key. `run-llama/llama_index` (43,358 stars) and `BerriAI/litellm` (26,438 stars), both core infrastructure in the AI/LLM ecosystem, each leaked their own service tokens. `intel/BigDL` (2,680 stars), Red Hat repositories, multiple LlamaIndex sub-projects. Every name in this list is a place a competent security team works. The leaks still happened.
+
+## What TruffleHog found, in aggregate
+
+Once a commit message passed the filter, the pipeline fetched the diff from GitHub and ran TruffleHog with verification enabled. Final numbers from one batch run:
 
 ```text
 PushEvent commits scanned (after filter)   34,794
@@ -159,11 +193,25 @@ Unique commits containing a verified secret 1,702
 
 One matched message frequently maps to hundreds of commits: thousands of different developers literally commit `remove api key` verbatim, and every one of those commits gets pulled. So 197 unique messages expanded into 34,794 commits to scan.
 
-That is roughly a **4.9% verified-leak rate per scanned commit**. Of those, the dominant detectors were the usual suspects: cloud provider keys, SaaS API keys, database connection strings with embedded credentials. The kind of thing that turns into a billing event before anyone notices.
+The detector distribution is the actually useful chart. Database credentials dominate (Postgres, MongoDB, blockchain RPC URIs), followed by Telegram bot tokens, HuggingFace tokens, Vercel deploy tokens, and the long tail of AI infrastructure: DeepSeek, Groq, Weights & Biases, ElevenLabs.
 
 ![Top detectors by verified-secret count]({{ site.baseurl }}/assets/images/hunting-leaked-secrets/top-detectors.png)
 
-If you want a sense of how fast "leak on GitHub" becomes "exploit", Mackenzie Jackson and Andrzej Dyjak ran the canary experiment back in 2020: an AWS key seeded via [canarytokens.org](https://canarytokens.org), pushed to a public repo, was first abused **11 minutes** after the push. ([What actually happens when you leak credentials on GitHub](https://dev.to/advocatemack/what-actually-happens-when-you-leak-credentials-on-github-the-experiment-34md)). My pipeline runs on a 5 to 15 minute lag against GH Archive. The attackers are not slower than me.
+If you want a sense of how fast "leak on GitHub" becomes "exploit", Mackenzie Jackson and Andrzej Dyjak ran the canary experiment back in 2020: an AWS key seeded via [canarytokens.org](https://canarytokens.org), pushed to a public repo, was first abused **11 minutes** after the push ([What actually happens when you leak credentials on GitHub](https://dev.to/advocatemack/what-actually-happens-when-you-leak-credentials-on-github-the-experiment-34md)). My pipeline runs on a 5 to 15 minute lag against GH Archive. The attackers are not slower than me, and they are no longer the ones doing the typing.
+
+![The 2020 canary experiment timeline: GitGuardian alert at +7 minutes, first AWS-token abuse at +11 minutes, 5 more hits over the next 2 hours from Germany, the Netherlands, the UK, and Ukraine — all via Python/Node SDKs]({{ site.baseurl }}/assets/images/hunting-leaked-secrets/canary-timing.jpg)
+
+## The AI angle: why this keeps getting worse
+
+Two facts together:
+
+1. AI assistants write code faster than humans can review it. The compounding effect is: more lines produced per developer per day, the same number of eyes per line on the way to `git commit`. The probability that a hardcoded key in generated boilerplate gets caught at review time goes down, monotonically, as autocomplete acceptance rates go up.
+
+2. LLMs were trained on GitHub. The patterns the model autocompletes were lifted from the patterns that already shipped, including the ones that leaked. Ask an assistant to "write me a quick script to upload to S3" and there is a non-trivial chance it scaffolds a literal `AWS_ACCESS_KEY_ID = "..."` line as a placeholder, with the comment `# replace with your key`. Sometimes the developer replaces it. Sometimes they paste the real key in, hit save, and commit.
+
+![A real AI-coded React chatbot diff: `useChatbot.ts` shipped a hardcoded `const DEEPSEEK_API_KEY = 'sk-...'` instead of the `import.meta.env.VITE_API_KEY` line right above it. The fix flips back to the env var — the original key still landed in git history]({{ site.baseurl }}/assets/images/hunting-leaked-secrets/ai-coded-deepseek-leak.jpg)
+
+The defenders use AI too. TruffleHog detectors now use context-aware classifiers to reduce false positives on key shapes that historically tripped regex. LLM scanners beat plain regex on near-miss obfuscations. So it is genuinely an arms race, and the side with the worse defaults loses faster.
 
 ## What this implies if you ship code
 
@@ -177,17 +225,21 @@ Ten lines of YAML, adds maybe a second to your commit time. It is the cheapest i
 
 And about how to use language models in a security pipeline: use them to bootstrap, not to operate. They are extremely good at noticing patterns in unstructured text and extremely bad at being your hot path at scale. Mine your model's outputs for the underlying rule, write the rule down as code, and put the model back on the bench for the next round of pattern discovery.
 
+If your team uses AI to write production code, assume the next commit will contain a credential and design for that. Pre-commit hooks. Short-lived tokens. A `git history` rewrite plan that you have actually rehearsed. The Microsoft and Google examples above were caught and rotated because someone external found them and reported them. The next one is probably already in someone's training data.
+
 ## Related content
 
 - [What actually happens when you leak credentials on GitHub (Mackenzie Jackson)](https://dev.to/advocatemack/what-actually-happens-when-you-leak-credentials-on-github-the-experiment-34md)
 - [GH Archive](https://www.gharchive.org/)
 - [TruffleHog](https://github.com/trufflesecurity/trufflehog)
 - [TruffleHog pre-commit hooks docs](https://trufflesecurity.com/docs/pre-commit-hooks)
+- [Wiz Secure Rules: AI-generated security rules for AI-generated code](https://github.com/wiz-sec-public/secure-rules-files)
 
 ## References
 
 - [GH Archive event reference](https://docs.github.com/en/webhooks-and-events/events/github-event-types)
 - [TruffleHog detector catalog](https://github.com/trufflesecurity/trufflehog/tree/main/pkg/detectors)
 - [Canary Tokens (Thinkst)](https://canarytokens.org/)
+- [GitHub: Removing sensitive data from a repository](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)
 - CWE-798: Use of Hard-coded Credentials
 - CWE-540: Inclusion of Sensitive Information in Source Code
