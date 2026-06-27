@@ -152,7 +152,7 @@ A pattern match on a key shape is noise. A working API call is a finding. Every 
 
 Verification is what kills the false positive problem and what turns "interesting looking string" into "credentialed access right now". In my dataset, of roughly **42,500 candidate strings** the filter sent to TruffleHog, **3,708 returned verified** (an **8.7% verify rate**). Everything else was test fixtures, expired tokens, scrambled examples, or non-credential strings that happened to match a key shape.
 
-![TruffleHog verification rate: 3,708 verified out of 42,500 candidates — an 8.7% hit rate after the regex filter]({{ site.baseurl }}/assets/images/hunting-leaked-secrets/verification-rate.jpg)
+![TruffleHog verification rate: 3,708 verified out of 42,500 candidates, an 8.7% hit rate after the regex filter]({{ site.baseurl }}/assets/images/hunting-leaked-secrets/verification-rate.jpg)
 
 Verification also unlocks the next step: enumeration. A verified WandB token does not just say "this is real", it lets you walk the GraphQL schema and list the user's projects, runs, and team members. That was how the Microsoft and Google cases below went from "leak" to "blast radius mapped" in minutes.
 
@@ -199,7 +199,7 @@ The detector distribution is the actually useful chart. Database credentials dom
 
 If you want a sense of how fast "leak on GitHub" becomes "exploit", Mackenzie Jackson and Andrzej Dyjak ran the canary experiment back in 2020: an AWS key seeded via [canarytokens.org](https://canarytokens.org), pushed to a public repo, was first abused **11 minutes** after the push ([What actually happens when you leak credentials on GitHub](https://dev.to/advocatemack/what-actually-happens-when-you-leak-credentials-on-github-the-experiment-34md)). My pipeline runs on a 5 to 15 minute lag against GH Archive. The attackers are not slower than me, and they are no longer the ones doing the typing.
 
-![The 2020 canary experiment timeline: GitGuardian alert at +7 minutes, first AWS-token abuse at +11 minutes, 5 more hits over the next 2 hours from Germany, the Netherlands, the UK, and Ukraine — all via Python/Node SDKs]({{ site.baseurl }}/assets/images/hunting-leaked-secrets/canary-timing.jpg)
+![The 2020 canary experiment timeline: GitGuardian alert at +7 minutes, first AWS-token abuse at +11 minutes, 5 more hits over the next 2 hours from Germany, the Netherlands, the UK, and Ukraine, all via Python/Node SDKs]({{ site.baseurl }}/assets/images/hunting-leaked-secrets/canary-timing.jpg)
 
 ## The AI angle: why this keeps getting worse
 
@@ -209,9 +209,38 @@ Two facts together:
 
 2. LLMs were trained on GitHub. The patterns the model autocompletes were lifted from the patterns that already shipped, including the ones that leaked. Ask an assistant to "write me a quick script to upload to S3" and there is a non-trivial chance it scaffolds a literal `AWS_ACCESS_KEY_ID = "..."` line as a placeholder, with the comment `# replace with your key`. Sometimes the developer replaces it. Sometimes they paste the real key in, hit save, and commit.
 
-![A real AI-coded React chatbot diff: `useChatbot.ts` shipped a hardcoded `const DEEPSEEK_API_KEY = 'sk-...'` instead of the `import.meta.env.VITE_API_KEY` line right above it. The fix flips back to the env var — the original key still landed in git history]({{ site.baseurl }}/assets/images/hunting-leaked-secrets/ai-coded-deepseek-leak.jpg)
+![A real AI-coded React chatbot diff: `useChatbot.ts` shipped a hardcoded `const DEEPSEEK_API_KEY = 'sk-...'` instead of the `import.meta.env.VITE_API_KEY` line right above it. The fix flips back to the env var, but the original key still landed in git history]({{ site.baseurl }}/assets/images/hunting-leaked-secrets/ai-coded-deepseek-leak.jpg)
 
-The defenders use AI too. TruffleHog detectors now use context-aware classifiers to reduce false positives on key shapes that historically tripped regex. LLM scanners beat plain regex on near-miss obfuscations. So it is genuinely an arms race, and the side with the worse defaults loses faster.
+The defenders use AI too. TruffleHog detectors now use context-aware classifiers to reduce false positives on key shapes that historically tripped regex. LLM scanners beat plain regex on near-miss obfuscations. Both sides shipped AI into the same loop, and the side with the worse defaults loses first.
+
+## Remediation: rotate, then clean
+
+Once a key has shipped, every minute you spend on the file before the issuer is a minute the attacker still has the credential. Rotate first at the issuer, not in the file. Revoke the old credential and mint a new one before touching anything else. Then read the access log for the leaked key end to end, look for IPs and user agents you do not recognize, and assume the attacker arrived before your alert did.
+
+Only after the credential is dead, clean up git history. A plain `git rm` and a new commit just hides the key behind a SHA; the original is still reachable and forks and clones picked it up within minutes. The correct fix is a full history rewrite with [`git-filter-repo`](https://github.com/newren/git-filter-repo):
+
+```bash
+# Remove the file from every commit
+git-filter-repo --sensitive-data-removal --invert-paths --path config/secrets.yml
+
+# Or replace specific values across history
+echo 'sk-deadbeef0123456789' >> ../passwords.txt
+git-filter-repo --sensitive-data-removal --replace-text ../passwords.txt
+```
+
+Force-push, then ask GitHub Support to purge cached commit URLs, diff views, and PR caches. Otherwise the credential is still searchable through the API for hours.
+
+For the "what runbook do I follow per provider" question, [howtorotate.com/docs/tutorials](https://howtorotate.com/docs/tutorials) keeps a step by step rotation guide for AWS, GCP, GitHub PATs, Stripe, Postgres, and most of the issuers in my dataset. As of 2026-06 it is the most actively maintained per-provider runbook set I have found.
+
+## Rotation: stop relying on humans to remember
+
+Manual rotation works for ten secrets and falls over at a thousand. The teams that survive their first leak converge on the same three habits:
+
+- **Short-lived tokens by default**: OIDC federation for CI (GitHub Actions `id-token: write`, AWS `AssumeRoleWithWebIdentity`), workload identity for cloud workloads, 15 minute to 1 hour TTLs for human access. A 15 minute token is a non-event by the time it is indexed.
+- **Credential-free architecture where possible**: IAM roles instead of access keys, service accounts instead of static tokens, mTLS between services. The credential that does not exist cannot leak.
+- **A secrets manager and a 90 day rotation cycle for everything long-lived that is left**: Vault, AWS Secrets Manager, Doppler, GCP Secret Manager. The choice matters less than ending the era of `.env` files in repos. The cadence is the load-bearing control.
+
+And the defense layers that catch what slips through: pre-commit (TruffleHog, gitleaks, git-secrets) blocks at the developer laptop; the same scanners in CI catch the `--no-verify` bypass; nightly full-history scans catch legacy keys that predate the hooks; [GitHub Secret Scanning](https://docs.github.com/en/code-security/secret-scanning) runs across every public repo against ~130 partner patterns and often auto-revokes a real key before you finish writing the rotation message. For AI editors, [Wiz Secure Rules](https://github.com/wiz-sec-public/secure-rules-files) teaches Cursor, Copilot, Cline, and Windsurf to refuse hardcoded credentials at generation time, which is the closest thing to fixing CWE-798 at the source.
 
 ## What this implies if you ship code
 
@@ -223,9 +252,19 @@ Pre-commit secret scanning is the only intervention that actually wins this race
 
 Ten lines of YAML, adds maybe a second to your commit time. It is the cheapest insurance in security tooling.
 
+```yaml
+# .pre-commit-config.yaml
+repos:
+  - repo: https://github.com/trufflesecurity/trufflehog
+    rev: v3.82.0
+    hooks:
+      - id: trufflehog
+        args: ['git', 'file://.', '--since-commit', 'HEAD', '--only-verified', '--fail']
+```
+
 And about how to use language models in a security pipeline: use them to bootstrap, not to operate. They are extremely good at noticing patterns in unstructured text and extremely bad at being your hot path at scale. Mine your model's outputs for the underlying rule, write the rule down as code, and put the model back on the bench for the next round of pattern discovery.
 
-If your team uses AI to write production code, assume the next commit will contain a credential and design for that. Pre-commit hooks. Short-lived tokens. A `git history` rewrite plan that you have actually rehearsed. The Microsoft and Google examples above were caught and rotated because someone external found them and reported them. The next one is probably already in someone's training data.
+If your team uses AI to write production code, assume the next commit will contain a credential and design for that. Pre-commit hooks. Short-lived tokens. A `git history` rewrite plan that you have actually rehearsed. The Microsoft and Google examples above were caught and rotated because someone external found them and reported them. Three months after disclosure I re-checked the affected accounts: rotation held above 95%, but fewer than one in five repositories had installed a pre-commit hook to stop the next one. The next leak is probably already in someone's training data.
 
 ## Related content
 
@@ -241,5 +280,6 @@ If your team uses AI to write production code, assume the next commit will conta
 - [TruffleHog detector catalog](https://github.com/trufflesecurity/trufflehog/tree/main/pkg/detectors)
 - [Canary Tokens (Thinkst)](https://canarytokens.org/)
 - [GitHub: Removing sensitive data from a repository](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)
+- [howtorotate.com rotation tutorials](https://howtorotate.com/docs/tutorials)
 - CWE-798: Use of Hard-coded Credentials
 - CWE-540: Inclusion of Sensitive Information in Source Code

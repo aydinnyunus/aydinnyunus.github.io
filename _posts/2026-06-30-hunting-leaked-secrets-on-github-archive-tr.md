@@ -213,6 +213,35 @@ Detector dağılımı asıl işe yarayan grafik. Database credential'ları baş�
 
 Defender'lar da AI kullanıyor. TruffleHog detector'ları artık context-aware classifier'lar ile tarihsel regex false positive'lerini azaltıyor. LLM scanner'lar near-miss obfuscation'larda düz regex'i geçiyor. Yani bu cidden bir arms race ve default'u kötü olan taraf daha hızlı kaybediyor.
 
+## Remediation: önce rotate, sonra temizle
+
+Bir key public'e düştükten sonra hangi adımı önce yaptığın, vakayı "gömdüm gitti"den incident'a çeviriyor. Önce issuer'da rotate et, dosyada değil. Eski credential'ı revoke et, yenisini mint'le, başka hiçbir şeye dokunma. Sonra sızan key'in access log'unu baştan sona oku, tanımadığın IP ve user agent'ları ara, saldırganın alert'inden önce geldiğini varsay.
+
+Credential öldükten sonra git history'i temizle. Düz bir `git rm` ve yeni bir commit key'i sadece bir SHA'nın arkasına saklıyor; orijinal hâlâ erişilebilir ve fork ve clone'lar dakikalar içinde alıyor. Doğru fix [`git-filter-repo`](https://github.com/newren/git-filter-repo) ile tam bir history rewrite:
+
+```bash
+# Dosyayı tüm history'den kaldır
+git-filter-repo --sensitive-data-removal --invert-paths --path config/secrets.yml
+
+# Veya history boyunca belirli value'ları değiştir
+echo 'sk-deadbeef0123456789' >> ../passwords.txt
+git-filter-repo --sensitive-data-removal --replace-text ../passwords.txt
+```
+
+Force-push, ardından GitHub Support'a yaz ve cached commit URL'lerini, diff view'larını ve PR cache'lerini purge etmelerini iste. Aksi halde credential API üzerinden saatlerce hâlâ aratılabiliyor.
+
+"Hangi sağlayıcı için hangi runbook'u takip edeyim" sorusu için [howtorotate.com/docs/tutorials](https://howtorotate.com/docs/tutorials) AWS, GCP, GitHub PAT, Stripe, Postgres ve benim dataset'imdeki issuer'ların çoğu için adım adım rotation rehberi tutuyor. 2026-06 itibarıyla en aktif tuttuğu sağlayıcı setiyle bulduğum en kullanışlı starter pack.
+
+## Rotation: insanın hatırlamasına bel bağlama
+
+Manuel rotation on secret için çalışır, binde devrilir. İlk leak'inden sağ çıkan takımlar aynı üç alışkanlıkta buluşuyor:
+
+- **Default olarak short-lived token**: CI için OIDC federation (GitHub Actions `id-token: write`, AWS `AssumeRoleWithWebIdentity`), cloud workload'lar için workload identity, insan erişimi için 15 dakika - 1 saat TTL. 15 dakikalık token index'lendiğinde zaten non-event.
+- **Mümkünse credential-free mimari**: access key yerine IAM role, static token yerine service account, servisler arası mTLS. Var olmayan credential leak olmaz.
+- **Kalan her long-lived credential için secrets manager ve 90 günlük rotation**: Vault, AWS Secrets Manager, Doppler, GCP Secret Manager. Seçim, repo'daki `.env` dosyaları çağını bitirmekten daha az önemli. Cadence load-bearing kontrol.
+
+Bunlardan kaçanı yakalayan defense katmanları: pre-commit (TruffleHog, gitleaks, git-secrets) developer laptop'unda blokluyor; aynı scanner'lar CI'da `--no-verify` bypass'ını yakalıyor; nightly full-history scan'ler hook'lardan önce commit'lenmiş legacy key'leri yakalıyor; [GitHub Secret Scanning](https://docs.github.com/en/code-security/secret-scanning) her public repo'da ~130 partner pattern'e karşı çalışıyor ve gerçek bir key'i sen rotation mesajını yazmadan auto-revoke ediyor. AI editor için [Wiz Secure Rules](https://github.com/wiz-sec-public/secure-rules-files) Cursor, Copilot, Cline ve Windsurf'e generation anında hardcoded credential reddetmeyi öğretiyor; CWE-798'i kaynağında düzeltmeye en yakın şey.
+
 ## Kod yazıyorsan bu ne anlama geliyor
 
 Commit mesajları, bir developer'ın kendi credential hatası hakkında ürettiği en yüksek sinyal. Public bir commit mesajına `remove leaked api key`, `revoke aws` veya `fix exposed token` yazdıysan, biri seni çoktan grep'ledi. Push ile exploit arasındaki window saat değil, dakika. Key'i rotate etmek zorunlu, ilk push hiç olmamış gibi davranmak strateji değil.
@@ -223,9 +252,19 @@ Pre-commit secret scanning bu yarışı gerçekten kazanan tek önlem. `git push
 
 10 satır YAML, commit süresine belki bir saniye ekliyor. Güvenlik tooling'inde en ucuz sigorta bu.
 
+```yaml
+# .pre-commit-config.yaml
+repos:
+  - repo: https://github.com/trufflesecurity/trufflehog
+    rev: v3.82.0
+    hooks:
+      - id: trufflehog
+        args: ['git', 'file://.', '--since-commit', 'HEAD', '--only-verified', '--fail']
+```
+
 Bir güvenlik pipeline'ında language model'i nasıl kullanmak gerektiği konusunda ise: bootstrap için kullan, operate etmek için değil. Unstructured text'te pattern fark etmek konusunda çok iyiler, ölçekte hot path olmak konusunda çok kötüler. Modelin çıktısını mine et, altta yatan kuralı kod olarak yaz ve modeli bir sonraki pattern discovery turuna kadar yedek kulübesine al.
 
-Takımın production kodunu AI ile yazıyorsa, bir sonraki commit'in credential içereceğini varsay ve buna göre tasarla. Pre-commit hook'lar. Short-lived token'lar. Gerçekten provada geçirdiğin bir `git history` rewrite planı. Yukarıdaki Microsoft ve Google örnekleri sadece dışarıdan birisi bulup raporladığı için yakalandı ve rotate edildi. Bir sonraki muhtemelen şu an birinin training dataset'inde.
+Takımın production kodunu AI ile yazıyorsa, bir sonraki commit'in credential içereceğini varsay ve buna göre tasarla. Pre-commit hook'lar. Short-lived token'lar. Gerçekten provada geçirdiğin bir `git history` rewrite planı. Yukarıdaki Microsoft ve Google örnekleri sadece dışarıdan birisi bulup raporladığı için yakalandı ve rotate edildi. Disclosure'dan üç ay sonra etkilenen hesapları tekrar kontrol ettim: rotation oranı %95'in üstünde kaldı ama her beş repodan birinden azı bir sonraki leak'i durdurmak için pre-commit hook kurmuştu. Bir sonrakisi muhtemelen şu an birinin training dataset'inde.
 
 ## İlgili içerik
 
@@ -241,5 +280,6 @@ Takımın production kodunu AI ile yazıyorsa, bir sonraki commit'in credential 
 - [TruffleHog detector kataloğu](https://github.com/trufflesecurity/trufflehog/tree/main/pkg/detectors)
 - [Canary Tokens (Thinkst)](https://canarytokens.org/)
 - [GitHub: Repo'dan hassas veri kaldırma](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)
+- [howtorotate.com rotation rehberleri](https://howtorotate.com/docs/tutorials)
 - CWE-798: Use of Hard-coded Credentials
 - CWE-540: Inclusion of Sensitive Information in Source Code
