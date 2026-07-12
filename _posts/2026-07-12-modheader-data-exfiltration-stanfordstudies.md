@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "ModHeader v7.0.17: Covert Data Exfiltration to api.stanfordstudies.com"
+title: "ModHeader: Covert Data Exfiltration to api.stanfordstudies.com"
 date: 2026-07-12
 author: Yunus Aydın
 lang: en

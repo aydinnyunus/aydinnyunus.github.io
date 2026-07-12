@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "ModHeader v7.0.17: Browsing Geçmişinizi api.stanfordstudies.com'a Sızdıran Chrome Eklentisi"
+title: "ModHeader: Browsing Geçmişinizi api.stanfordstudies.com'a Sızdıran Chrome Eklentisi"
 date: 2026-07-12
 author: Yunus Aydın
 lang: tr
