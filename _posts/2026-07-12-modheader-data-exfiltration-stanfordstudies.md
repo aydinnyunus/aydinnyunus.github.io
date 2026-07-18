@@ -5,7 +5,7 @@ date: 2026-07-12
 author: Yunus Aydın
 lang: en
 description: "ModHeader browser extension silently exfiltrates browsing history to api.stanfordstudies.com using AES-GCM encrypted IndexedDB. Full reverse engineering analysis."
-keywords: "ModHeader, data exfiltration, browser extension malware, stanfordstudies.com, AES-GCM exfiltration, Chrome extension security, supply chain attack"
+keywords: "ModHeader data exfiltration, malicious Chrome extension, browser extension stealing data, stanfordstudies.com, Chrome extension spyware, browsing history leak, browser extension security 2026, reverse engineering Chrome extension"
 canonical_url: "https://aydinnyunus.github.io/2026/07/12/modheader-data-exfiltration-stanfordstudies.html"
 ---
 

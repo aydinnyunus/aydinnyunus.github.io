@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Your AI Just Leaked a Secret"
+title: "How I Found 3,800+ Leaked Secrets on GitHub Archive Using AI"
 author: Yunus Aydın
 date: 2026-06-30
 lang: en
-description: "Microsoft, Google, Red Hat, Grafana and LlamaIndex all shipped verified live credentials to public GitHub. I built the pipeline that found them: Gemini 2.5 distilled into regex, then TruffleHog with active verification. 3,830+ verified secrets, 1,443 unique repos, 95% rotation rate."
-keywords: "github archive, secret scanning, trufflehog, gemini, gh archive, leaked credentials, secret detection, regex from ai, microsoft leak, google leak, red hat leak, weights and biases leak, ai coded apps, vibe coding security, commit message mining, push event scanner, ai bootstrapped heuristics"
+description: "Microsoft, Google, Red Hat shipped live credentials to public GitHub. An AI pipeline found 3,830+ verified secrets across 1,443 repos before attackers."
+keywords: "github archive secret scanning, leaked credentials github, trufflehog, AI secret detection, microsoft leak github, google credential leak, supply chain security, vibe coding security, GitHub push event monitoring, secret rotation, AI bootstrapped heuristics"
 canonical_url: "https://aydinnyunus.github.io/2026/06/30/hunting-leaked-secrets-on-github-archive/"
 ---
 
@@ -268,6 +268,7 @@ If your team uses AI to write production code, assume the next commit will conta
 
 ## Related content
 
+- [Secret Scanning PyPI, npm, RubyGems: Microsoft & More Leaks](/2026/03/07/package-repository-secret-scanning/)
 - [What actually happens when you leak credentials on GitHub (Mackenzie Jackson)](https://dev.to/advocatemack/what-actually-happens-when-you-leak-credentials-on-github-the-experiment-34md)
 - [GH Archive](https://www.gharchive.org/)
 - [TruffleHog](https://github.com/trufflesecurity/trufflehog)

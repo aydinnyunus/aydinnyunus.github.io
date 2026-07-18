@@ -1,11 +1,10 @@
 ---
 layout: post
-title: "PassDetective: Detecting Passwords and Secrets in Your Shell History"
-date: 2025-12-14
-author: Yunus Aydın
+title: "PassDetective: Find Passwords and Secrets in Shell History"
 lang: en
-description: "Detect accidentally written passwords, API keys, and secrets from shell command history using PassDetective. PassDetective usage on Kali Linux and NixOS."
-keywords: "passdetective, shell history, password detection, API key detection, Kali Linux, NixOS, security tool, command history analysis, secret detection, regex scanning"
+author: Yunus Aydın
+description: "Detect accidentally typed passwords, API keys, and secrets in shell command history using PassDetective on Kali Linux and NixOS. Open-source security tool guide."
+keywords: "PassDetective, shell history secrets, find password in terminal, API key detection, Kali Linux security tool, command history analysis, regex secret scanning, NixOS security"
 canonical_url: "https://aydinnyunus.github.io/2025/12/14/passdetective-kali-linux/"
 ---
 

@@ -4,8 +4,8 @@ title: "CPython http.server ve wsgiref'te CRLF Injection"
 date: 2026-04-24
 author: Yunus Aydın
 lang: tr
-description: "CPython'ın http.server ve wsgiref modüllerindeki send_header() CRLF injection zafiyeti, kullanıcı girdisi header'lara yansıtıldığında Set-Cookie ve Location gibi keyfi HTTP header'ları eklemeye izin veriyor."
-keywords: "CRLF injection, CPython, http.server, wsgiref, header injection, session fixation, open redirect, Python güvenlik, BaseHTTPRequestHandler, send_header"
+description: "CPython http.server ve wsgiref'de CRLF injection zafiyeti. send_header() üzerinden keyfi HTTP header ekleme — Set-Cookie ve Location saldırıları."
+keywords: "CRLF injection CPython, http.server zafiyeti, wsgiref header injection, Python CRLF, Set-Cookie injection, open redirect Python, send_header exploit, Python güvenlik araştırması"
 canonical_url: "https://aydinnyunus.github.io/2026/04/24/crlf-injection-cpython-http-server-wsgiref-tr/"
 ---
 

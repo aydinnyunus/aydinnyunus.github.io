@@ -1,11 +1,10 @@
 ---
 layout: post
-title: "AI-Powered CAPTCHA Bypass: Automating CAPTCHA Solving with GPT-4o and Gemini"
-date: 2025-12-08
-author: Yunus Aydın
+title: "AI CAPTCHA Bypass: Solving reCAPTCHA with GPT-4o and Gemini"
 lang: en
-description: "AI-based tool that automatically solves various CAPTCHA types using OpenAI GPT-4o and Google Gemini. Detailed guide for reCAPTCHA v2, puzzle, text, and audio CAPTCHAs."
-keywords: "ai captcha bypass, GPT-4o, Gemini, CAPTCHA solver, reCAPTCHA v2, Selenium automation, AI security, Black Hat Sector 2025, captcha bypass tool"
+author: Yunus Aydın
+description: "Automate CAPTCHA solving with GPT-4o and Gemini. Covers reCAPTCHA v2, puzzle, text, and audio CAPTCHAs using Selenium — a detailed AI security research guide."
+keywords: "AI CAPTCHA bypass, GPT-4o CAPTCHA solver, Gemini reCAPTCHA, CAPTCHA automation, reCAPTCHA v2 bypass, Selenium AI security, AI-powered CAPTCHA, Black Hat Sector 2025"
 canonical_url: "https://aydinnyunus.github.io/2025/12/08/ai-captcha-bypass/"
 ---
 

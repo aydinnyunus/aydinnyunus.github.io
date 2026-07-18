@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Odysseus: any logged-in user can hijack the server-wide embedding endpoint (broken access control + SSRF)"
+title: "Odysseus: Broken Access Control + SSRF in AI Embedding Endpoint"
 author: Yunus Aydın
 date: 2026-06-16
 lang: en
-description: "POST /api/embeddings/endpoint in Odysseus is auth-gated but not admin-gated. Any non-admin user can repoint the server-wide embedding URL to attacker-controlled hosts, exfiltrating every user's chat, RAG, memory and vault text in plaintext. The same handler does no URL validation, so it doubles as SSRF."
-keywords: "Odysseus, broken access control, BOLA, SSRF, embedding endpoint, require_admin, missing authorization, AI security, LLM security, self-hosted AI, security research"
+description: "Odysseus broken access control: POST /api/embeddings/endpoint has no admin check. Hijack embedding URL for SSRF and exfiltration of chat, RAG and vault data."
+keywords: "Odysseus vulnerability, AI security vulnerability, self-hosted AI risks, broken access control, SSRF attack, LLM security 2026, embedding API security, OWASP LLM08 vector weakness"
 canonical_url: "https://aydinnyunus.github.io/2026/06/16/odysseus-embedding-endpoint-takeover/"
 ---
 

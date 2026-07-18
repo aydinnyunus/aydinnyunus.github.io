@@ -1,11 +1,10 @@
 ---
 layout: post
-title: "Instagram Dolandırıcılarını Hacklemek"
-date: 2022-04-11
-author: Yunus Aydın
+title: "Instagram Dolandırıcılarını Hacklemek: OSINT Soruşturma Rehberi"
 lang: tr
-description: "Instagram phishing dolandırıcılıkları üzerine yaptığım güvenlik araştırması. Dolandırıcıların phishing siteleri aracılığıyla Instagram hesaplarını nasıl çaldığını ve OSINT teknikleri ile XSS güvenlik açıklarını kullanarak nasıl araştırdığımı anlatıyorum."
-keywords: "instagram dolandırıcıları, phishing, OSINT, XSS, güvenlik araştırması, sosyal mühendislik, siber güvenlik, dolandırıcılık araştırması"
+author: Yunus Aydın
+description: "Instagram phishing dolandırıcılarını OSINT teknikleri ve XSS zafiyetleriyle nasıl araştırdığımı anlatan gerçek vaka analizi. Dolandırıcılık sitelerinin adli analizi."
+keywords: "Instagram phishing soruşturması, OSINT Instagram, Instagram dolandırıcılık takibi, phishing sitesi analizi, XSS güvenlik açığı, sosyal mühendislik araştırması, siber suç OSINT, Instagram hesap hırsızlığı"
 canonical_url: "https://aydinnyunus.github.io/2022/04/11/hacking-instagram-scammers-tr/"
 ---
 
@@ -31,7 +30,7 @@ Kurban ve saldırgan arkadaş oluyor 🥰
 
 **İkinci Phishing Sitesi:**
 
-![](https://miro.medium.com/v2/resize:fit:838/1*4zJCOkaYXZlLTQKHEdfJ1Q.png)
+![İkinci phishing sitesinin ekran görüntüsü](https://miro.medium.com/v2/resize:fit:838/1*4zJCOkaYXZlLTQKHEdfJ1Q.png)
 
 Birisi siber güvenlik hakkında soruyor [Ömer Çitak](https://twitter.com/om3rcitak)'a, bir yıl sonra aynı hesap ona phishing maili gönderiyor 🙃
 
@@ -43,7 +42,7 @@ Dizin brute force için [ffuf](https://github.com/ffuf/ffuf) kullandım, wordlis
 
 2FA açıksa (ki açık olmalı), script 2FA'yı kapatıyor. Çünkü kurban phishing sayfasına e-posta ve şifre bilgilerini girmiş oluyor.
 
-![](https://miro.medium.com/v2/resize:fit:794/0*bGu8IOfaxouh33b9)
+![2FA kapatma scriptinin ekran görüntüsü](https://miro.medium.com/v2/resize:fit:794/0*bGu8IOfaxouh33b9)
 
 2FA açık mı? Açıksa kapat.
 

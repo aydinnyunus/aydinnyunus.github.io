@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Command injection in NLTK collocations via eval()"
+title: "NLTK Command Injection via eval() in collocations.py"
 author: Yunus Aydın
 date: 2026-06-07
 lang: en
-description: "Command injection vulnerability in NLTK collocations.py via eval() on sys.argv. Arbitrary Python code execution demonstrated, though exploitation requires local CLI access."
-keywords: "NLTK, command injection, eval injection, collocations.py, sys.argv, Python security, code injection, NLP security, security research"
+description: "Command injection vulnerability in NLTK collocations.py via eval() on sys.argv. Arbitrary Python code execution analysis — what NLP developers need to know."
+keywords: "NLTK command injection, eval injection, collocations.py vulnerability, sys.argv exploit, Python security, NLP security, code injection, security research"
 canonical_url: "https://aydinnyunus.github.io/2026/06/07/command-injection-nltk-collocations-eval/"
 ---
 

@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "AI Az Önce Bir Secret Sızdırdı"
+title: "GitHub Archive'da AI ile 3.800+ Sızdırılmış Secret Nasıl Buldum"
 author: Yunus Aydın
 date: 2026-06-30
 lang: tr
-description: "Microsoft, Google, Red Hat, Grafana ve LlamaIndex public GitHub repolarına canlı verified credential pushladı. Pipeline'ı ben yazdım: Gemini 2.5 ile etiketle, regex'e distil et, TruffleHog'u active verification ile koş. 3,830+ verified secret, 1,443 unique repo, %95 rotation."
-keywords: "github archive, secret scanning, trufflehog, gemini, gh archive, sızdırılmış credential, secret detection, ai ile regex, microsoft leak, google leak, red hat leak, weights and biases leak, vibe coding güvenlik, commit mesaj analizi, push event scanner"
+description: "Microsoft, Google, Red Hat canlı credential sızdırdı. AI pipeline ile 1.443 repo'da 3.830+ secret'ı saldırganlardan önce bulan sistemin analizi."
+keywords: "github archive secret tarama, sızdırılmış credential github, trufflehog, AI ile secret tespiti, microsoft leak github, google credential sızıntısı, supply chain güvenlik, vibe coding güvenlik açığı, GitHub push event izleme, secret rotation"
 canonical_url: "https://aydinnyunus.github.io/2026/06/30/hunting-leaked-secrets-on-github-archive-tr/"
 ---
 
@@ -268,6 +268,7 @@ Takımın production kodunu AI ile yazıyorsa, bir sonraki commit'in credential 
 
 ## İlgili içerik
 
+- [PyPI, npm, RubyGems'de Secret Taraması: Microsoft ve Diğer Leak'ler](/2026/03/07/package-repository-secret-scanning-tr/)
 - [GitHub'a leak ettiğinde gerçekte ne oluyor (Mackenzie Jackson)](https://dev.to/advocatemack/what-actually-happens-when-you-leak-credentials-on-github-the-experiment-34md)
 - [GH Archive](https://www.gharchive.org/)
 - [TruffleHog](https://github.com/trufflesecurity/trufflehog)

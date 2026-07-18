@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "ModHeader: Browsing Geçmişinizi api.stanfordstudies.com'a Sızdıran Chrome Eklentisi"
+title: "ModHeader: Browsing Geçmişini Sızdıran Chrome Eklentisi Analizi"
 date: 2026-07-12
 author: Yunus Aydın
 lang: tr
-description: "ModHeader Chrome eklentisi ziyaret ettiğiniz her domain'i AES-GCM ile şifreleyip api.stanfordstudies.com'a gönderiyor. IndexedDB'de topluyor, upload sonrası kanıtları siliyor."
-keywords: "ModHeader, data exfiltration, Chrome eklentisi güvenliği, stanfordstudies.com, AES-GCM, tarayıcı eklentisi malware, veri sızdırma"
+description: "ModHeader Chrome eklentisi (1.6M kullanıcı) AES-GCM ile şifreleyip tüm gezinme geçmişini api.stanfordstudies.com'a gönderiyor. Full reverse engineering analizi."
+keywords: "ModHeader veri sızdırma, Chrome eklentisi malware, tarayıcı eklentisi güvenlik, stanfordstudies.com, Chrome eklentisi veri hırsızlığı, gezinme geçmişi sızıntısı, ModHeader güvenlik açığı"
 canonical_url: "https://aydinnyunus.github.io/2026/07/12/modheader-data-exfiltration-stanfordstudies-tr.html"
 ---
 

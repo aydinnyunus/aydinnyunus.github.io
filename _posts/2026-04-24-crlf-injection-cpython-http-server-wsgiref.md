@@ -4,8 +4,8 @@ title: "CRLF Injection in CPython's http.server and wsgiref"
 date: 2026-04-24
 author: Yunus Aydın
 lang: en
-description: "CRLF injection vulnerability in CPython's http.server and wsgiref send_header() allows injecting arbitrary HTTP headers including Set-Cookie and Location when user input is reflected in headers."
-keywords: "CRLF injection, CPython, http.server, wsgiref, header injection, session fixation, open redirect, Python security, BaseHTTPRequestHandler, send_header"
+description: "CRLF injection in CPython http.server and wsgiref send_header(). Inject arbitrary HTTP headers like Set-Cookie and Location via reflected user input."
+keywords: "CRLF injection CPython, http.server vulnerability, wsgiref header injection, Python CRLF, Set-Cookie injection, open redirect Python, send_header exploit, Python security research"
 canonical_url: "https://aydinnyunus.github.io/2026/04/24/crlf-injection-cpython-http-server-wsgiref/"
 ---
 

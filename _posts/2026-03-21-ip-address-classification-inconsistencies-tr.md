@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "IP adresi sınıflandırmasındaki tutarsızlıklar: diller arası farklar"
+title: "IP Sınıflandırması: Diller Arası Farklar ve SSRF Riskleri"
 date: 2026-03-21
 author: Yunus Aydın
 lang: tr
-description: "IP sınıflandırması diller arasında nasıl değişiyor? Loopback ve özel (private) IP'ler Go, Java, Node.js, PHP, Python ve Ruby'de farklı işlenir; SSRF riski."
-keywords: "IP adresi sınıflandırması, loopback, özel IP, private IP, SSRF, bulut güvenliği, Go, Java, Node.js, PHP, Python, Ruby, 169.254.169.254, link-local"
+description: "Go, Java, Node.js, PHP, Python ve Ruby'de loopback IP sınıflandırma farkları. Bu tutarsızlıkların SSRF ve bulut metadata güvenliğine etkileri."
+keywords: "IP adresi sınıflandırması, SSRF önleme, loopback IP tutarsızlıkları, private IP işleme, 169.254.169.254, bulut metadata SSRF, Go Java Python IP doğrulama, diller arası güvenlik"
 canonical_url: "https://aydinnyunus.github.io/2026/03/21/ip-address-classification-inconsistencies-tr/"
 ---
 

@@ -1,11 +1,10 @@
 ---
 layout: post
-title: "Bypassing Door Passwords"
-date: 2022-01-07
-author: Yunus Aydın
+title: "Bypassing Door Passwords: Smart Lock Security Research"
 lang: en
-description: "Security research on bypassing door password locks. Discover default passwords, vulnerabilities in keypad door locks, and real-world security testing of Audio smart locks and other popular entry door keypads in Turkey."
-keywords: "door password bypass, keypad lock security, default passwords, door lock vulnerabilities, smart lock security, Audio door lock, security research, physical security"
+author: Yunus Aydın
+description: "Security research on bypassing electronic door locks. Default passwords, keypad vulnerabilities, and real-world testing of Audio smart locks and keypads."
+keywords: "door password bypass, smart lock security, keypad lock vulnerability, default password door lock, Audio smart lock, physical security testing, door lock hacking, electronic lock bypass"
 canonical_url: "https://aydinnyunus.github.io/2022/01/07/bypassing-door-passwords/"
 image: "https://miro.medium.com/v2/resize:fit:1000/format:webp/0*XEZo3-Sq09f2CK-O"
 ---

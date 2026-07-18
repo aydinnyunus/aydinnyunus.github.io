@@ -1,11 +1,10 @@
 ---
 layout: post
-title: "Kapı Şifrelerini Atlama"
-date: 2022-01-07
-author: Yunus Aydın
+title: "Kapı Şifrelerini Atlama: Akıllı Kilit Güvenlik Araştırması"
 lang: tr
-description: "Kapı şifreli kilitlerini atlama üzerine yaptığım güvenlik araştırması. Varsayılan şifreler, tuş takımı kapı kilitlerindeki güvenlik açıkları ve Audio akıllı kilitler ile Türkiye'deki diğer popüler giriş kapısı tuş takımlarının gerçek hayat güvenlik testleri."
-keywords: "kapı şifresi atlama, tuş takımı kilit güvenliği, varsayılan şifreler, kapı kilidi güvenlik açıkları, akıllı kilit güvenliği, Audio kapı kilidi, güvenlik araştırması, fiziksel güvenlik"
+author: Yunus Aydın
+description: "Elektronik kapı şifreli kilitleri atlama araştırması. Varsayılan şifreler, tuş takımı zafiyetleri ve Audio akıllı kilitlerin güvenlik testleri."
+keywords: "kapı şifresi atlama, akıllı kilit güvenliği, tuş takımı kilit zafiyeti, varsayılan şifre kapı kilidi, Audio akıllı kilit, fiziksel güvenlik testi, kapı kilidi hacking, elektronik kilit bypass"
 canonical_url: "https://aydinnyunus.github.io/2022/01/07/bypassing-door-passwords-tr/"
 image: "https://miro.medium.com/v2/resize:fit:1000/format:webp/0*XEZo3-Sq09f2CK-O"
 ---

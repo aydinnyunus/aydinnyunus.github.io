@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Understanding Inconsistencies in IP Address Classification Across Programming Languages"
+title: "IP Classification Inconsistencies Across Programming Languages"
 date: 2026-03-21
 author: Yunus Aydın
 lang: en
-description: "IP address classification inconsistencies across programming languages. Learn how loopback and private IPs are handled differently in Go, Java, Node.js, PHP, Python, and Ruby."
-keywords: "IP address classification, loopback IP, private IP, SSRF vulnerability, cloud security, Go, Java, Node.js, PHP, Python, Ruby, 169.254.169.254, link-local address"
+description: "How loopback IPs are classified across Go, Java, Node.js, PHP, Python, Ruby — and why these differences create SSRF and cloud metadata risks."
+keywords: "IP address classification, SSRF prevention, loopback IP inconsistencies, private IP handling, 169.254.169.254, cloud metadata SSRF, Go Java Python IP validation, cross-language security"
 canonical_url: "https://aydinnyunus.github.io/2026/03/21/ip-address-classification-inconsistencies/"
 ---
 

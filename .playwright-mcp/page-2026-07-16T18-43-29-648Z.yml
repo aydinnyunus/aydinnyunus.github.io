@@ -1,0 +1,24 @@
+- generic [ref=e3]:
+  - generic [ref=e5]:
+    - generic [ref=e6]: Security Research
+    - heading "Your AI Just Leaked a Secret" [level=1] [ref=e9]
+    - paragraph [ref=e11]: 3,830+ verified secrets found in GitHub archives. Including Fortune 500 companies. Here's how.
+    - generic [ref=e12]: Yunus AYDIN · Application Security Engineer @Trendyol
+  - complementary [ref=e14]:
+    - generic [ref=e15]:
+      - generic [ref=e16]: Slides
+      - button "Close" [ref=e17] [cursor=pointer]
+  - generic [ref=e20]:
+    - text: Previous Next
+    - generic [ref=e21]:
+      - button "Sidebar (S)" [ref=e22] [cursor=pointer]
+      - button "Grid view (G)" [ref=e26] [cursor=pointer]
+      - generic [ref=e33]:
+        - button "Previous" [disabled] [ref=e34]
+        - generic [ref=e37]:
+          - generic [ref=e38]: "1"
+          - generic [ref=e39]: / 46
+        - button "Next" [ref=e40] [cursor=pointer]
+      - button "Annotate (A)" [ref=e44] [cursor=pointer]
+      - button "Fullscreen (F)" [ref=e47] [cursor=pointer]
+      - button "Presenter — new tab (P)" [ref=e50] [cursor=pointer]

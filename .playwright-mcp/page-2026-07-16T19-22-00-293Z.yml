@@ -1,0 +1,26 @@
+- generic [ref=e3]:
+  - generic [ref=e6]:
+    - generic [ref=e7]:
+      - generic [ref=e8]: Scan to connect
+      - heading "Let's stay in touch." [level=2] [ref=e9]
+    - generic [ref=e10]:
+      - img "Contact QR" [ref=e12]
+      - paragraph [ref=e13]: Scan to visit my LinkedIn profile
+  - complementary [ref=e14]:
+    - generic [ref=e15]:
+      - generic [ref=e16]: Slides
+      - button "Close" [ref=e17] [cursor=pointer]
+  - generic [ref=e20]:
+    - text: Previous Next
+    - generic [ref=e21]:
+      - button "Sidebar (S)" [ref=e22] [cursor=pointer]
+      - button "Grid view (G)" [ref=e26] [cursor=pointer]
+      - generic [ref=e33]:
+        - button "Previous" [ref=e34] [cursor=pointer]
+        - generic [ref=e37]:
+          - generic [ref=e38]: "46"
+          - generic [ref=e39]: / 47
+        - button "Next" [ref=e40] [cursor=pointer]
+      - button "Annotate (A)" [ref=e44] [cursor=pointer]
+      - button "Fullscreen (F)" [ref=e47] [cursor=pointer]
+      - button "Presenter — new tab (P)" [ref=e50] [cursor=pointer]

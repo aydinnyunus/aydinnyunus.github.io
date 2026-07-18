@@ -1,11 +1,10 @@
 ---
 layout: post
-title: "PassDetective: Shell Geçmişinizdeki Parolaları ve Secret'ları Tespit Etmek"
-date: 2025-12-14
-author: Yunus Aydın
+title: "PassDetective: Shell Geçmişinde Parola ve Secret Tespiti"
 lang: tr
-description: "PassDetective ile shell command history'den yanlışlıkla yazılmış parolalar, API key'ler ve secret'ları tespit etme. Kali Linux ve NixOS'ta PassDetective kullanımı."
-keywords: "passdetective, shell history, password detection, API key detection, Kali Linux, NixOS, security tool, command history analysis, secret detection, regex scanning"
+author: Yunus Aydın
+description: "PassDetective ile shell history'den yanlışlıkla yazılmış API key ve parolaları tespit etme. Kali Linux ve NixOS'ta açık kaynak güvenlik aracı kullanımı."
+keywords: "PassDetective, shell history secret tarama, terminal parola bulma, API key tespiti, Kali Linux güvenlik aracı, komut geçmişi analizi, regex secret tarama, NixOS güvenlik"
 canonical_url: "https://aydinnyunus.github.io/2025/12/14/passdetective-kali-linux-tr/"
 ---
 

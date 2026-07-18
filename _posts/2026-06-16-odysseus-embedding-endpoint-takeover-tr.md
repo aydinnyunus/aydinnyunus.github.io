@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Odysseus: giriş yapmış herhangi bir kullanıcı sunucu genelindeki embedding endpoint'ini ele geçirebiliyor (broken access control + SSRF)"
+title: "Odysseus: AI Embedding Endpoint'inde Broken Access Control + SSRF"
 author: Yunus Aydın
 date: 2026-06-16
 lang: tr
-description: "Odysseus'taki POST /api/embeddings/endpoint sadece auth ile korunuyor, admin kontrolü yok. Admin olmayan herhangi bir kullanıcı sunucu genelindeki embedding URL'sini saldırgan kontrolündeki bir hosta yönlendirip tüm kullanıcıların chat, RAG, memory ve vault metnini düz metin olarak dışarı çıkarabiliyor. Aynı handler URL doğrulaması da yapmıyor, yani SSRF de var."
-keywords: "Odysseus, broken access control, BOLA, SSRF, embedding endpoint, require_admin, yetkilendirme eksikliği, AI güvenlik, LLM güvenlik, self-hosted AI, güvenlik araştırması"
+description: "Odysseus embedding endpoint'inde broken access control. Admin kontrolü olmayan API ile embedding URL ele geçirme ve tüm chat/RAG/vault verisini sızdırma."
+keywords: "Odysseus güvenlik açığı, broken access control AI, SSRF embedding endpoint, BOLA AI sunucu, LLM güvenlik araştırması, self-hosted AI zafiyeti, embedding API ele geçirme, require_admin atlatma"
 canonical_url: "https://aydinnyunus.github.io/2026/06/16/odysseus-embedding-endpoint-takeover-tr/"
 ---
 

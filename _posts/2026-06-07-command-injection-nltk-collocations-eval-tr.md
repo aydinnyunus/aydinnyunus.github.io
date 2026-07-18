@@ -4,7 +4,7 @@ title: "NLTK collocations'da eval() üzerinden komut enjeksiyonu"
 author: Yunus Aydın
 date: 2026-06-07
 lang: tr
-description: "NLTK collocations.py'de sys.argv üzerinden eval() ile komut enjeksiyonu zafiyeti. Keyfi Python kodu çalıştırma gösterildi; ancak istismar lokal CLI erişimi gerektiriyor."
+description: "NLTK collocations.py'de eval() ile komut enjeksiyonu. sys.argv üzerinden keyfi Python kodu çalıştırma — lokal CLI erişimi gerektiriyor."
 keywords: "NLTK, komut enjeksiyonu, eval injection, collocations.py, sys.argv, Python güvenlik, kod enjeksiyonu, NLP güvenlik, güvenlik araştırması"
 canonical_url: "https://aydinnyunus.github.io/2026/06/07/command-injection-nltk-collocations-eval-tr/"
 ---
@@ -109,6 +109,6 @@ Genel çıkarım: `eval()`'ı kullanıcı kontrollü herhangi bir girdide (argv,
 
 ## İlgili içerik
 
-- [CVE-2026-0558: LollMS'de kimlik doğrulamasız dosya yükleme](https://aydinnyunus.github.io/2026/03/28/unauthenticated-file-upload-lollms-cve-2026-0558-tr/)
-- [SQL Injection Zafiyeti: GeoPandas to_postgis() Fonksiyonunda Güvenlik Açığı](https://aydinnyunus.github.io/2025/12/27/sql-injection-geopandas-tr/)
-- [SSRF in LollMS Export: CVE-2026-0560](https://aydinnyunus.github.io/2026/03/28/ssrf-lollms-export-content-cve-2026-0560-tr/)
+- [CVE-2026-0558: LollMS'de kimlik doğrulamasız dosya yükleme](/2026/03/28/unauthenticated-file-upload-lollms-cve-2026-0558-tr/)
+- [SQL Injection: GeoPandas to_postgis() Fonksiyonunda Güvenlik Açığı](/2025/12/27/sql-injection-geopandas-tr/)
+- [SSRF in LollMS Export: CVE-2026-0560](/2026/03/28/ssrf-lollms-export-content-cve-2026-0560-tr/)

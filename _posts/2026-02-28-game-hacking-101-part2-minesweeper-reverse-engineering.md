@@ -1,11 +1,10 @@
 ---
 layout: post
-title: "Game Hacking 101 Part 2: Memory Analysis with Minesweeper Reverse Engineering"
-date: 2026-02-28
-author: Yunus Aydın
+title: "Game Hacking 101 Part 2: Minesweeper Reverse Engineering"
 lang: en
-description: "Learn game hacking techniques through Minesweeper reverse engineering. Use Cheat Engine pointer scanning, x64dbg hardware breakpoints, and memory analysis to identify in-game values."
-keywords: "game hacking, reverse engineering, Minesweeper, Cheat Engine, x64dbg, pointer scanning, hardware breakpoints, memory analysis, game hacking 101, reverse engineering tutorial"
+author: Yunus Aydın
+description: "Reverse engineer Minesweeper with Cheat Engine pointer scanning, x64dbg hardware breakpoints, and memory analysis. Advanced game hacking techniques tutorial."
+keywords: "Minesweeper reverse engineering, Cheat Engine pointer scan, x64dbg breakpoints, game hacking tutorial, memory analysis Cheat Engine, game reverse engineering, Windows debugging, advanced game hacking"
 canonical_url: "https://aydinnyunus.github.io/2026/02/28/game-hacking-101-part2-minesweeper-reverse-engineering/"
 ---
 

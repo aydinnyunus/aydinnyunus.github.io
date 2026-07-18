@@ -1,11 +1,10 @@
 ---
 layout: post
-title: "Identifying Coin Scammers: Coin Mixing Analysis with Wallet-Tracker"
-date: 2026-02-21
-author: Yunus Aydın
+title: "Crypto Scam Detection: Coin Mixing Analysis with Wallet-Tracker"
 lang: en
-description: "Identifying cryptocurrency scammers and coin mixing analysis with Wallet-Tracker. Blockchain transaction analysis using Neo4j, Redis, and Neodash."
-keywords: "wallet tracker, coin scammers, coin mixing, cryptocurrency security, blockchain analysis, Neo4j, transaction tracking, scam detection, crypto fraud"
+author: Yunus Aydın
+description: "Blockchain transaction analysis to identify cryptocurrency scammers using Wallet-Tracker, Neo4j, and Redis. Coin mixing detection and fraud investigation."
+keywords: "crypto scam detection, coin mixing analysis, Wallet-Tracker, blockchain forensics, Neo4j transaction tracking, cryptocurrency fraud, crypto laundering detection, blockchain analysis tool"
 canonical_url: "https://aydinnyunus.github.io/2026/02/21/identifying-coin-scammers-wallet-tracker/"
 ---
 

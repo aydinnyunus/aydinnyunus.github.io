@@ -1,11 +1,10 @@
 ---
 layout: post
-title: "Kripto Para Dolandırıcılarını Tespit Etme: Wallet-Tracker ile Coin Mixing Analizi"
-date: 2026-02-21
-author: Yunus Aydın
+title: "Kripto Scam Tespiti: Wallet-Tracker ile Coin Mixing Analizi"
 lang: tr
-description: "Wallet-Tracker ile kripto para dolandırıcılarını tespit etme ve coin mixing analizi. Neo4j, Redis ve Neodash kullanarak blockchain transaction analizi."
-keywords: "wallet tracker, coin scammers, coin mixing, cryptocurrency security, blockchain analysis, Neo4j, transaction tracking, scam detection, crypto fraud"
+author: Yunus Aydın
+description: "Blockchain işlem analizi ile kripto para dolandırıcılarını tespit etme. Wallet-Tracker, Neo4j ve Redis ile coin mixing analizi ve dolandırıcılık araştırması."
+keywords: "kripto dolandırıcılık tespiti, coin mixing analizi, Wallet-Tracker, blockchain adli analiz, Neo4j işlem takibi, kripto para dolandırıcılığı, kara para aklama tespiti"
 canonical_url: "https://aydinnyunus.github.io/2026/02/21/identifying-coin-scammers-wallet-tracker-tr/"
 ---
 

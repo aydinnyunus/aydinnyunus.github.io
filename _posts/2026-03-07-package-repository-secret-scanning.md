@@ -1,11 +1,10 @@
 ---
 layout: post
-title: "I Scanned PyPI, npm, and RubyGems for Leaked Secrets. Microsoft, Automattic, Palo Alto and Many More"
-date: 2026-03-07
-author: Yunus Aydın
+title: "PyPI, npm, RubyGems Secret Scanning: Microsoft & More Leaks"
 lang: en
-description: "Uncover hidden dangers by performing secret scanning in package repositories. Detect AWS tokens, private keys, and other secrets in PyPI, npm, RubyGems, and NuGet packages."
-keywords: "secret scanning, package repository, PyPI, npm, RubyGems, NuGet, AWS tokens, private keys, security scanning, GitLeaks, PackageSpy, supply chain security"
+author: Yunus Aydın
+description: "Secret scanning PyPI, npm, RubyGems, NuGet for leaked AWS tokens and private keys. Found leaks from Microsoft, Automattic, Palo Alto and more."
+keywords: "secret scanning PyPI npm, package registry secrets, leaked AWS tokens npm, private keys PyPI, supply chain security scanning, GitLeaks package scan, Microsoft secret leak, open source security"
 canonical_url: "https://aydinnyunus.github.io/2026/03/07/package-repository-secret-scanning/"
 ---
 

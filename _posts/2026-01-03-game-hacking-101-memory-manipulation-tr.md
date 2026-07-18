@@ -1,11 +1,10 @@
 ---
 layout: post
-title: "Game Hacking 101: Mount and Blade Warband'da Memory Manipulation"
-date: 2026-01-03
-author: Yunus Aydın
+title: "Game Hacking 101: Cheat Engine ile Memory Manipulation"
 lang: tr
-description: "Memory manipulation ile game hacking temellerini öğren. Virtual memory'i anla, Cheat Engine kullan ve Mount and Blade Warband'da oyun değerlerini değiştirmek için C++ kodu yaz."
-keywords: "game hacking, memory manipulation, Cheat Engine, C++ game hacking, Mount and Blade Warband, virtual memory, memory addresses, offsets, Windows API, ReadProcessMemory, WriteProcessMemory"
+author: Yunus Aydın
+description: "Game hacking temellerini Cheat Engine ile öğren. ReadProcessMemory ile C++ kod yaz, Mount and Blade Warband'da oyun değerlerini değiştir."
+keywords: "game hacking Türkçe, Cheat Engine memory manipulation, C++ oyun hacking, Mount and Blade Warband hack, ReadProcessMemory, WriteProcessMemory, oyun bellek düzenleme, reverse engineering başlangıç"
 canonical_url: "https://aydinnyunus.github.io/2026/01/03/game-hacking-101-memory-manipulation-tr/"
 ---
 

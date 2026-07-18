@@ -1,11 +1,10 @@
 ---
 layout: post
-title: "PyPI, npm ve RubyGems'i sızan secret'lar için taradım. Microsoft, Automattic, Palo Alto ve daha fazlası"
-date: 2026-03-07
-author: Yunus Aydın
+title: "PyPI, npm, RubyGems'de Sızan Secret Taraması: Microsoft Leak"
 lang: tr
-description: "PyPI, npm, RubyGems ve NuGet paketlerinde sızan secret'ları nasıl taradığımı ve bulduklarımı anlatıyorum. AWS token'ları, private key'ler ve raporlama süreci."
-keywords: "secret scanning, package repository, PyPI, npm, RubyGems, NuGet, AWS tokens, private keys, security scanning, GitLeaks, PackageSpy, supply chain security"
+author: Yunus Aydın
+description: "PyPI, npm, RubyGems ve NuGet paketlerinde sızan AWS token'ları ve private key'leri taradım. Microsoft, Automattic, Palo Alto ve daha fazlasında sızıntı buldum."
+keywords: "PyPI secret tarama, npm package sızıntı, AWS token sızıntısı, private key tarama, tedarik zinciri güvenlik taraması, GitLeaks paket tarama, Microsoft secret leak, açık kaynak güvenlik"
 canonical_url: "https://aydinnyunus.github.io/2026/03/07/package-repository-secret-scanning-tr/"
 ---
 

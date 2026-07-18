@@ -1,11 +1,10 @@
 ---
 layout: post
-title: "If Nobody Reads Code, Why Not Write in Assembly? So Here's Redis in Assembly"
-date: 2026-02-14
-author: Yunus Aydın
+title: "Writing Redis in x86-64 Assembly: A Vibe-Coding Response"
 lang: en
-description: "Writing a Redis-like key-value store in x86-64 Assembly as a response to vibe-coding culture. When nobody reads code, why not write in the most unreadable language?"
-keywords: "assembly programming, x86-64, Redis, NASM, vibe-coding, code reading, low-level programming, socket programming, RESP protocol"
+author: Yunus Aydın
+description: "Building a Redis-like key-value store in x86-64 Assembly with NASM. A sarcastic response to vibe-coding culture — why not write in the most unreadable language?"
+keywords: "Redis in Assembly, x86-64 Assembly, NASM Redis, vibe coding satire, low-level programming, assembly key-value store, RESP protocol, socket programming assembly"
 canonical_url: "https://aydinnyunus.github.io/2026/02/14/redis-in-assembly/"
 ---
 

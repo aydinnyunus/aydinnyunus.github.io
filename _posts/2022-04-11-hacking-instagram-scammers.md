@@ -1,11 +1,10 @@
 ---
 layout: post
-title: "Hacking Instagram Scammers"
-date: 2022-04-11
-author: Yunus Aydın
+title: "Hacking Instagram Scammers: OSINT Investigation Guide"
 lang: en
-description: "Security research on Instagram phishing scams. Learn how scammers steal Instagram accounts through phishing websites and how to investigate them using OSINT techniques and XSS vulnerabilities."
-keywords: "instagram scammers, phishing, OSINT, XSS, security research, social engineering, cybersecurity, scam investigation"
+author: Yunus Aydın
+description: "Investigate Instagram phishing scams using OSINT and XSS. Real case study of tracking scammers who steal accounts through fake websites."
+keywords: "Instagram phishing investigation, OSINT Instagram, Instagram scam tracking, phishing website analysis, XSS vulnerability research, social engineering investigation, Instagram account theft, cybercrime OSINT"
 canonical_url: "https://aydinnyunus.github.io/2022/04/11/hacking-instagram-scammers/"
 excerpt: "Security research on Instagram phishing scams. Learn how scammers steal Instagram accounts through phishing websites and how to investigate them using OSINT techniques and XSS vulnerabilities."
 ---
@@ -34,7 +33,7 @@ Victim and Attacker become friends 🥰
 
 **Second Phishing Website :**
 
-![](https://miro.medium.com/v2/resize:fit:838/1*4zJCOkaYXZlLTQKHEdfJ1Q.png)
+![Second phishing website screenshot showing the login page](https://miro.medium.com/v2/resize:fit:838/1*4zJCOkaYXZlLTQKHEdfJ1Q.png)
 
 Someone asks about cyber security [Ömer Çitak](https://twitter.com/om3rcitak), One year later, the same account sends him phishing mail 🙃
 
@@ -46,7 +45,7 @@ I use [ffuf](https://github.com/ffuf/ffuf) for directory brute force and use [Se
 
 If 2FA is enabled ( you must enable it ), the script is disabled the 2FA. Because the victim entered the email and password information on the phishing page.
 
-![](https://miro.medium.com/v2/resize:fit:794/0*bGu8IOfaxouh33b9)
+![2FA disable script code screenshot](https://miro.medium.com/v2/resize:fit:794/0*bGu8IOfaxouh33b9)
 
 Is 2FA open? If it is true, close it
 

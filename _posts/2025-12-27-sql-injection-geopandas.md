@@ -1,11 +1,10 @@
 ---
 layout: post
-title: "SQL Injection Vulnerability: Security Issue in GeoPandas to_postgis() Function"
-date: 2025-12-27
-author: Yunus Aydın
+title: "SQL Injection in GeoPandas to_postgis(): CVE Analysis and Fix"
 lang: en
-description: "SQL injection vulnerability I found in GeoPandas to_postgis() function and how I fixed it. Parameterized queries and secure SQL usage."
-keywords: "SQL injection, GeoPandas, to_postgis, PostgreSQL, security vulnerability, parameterized queries, security research, bug bounty"
+author: Yunus Aydın
+description: "SQL injection vulnerability discovered in GeoPandas to_postgis() function. How parameterized queries fixed it — GIS security research and responsible disclosure."
+keywords: "GeoPandas SQL injection, to_postgis vulnerability, GIS security, PostgreSQL injection, Python GIS security, parameterized query fix, CVE GeoPandas, geospatial security"
 canonical_url: "https://aydinnyunus.github.io/2025/12/27/sql-injection-geopandas/"
 ---
 

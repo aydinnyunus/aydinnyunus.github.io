@@ -1,6 +1,6 @@
 # Site settings
 title: Yunus Aydın Blog
-description: Security researcher exploring cybersecurity, vulnerability research, and responsible disclosure. Discover CVEs, conference talks, and security research.
+description: Supply-chain security, CVE deep-dives, and open-source vulnerability research. npm malware analysis, browser extension reversing, GitHub Archive secret scanning, and responsible disclosure write-ups.
 author: Yunus Aydın
 url: https://aydinnyunus.github.io
 baseurl: ""
