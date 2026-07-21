@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+  <title>{% if page.title %}{{ page.title }}{% assign title_size = page.title | size %}{% if title_size < 50 %} | {{ site.title }}{% endif %}{% else %}{{ site.title }}{% endif %}</title>
   
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="https://avatars.githubusercontent.com/u/52822869?s=400&u=7295fd2eb2132ef817efea1196a5b3f6a743f543&v=4">
@@ -33,7 +33,7 @@
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
   <meta property="og:url" content="{{ site.url }}{{ page.url }}">
-  <meta property="og:title" content="{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}">
+  <meta property="og:title" content="{% if page.title %}{{ page.title }}{% assign title_size = page.title | size %}{% if title_size < 50 %} | {{ site.title }}{% endif %}{% else %}{{ site.title }}{% endif %}">
   {% if page.description %}
   <meta property="og:description" content="{{ page.description }}">
   {% elsif page.excerpt %}
@@ -55,7 +55,7 @@
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="{{ site.url }}{{ page.url }}">
-  <meta name="twitter:title" content="{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}">
+  <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% assign title_size = page.title | size %}{% if title_size < 50 %} | {{ site.title }}{% endif %}{% else %}{{ site.title }}{% endif %}">
   {% if page.description %}
   <meta name="twitter:description" content="{{ page.description }}">
   {% elsif page.excerpt %}
