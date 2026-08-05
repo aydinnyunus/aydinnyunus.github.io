@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Odysseus: AI Embedding Endpoint'inde Broken Access Control + SSRF"
+title: "Odysseus: AI Embedding Endpoint'inde Broken Access Control + SSRF (CVE-2026-70619, CVE-2026-70620)"
 author: Yunus Aydın
 date: 2026-06-16
 lang: tr
-description: "Odysseus embedding endpoint'inde broken access control. Admin kontrolü olmayan API ile embedding URL ele geçirme ve tüm chat/RAG/vault verisini sızdırma."
-keywords: "Odysseus güvenlik açığı, broken access control AI, SSRF embedding endpoint, BOLA AI sunucu, LLM güvenlik araştırması, self-hosted AI zafiyeti, embedding API ele geçirme, require_admin atlatma"
+description: "Odysseus CVE-2026-70619/CVE-2026-70620: embedding endpoint'inde broken access control. Admin kontrolü olmayan API ile embedding URL ele geçirme ve tüm chat/RAG/vault verisini sızdırma."
+keywords: "Odysseus güvenlik açığı, CVE-2026-70619, CVE-2026-70620, broken access control AI, SSRF embedding endpoint, BOLA AI sunucu, LLM güvenlik araştırması, self-hosted AI zafiyeti, embedding API ele geçirme, require_admin atlatma"
 canonical_url: "https://aydinnyunus.github.io/2026/06/16/odysseus-embedding-endpoint-takeover-tr/"
 ---
 
@@ -171,6 +171,7 @@ CWE-862 (Missing Authorization) ve CWE-918 (SSRF) aynı handler'da. OWASP Top 10
 - **14 Haziran 2026**: Zafiyet `routes/embedding_routes.py`'de tespit edildi. `odysseus:vuln-0001` Docker image'ında reprodüksiyon teyit edildi.
 - **14 Haziran 2026**: Public issue [#132](https://github.com/pewdiepie-archdaemon/odysseus/issues/132) açıldı. Repo'da özel bir güvenlik bildirim kanalı, `SECURITY.md` ya da güvenlik email'i yok. Public issue tek seçenekti.
 - **14 Haziran 2026**: Bu yazı yayınlandı.
+- **4 Ağustos 2026**: Bu raporun iki bug class'ı için VulnCheck tarafından iki CVE atandı: [CVE-2026-70619](https://www.cve.org/CVERecord?id=CVE-2026-70619) (CWE-862 Missing Authorization, CVSS 3.1 8.8 High) ve [CVE-2026-70620](https://www.cve.org/CVERecord?id=CVE-2026-70620) (CWE-918 SSRF, CVSS 3.1 6.8 Medium).
 
 Kullanıcı verisi işleyen bir proje maintain ediyorsanız lütfen özel raporlama kanallı bir `SECURITY.md` ekleyin. Düzeltilmemiş zafiyetler için public issue kimsenin tercihi değil.
 
@@ -182,6 +183,8 @@ Kullanıcı verisi işleyen bir proje maintain ediyorsanız lütfen özel raporl
 - **OWASP Top 10, A01:2021**: Broken Access Control. [https://owasp.org/Top10/A01_2021-Broken_Access_Control/](https://owasp.org/Top10/A01_2021-Broken_Access_Control/)
 - **OWASP Top 10, A10:2021**: SSRF. [https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery_%28SSRF%29/](https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery_%28SSRF%29/)
 - **Public issue**: [pewdiepie-archdaemon/odysseus#132](https://github.com/pewdiepie-archdaemon/odysseus/issues/132)
+- **CVE-2026-70619**: Odysseus embedding endpoint'inde Missing Authorization. [https://www.cve.org/CVERecord?id=CVE-2026-70619](https://www.cve.org/CVERecord?id=CVE-2026-70619)
+- **CVE-2026-70620**: Odysseus embedding endpoint config'inde SSRF. [https://www.cve.org/CVERecord?id=CVE-2026-70620](https://www.cve.org/CVERecord?id=CVE-2026-70620)
 
 ## İlgili içerik
 

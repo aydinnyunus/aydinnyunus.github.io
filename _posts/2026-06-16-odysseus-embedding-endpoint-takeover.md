@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Odysseus: Broken Access Control + SSRF in AI Embedding Endpoint"
+title: "Odysseus: Broken Access Control + SSRF in AI Embedding Endpoint (CVE-2026-70619, CVE-2026-70620)"
 author: Yunus Aydın
 date: 2026-06-16
 lang: en
-description: "Odysseus broken access control: POST /api/embeddings/endpoint has no admin check. Hijack embedding URL for SSRF and exfiltration of chat, RAG and vault data."
-keywords: "Odysseus vulnerability, AI security vulnerability, self-hosted AI risks, broken access control, SSRF attack, LLM security 2026, embedding API security, OWASP LLM08 vector weakness"
+description: "Odysseus CVE-2026-70619/CVE-2026-70620: broken access control + SSRF. POST /api/embeddings/endpoint has no admin check. Hijack embedding URL for SSRF and exfiltration of chat, RAG and vault data."
+keywords: "Odysseus vulnerability, CVE-2026-70619, CVE-2026-70620, AI security vulnerability, self-hosted AI risks, broken access control, SSRF attack, LLM security 2026, embedding API security, OWASP LLM08 vector weakness"
 canonical_url: "https://aydinnyunus.github.io/2026/06/16/odysseus-embedding-endpoint-takeover/"
 ---
 
@@ -171,6 +171,7 @@ CWE-862 (Missing Authorization) and CWE-918 (SSRF) in the same handler. The OWAS
 - **June 14, 2026**: Vulnerability identified in `routes/embedding_routes.py`. Confirmed reproduction against `odysseus:vuln-0001` Docker image.
 - **June 14, 2026**: Filed public issue [#132](https://github.com/pewdiepie-archdaemon/odysseus/issues/132). The repo has no private security disclosure channel, no `SECURITY.md`, no security email. Public issue was the only option available.
 - **June 14, 2026**: This post published.
+- **August 4, 2026**: Two CVEs assigned by VulnCheck for the two bug classes in this report: [CVE-2026-70619](https://www.cve.org/CVERecord?id=CVE-2026-70619) (CWE-862 Missing Authorization, CVSS 3.1 8.8 High) and [CVE-2026-70620](https://www.cve.org/CVERecord?id=CVE-2026-70620) (CWE-918 SSRF, CVSS 3.1 6.8 Medium).
 
 If you maintain a project that handles user data, please add a `SECURITY.md` with a private reporting channel. Public issues for unfixed vulnerabilities are not anyone's preference.
 
@@ -182,6 +183,8 @@ If you maintain a project that handles user data, please add a `SECURITY.md` wit
 - **OWASP Top 10, A01:2021**: Broken Access Control. [https://owasp.org/Top10/A01_2021-Broken_Access_Control/](https://owasp.org/Top10/A01_2021-Broken_Access_Control/)
 - **OWASP Top 10, A10:2021**: SSRF. [https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery_%28SSRF%29/](https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery_%28SSRF%29/)
 - **Public issue**: [pewdiepie-archdaemon/odysseus#132](https://github.com/pewdiepie-archdaemon/odysseus/issues/132)
+- **CVE-2026-70619**: Missing Authorization in Odysseus embedding endpoint. [https://www.cve.org/CVERecord?id=CVE-2026-70619](https://www.cve.org/CVERecord?id=CVE-2026-70619)
+- **CVE-2026-70620**: SSRF in Odysseus embedding endpoint config. [https://www.cve.org/CVERecord?id=CVE-2026-70620](https://www.cve.org/CVERecord?id=CVE-2026-70620)
 
 ## Related content
 
