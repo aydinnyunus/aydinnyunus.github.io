@@ -2,14 +2,14 @@
 layout: post
 title: "Bypassing Family Link's website blocklist with a trailing dot"
 author: Yunus Aydın
-date: 2026-06-14
+date: 2026-09-09
 lang: en
 description: "Chrome's Family Link URL filter compares the URL host to the parent's blocklist with strict string equality. Appending a single trailing dot bypasses every blocked site."
 keywords: "Chrome, Family Link, parental controls, URL filter, host comparison, trailing dot, FQDN bypass, supervised user, Chrome VRP, security research"
-canonical_url: "https://aydinnyunus.github.io/2026/06/14/family-link-trailing-dot-bypass/"
+canonical_url: "https://aydinnyunus.github.io/2026/09/09/family-link-trailing-dot-bypass/"
 ---
 
-I reported this to the Chrome VRP on May 24, 2026. A Family Link parent blocks `example.com`. The child types `example.com.` (note the trailing dot) and the page loads. No interstitial, no "Ask in person" prompt, nothing. The same site, reached by appending one character.
+I reported this to the Chrome VRP on May 24, 2026. Tracked as [issues.chromium.org/516198814](https://issues.chromium.org/issues/516198814). A Family Link parent blocks `example.com`. The child types `example.com.` (note the trailing dot) and the page loads. No interstitial, no "Ask in person" prompt, nothing. The same site, reached by appending one character.
 
 The root cause is a single `==` comparison in `FamilyLinkUrlFilter::HostMatchesPattern` that does not normalize the trailing dot. `url::DomainIs()` in the same codebase already does this correctly. The URL filter just doesn't use it.
 
@@ -210,11 +210,12 @@ This is CWE-178 (Improper Handling of Case Sensitivity) / CWE-20 (Improper Input
 ## Disclosure timeline
 
 - **May 24, 2026.** Vulnerability discovered and verified on Chrome Stable with a managed Family Link child account.
-- **May 24, 2026.** Reported to the Chrome VRP, classified as *Permissions Bypass*.
-- **June 14, 2026.** Public write-up.
+- **May 24, 2026.** Reported to the Chrome VRP, classified as *Permissions Bypass*. Filed as [issues.chromium.org/516198814](https://issues.chromium.org/issues/516198814) (*Family Link parental control website block bypassed via trailing-dot hostname*).
+- **September 9, 2026.** Public write-up.
 
 ## References
 
+- [issues.chromium.org/516198814: Family Link parental control website block bypassed via trailing-dot hostname](https://issues.chromium.org/issues/516198814)
 - [Chromium source: `family_link_url_filter.cc`](https://chromium.googlesource.com/chromium/src/+/refs/heads/main/components/supervised_user/core/browser/family_link_url_filter.cc)
 - [Chromium source: `family_link_settings_service.cc`](https://chromium.googlesource.com/chromium/src/+/refs/heads/main/components/supervised_user/core/browser/family_link_settings_service.cc)
 - [Chromium source: `url::DomainIs` in `url_util.cc`](https://chromium.googlesource.com/chromium/src/+/refs/heads/main/url/url_util.cc)
