@@ -2,18 +2,18 @@
 layout: post
 title: "Family Link site engelini sonuna nokta koyarak atlatmak"
 author: Yunus Aydın
-date: 2026-06-14
+date: 2026-09-09
 lang: tr
 description: "Chrome'un Family Link URL filtresi, URL host'unu velinin engel listesiyle strict string eşitliği ile karşılaştırıyor. Sona tek bir nokta eklemek tüm engelli siteleri atlatıyor."
 keywords: "Chrome, Family Link, ebeveyn kontrolü, URL filtresi, host karşılaştırma, trailing dot, FQDN bypass, supervised user, Chrome VRP, güvenlik araştırması"
-canonical_url: "https://aydinnyunus.github.io/2026/06/14/family-link-trailing-dot-bypass-tr/"
+canonical_url: "https://aydinnyunus.github.io/2026/09/09/family-link-trailing-dot-bypass-tr/"
 ---
 
 Bu zafiyeti 24 Mayıs 2026'da Chrome VRP'ye raporladım. Family Link kullanan bir veli `example.com`'u engelliyor. Çocuk `example.com.` yazıyor (sonundaki noktaya dikkat) ve sayfa açılıyor. Engel interstitial'ı yok, "Şahsen sor" ekranı yok, hiçbir şey yok. Aynı site, tek bir karakter eklenerek erişiliyor.
 
 Root cause, `FamilyLinkUrlFilter::HostMatchesPattern` içindeki trailing dot'u normalize etmeyen tek bir `==` karşılaştırması. Aynı codebase'deki `url::DomainIs()` bu işi zaten doğru yapıyor. URL filtresi onu çağırmıyor sadece.
 
-## Setup
+## Kurulum
 
 Bu zafiyet gerçek bir cihazda reproduce edilebilir, Chromium build etmeye gerek yok.
 
@@ -94,7 +94,7 @@ Process isolation katmanının da bunun için açık bir testi var. `content/bro
 
 DevTools'da da aynı bug vardı. [Derin Eryılmaz](https://x.com/deryilz/status/1753394956956295488) `chrome.devtools.inspectedWindow.eval`'in `parsedURL.hostname === "chrome.google.com"` check ettiğini ve `chrome.google.com.` ile bypass edilerek Chrome Web Store üzerinde extension kodu çalıştırılabildiğini buldu. [crbug.com/1472898](https://crbug.com/1472898) olarak takip edildi, $5,000 ödüllendirildi, DevTools'da fixlendi, ama codebase'in geri kalanı hiç audit edilmedi.
 
-Family Link URL filtresi aynı sınıfın başka bir instance'ı. Doğru fix için altyapı bir fonksiyon çağrısı ötede duruyor, filtre sadece kullanmıyor.
+Family Link URL filtresi aynı sınıfın başka bir instance'ı. Filtrenin ihtiyacı olan fonksiyon zaten aynı codebase'de; tek eksik onu çağırması.
 
 ## Blocklist tarafı da normalize edilmiyor
 
@@ -177,7 +177,7 @@ TEST_F(FamilyLinkUrlFilterTest, TrailingDotDoesNotBypassBlockList) {
 
 CVSS 3.1 base skoru **3.1 (Low)**: `AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N`. Veri sızıntısı yok, sistem destabilize olmuyor. Çocuk sadece zaten public olan sitelere erişiyor.
 
-Asıl hikâye ürün etkisi. Family Link on milyonlarca supervised hesapta deploy edilmiş. Threat model burada remote attacker değil. Legitimate cihaz kullanıcısı (çocuk) bir başka tarafın (velinin) koyduğu kontrolü atlatıyor. Chrome VRP supervised user / enterprise URL filtering bypass'larını historik olarak in-scope kabul ediyor.
+Asıl hikâye ürün etkisidir. Family Link on milyonlarca supervised hesapta deploy edilmiş. Threat model burada remote attacker değil. Legitimate cihaz kullanıcısı (çocuk) bir başka tarafın (velinin) koyduğu kontrolü atlatıyor. Chrome VRP supervised user / enterprise URL filtering bypass'larını historik olarak in-scope kabul ediyor.
 
 Somut sonuçlar:
 
@@ -211,7 +211,7 @@ Bu, host canonicalization katmanında CWE-178 (Improper Handling of Case Sensiti
 
 - **24 Mayıs 2026.** Zafiyet keşfedildi, managed Family Link çocuk hesabı ile Chrome Stable'da verify edildi.
 - **24 Mayıs 2026.** Chrome VRP'ye *Permissions Bypass* kategorisinde raporlandı.
-- **14 Haziran 2026.** Bu yazı.
+- **9 Eylül 2026.** Bu yazı.
 
 ## Referanslar
 
