@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Command injection in Mage AI's git config (26 months unpatched)"
+title: "Command injection in Mage AI's git config"
 author: Yunus Aydın
 date: 2026-10-06
 lang: en
