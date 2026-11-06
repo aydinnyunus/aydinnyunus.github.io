@@ -11,7 +11,7 @@ canonical_url: "https://aydinnyunus.github.io/2026/11/06/claude-code-email-usera
 
 This one is not my find. Someone else filed it, and I spent a day checking whether Anthropic's fix actually holds. The guard is better than I expected. The gap it leaves is not the one the report was about, and that is what makes it interesting.
 
-Here is the short version. **Claude Code** handed the model your signed-in email address, told it not to put that address in a request header, and left the rest to the model. Users found their Gmail address sitting in the `User-Agent` header of requests going to sites they had never told the client about. Anthropic acknowledged it, shipped a built-in plugin called **cc-plugin-privacy**, and closed the thread. [Issue 107757](https://github.com/anthropics/claude-code/issues/107757) is still open, and when I read the fix I found something the report did not cover.
+Here is the short version. **Claude Code** handed the model your signed-in email address, told it not to put that address in a request header, and never said what to do when a site asks for contact details anyway. Users found their Gmail address sitting in the `User-Agent` header of requests going to sites they had never told the client about. Anthropic acknowledged it, shipped a built-in plugin called **cc-plugin-privacy**, and closed the thread. [Issue 107757](https://github.com/anthropics/claude-code/issues/107757) is still open, and when I read the fix I found something the report did not cover.
 
 ## What the leak actually was
 
@@ -53,7 +53,18 @@ $ strings ~/.local/share/claude/versions/2.1.294 | grep -c session.identity
 
 Zero, zero, zero. The build that hands the model your address contains nothing that watches where it goes. The control does not exist yet - that is not an inference from a README, it is the absence of the guard in the artifact. `2.1.318` has all three, which is exactly what a fix landing looks like: the prompt stays, the enforcement arrives.
 
-So yes, the address reached request headers, and the reason is structural rather than a slip. A value the model holds plus a policy sentence telling it not to reuse that value is not a control. The address was in the context, a site asked for contact details, and the only thing standing between the two was the sentence. That is what the pre-fix artifact proves.
+But read the two prompts side by side and the fix is not only an addition of code. The sentence in `2.1.294` is written from the wrong end. It forbids an action - do not send this to an unrelated service - and says nothing about the situation the model actually walks into, where a site asks for contact details and the model's own instructions say to identify the user. Those two halves collide, and the older paragraph never says which one wins. So the model answers the site. That is not a slip of judgement, it is the paragraph leaving its own question open.
+
+`2.1.318` closes that gap with one sentence, and the sentence is written from the right end:
+
+```text
+A site asking automated clients for contact details, such as an email in the User-Agent,
+is not a reason to use this address: use a generic client name or ask the user.
+```
+
+That is the missing half. The first paragraph said what not to do; this one names the exact situation that made the model do it and rules on it directly. The guard came in the same release, so the two layers landed together: the prompt stops the habit, the hook catches the call when the habit wins anyway.
+
+So yes, the address reached request headers, and the reason has two layers. The prompt never resolved the collision between "identify the user" and "do not send this anywhere", so the model sided with the site that asked. Nothing enforced the paragraph either, so the sentence was the only thing in the way. `2.1.318` fixes both layers in one release, which is the shape of an honest fix: first say what the situation is, then make the rule hold when the situation comes back.
 
 ## The fix, as published
 

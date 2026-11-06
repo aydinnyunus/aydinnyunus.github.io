@@ -11,7 +11,7 @@ canonical_url: "https://aydinnyunus.github.io/2026/11/06/claude-code-email-usera
 
 Bu yazının konusu benim bulduğum bir şey değil. Açığı başka biri bildirmiş, ben de bir günümü Anthropic'in yazdığı fix gerçekten işliyor mu diye kontrol etmeye ayırdım. Guard beklediğimden sağlam çıktı. Ama bıraktığı boşluk, raporun anlattığı boşluk değil. Yazının ilginç tarafı da orada.
 
-Özetle: **Claude Code** modele oturum açtığınız e-posta adresini veriyor, "bu adresi request header'a koyma" diyor ve gerisini modele bırakıyor. Kullanıcılar kendi Gmail adreslerini, hiç bahsetmedikleri sitelere giden isteklerin `User-Agent` başlığında buldu. Anthropic durumu kabul etti, **cc-plugin-privacy** adında bir built-in plugin yayınladı ve konuyu kapattı. [107757 numaralı issue](https://github.com/anthropics/claude-code/issues/107757) hâlâ açık. Fix'i okurken raporun değinmediği bir şey fark ettim.
+Özetle: **Claude Code** modele oturum açtığınız e-posta adresini veriyor, "bu adresi request header'a koyma" diyor, ama bir site iletişim bilgisi isterse ne yapacağını hiç söylemiyor. Kullanıcılar kendi Gmail adreslerini, hiç bahsetmedikleri sitelere giden isteklerin `User-Agent` başlığında buldu. Anthropic durumu kabul etti, **cc-plugin-privacy** adında bir built-in plugin yayınladı ve konuyu kapattı. [107757 numaralı issue](https://github.com/anthropics/claude-code/issues/107757) hâlâ açık. Fix'i okurken raporun değinmediği bir şey fark ettim.
 
 ## Sızıntı aslında neydi
 
@@ -53,7 +53,18 @@ $ strings ~/.local/share/claude/versions/2.1.294 | grep -c session.identity
 
 Sıfır, sıfır, sıfır. Modele adresinizi veren sürümde, o adresin nereye gittiğini izleyen hiçbir şey yok. Bu bir README çıkarımı değil: guard'ın binary'nin içinde hiç bulunmaması. `2.1.318`'de üçü de var. Fix'in yerine oturması tam olarak böyle görünür: prompt kalır, onu uygulayan kod gelir.
 
-Yani evet, adres request header'larına ulaştı ve sebebi bir sürçme değil, yapısal. Modelin elinde tuttuğu bir değer ile o değeri kullanmasını yasaklayan bir politika cümlesi, başlı başına bir kontrol değil. Adres context'teydi, site iletişim bilgisi istedi ve ikisinin arasında duran tek şey o cümleydi. Fix'ten önceki sürümün kanıtladığı şey bu.
+Ama iki prompt'u yan yana koyunca fix sadece kod eklemek değil. `2.1.294`'teki cümle yanlış uçtan yazılmış. Bir eylemi yasaklıyor (bu adresi ilgisiz bir servise gönderme) ve modelin gerçekte girdiği durumdan hiç bahsetmiyor: site iletişim bilgisi istiyor, modelin kendi talimatı da "kullanıcıyı tanıt" diyor. Bu iki yarı çakışıyor ve eski paragraf hangisinin kazandığını söylemiyor. Model de siteyi cevaplıyor. Bu bir muhakeme hatası değil; paragrafın kendi sorusunu açık bırakması.
+
+`2.1.318` bu boşluğu tek bir cümleyle kapatıyor ve cümle doğru uçtan yazılmış:
+
+```text
+A site asking automated clients for contact details, such as an email in the User-Agent,
+is not a reason to use this address: use a generic client name or ask the user.
+```
+
+Eksik olan yarı buydu. İlk paragraf ne yapılmamasını söylüyordu; bu cümle modeli tam olarak o davranışa iten durumu adıyla anıyor ve doğrudan karar veriyor. Guard da aynı sürümde geldi, yani iki katman birlikte yerleşti: prompt alışkanlığı durduruyor, alışkanlık yine de kazanırsa hook çağrıyı yakalıyor.
+
+Yani evet, adres request header'larına ulaştı ve sebebi iki katmanlı. Prompt, "kullanıcıyı tanıt" ile "bu adresi hiçbir yere gönderme" arasındaki çakışmayı hiç çözmediği için model soran tarafı, yani siteyi, haklı buldu. Paragrafı uygulayan bir kod da yoktu, yani yolda duran tek şey o cümleydi. `2.1.318` iki katmanı da tek sürümde düzeltiyor; dürüst bir fix'in şekli budur: önce durumun ne olduğunu söyle, sonra o durum tekrar geldiğinde kuralı tut.
 
 ## Yayınlanan fix
 
