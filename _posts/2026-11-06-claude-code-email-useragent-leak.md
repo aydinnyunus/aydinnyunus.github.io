@@ -165,22 +165,6 @@ Two word matches over one line cannot see a value that arrives from outside that
 
 There is no remote code execution here. It is quiet, permanent data exposure, and that is often worse because nobody notices. Treat it as [CWE-200](https://cwe.mitre.org/data/definitions/200.html).
 
-## The fix I would accept
-
-Two changes, both small.
-
-Run the hook where the network calls happen. The artifact already sits on `WebFetch` and `WebSearch` while the source says it does not, so fix the source to match, and name MCP tools in the list instead of catching them by accident when the call text holds a URL.
-
-Then decide what a match means. A pattern over one line of text is a tripwire, not a boundary, and pretending otherwise is how a leak slips past a green checkmark. A real boundary has to see the value the request will carry, not only the value written in the call.
-
-## Why this pattern keeps showing up
-
-Putting a control next to a problem instead of on top of it is the oldest failure mode in the book. A shell guard is easy to write and easy to demo, so that is what got built, while the leak rode an HTTP client.
-
-The second is subtler, and it leaves me hopeful: Anthropic got the disclosure right. They published the source, wrote an honest README with the gaps spelled out, and asked people to send in what they missed. A company that publishes its bypass surface is not the company you have to worry about. The third changes how you audit. The published source and the shipped binary disagree, and a grep result is not a behavior, so read the artifact you actually execute.
-
-The lesson travels past this product. Any agent that knows your identity and also talks to the network has a data path you did not design, and a sentence in a prompt will not close it. Set your agent's contact string to something generic, pin the version you audited, and when a tool tells you it will never send your address anywhere, read the code that enforces it. The sentence telling you about it is just text.
-
 ## Disclosure timeline
 
 - **November 5, 2026**: the reporter files [issue 107757](https://github.com/anthropics/claude-code/issues/107757) with the request-header evidence. An Anthropic engineer replies that the built-in privacy mod now refuses a shell call holding the signed-in address and naming a User-Agent ([commit `90380ef`](https://github.com/anthropics/claude-code/commit/90380ef)). A second commenter reports `cc-plugin-privacy` missing from `/plugins` on `2.1.318`: the mod registers behind a server-side flag, `tengu_wise_newt`, so it can be in your binary and absent from your session.

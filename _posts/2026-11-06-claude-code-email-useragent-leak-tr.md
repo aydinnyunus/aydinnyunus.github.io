@@ -169,22 +169,6 @@ Tek satır metin üzerinde iki kelime eşleşmesi, o satırın dışından gelen
 
 Burada remote code execution yok. Sessiz ve kalıcı bir veri ifşası var; kimse fark etmediği için bu genelde daha kötüdür. [CWE-200](https://cwe.mitre.org/data/definitions/200.html) olarak ele alın.
 
-## Kabul edeceğim fix
-
-İki değişiklik yeter, ikisi de küçük.
-
-Hook'u ağ çağrılarının yapıldığı yerde çalıştırın. Binary `WebFetch` ve `WebSearch` üzerinde duruyor, kaynak ise durmadığını söylüyor; kaynağı binary'yle eşleştirin ve MCP tool'larını listede adıyla sayın, çağrı metninde tesadüfen URL geçtiğinde yakalamaya çalışmayın.
-
-Sonra bir eşleşmenin ne anlama geldiğine karar verin. Tek satır metin üzerindeki bir pattern tripwire'dır, sınır değil. Tersini varsaymak, gerçek bir sızıntının yeşil bir checkmark'ın altından geçmesinin yolu. Niyet bir sınırsa, kontrol request'in taşıyacağı değeri görmek zorunda; yalnızca çağrıda yazılı olanı değil.
-
-## Bu hata neden tekrar tekrar çıkıyor
-
-Kontrolü problemin yanına koymak, üstüne koymamak, bu işin en eski hata modu. Shell guard'ı yazması ve demo etmesi kolay, yazılan da o oldu; sızıntı ise bir HTTP client'la yola çıktı.
-
-İkincisi daha ince ve beni umutlandıran da bu: Anthropic ifşayı doğru yaptı. Kaynağı yayınladılar, eksikleri tek tek yazan dürüst bir README koydular ve kaçırdıklarını bildirmelerini istediler. Bypass yüzeyini yayınlayan şirket, korkmanız gereken şirket değil. Üçüncüsü audit yapma şeklini değiştiriyor: yayınlanan kaynak ile dağıtılan binary uyuşmuyor ve bir grep sonucu bir davranış değil, o yüzden gerçekte çalıştırdığınız sürümü okuyun.
-
-Ders bu üründen daha geniş bir yere gidiyor. Hem kimliğinizi bilen hem de ağla konuşan her ajanın, sizin tasarlamadığınız bir veri yolu var ve bunu prompt'a yazılan bir cümle kapatmaz. Ajanınızın iletişim bilgisini genel bir şeye ayarlayın, denetlediğiniz sürümü pin edin ve bir tool size "adresimi hiçbir yere göndermeyeceğim" dediğinde gidip bunu uygulaması gereken kodu okuyun. Size bunu anlatan cümle sadece metin.
-
 ## Raporlama zaman çizelgesi
 
 - **5 Kasım 2026**: raporlayan kişi request header kanıtıyla [107757 numaralı issue](https://github.com/anthropics/claude-code/issues/107757)'yu açıyor. Bir Anthropic mühendisi, built-in privacy mod'un artık oturum açmış adresi tutan ve User-Agent'a dokunan shell çağrısını reddettiğini yazıyor ([commit `90380ef`](https://github.com/anthropics/claude-code/commit/90380ef)).
