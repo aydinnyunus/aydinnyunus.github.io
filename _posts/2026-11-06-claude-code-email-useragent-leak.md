@@ -180,39 +180,6 @@ The refusal message the mod ships actually says this out loud, which is more sel
 
 Two word matches over one line of text cannot see a value that arrives from outside that line. Nothing in the code closes that, and nothing in the README claims it does.
 
-## What I actually verified
-
-The claim in this post is the scope, not a bypass, so here is the method and the honest result.
-
-```bash
-# Step 1: pull the release and read its version stamp
-npm view @anthropic-ai/claude-code dist-tags.latest
-# 2.1.318
-
-# Step 2: get the published source
-git clone https://github.com/anthropics/claude-code
-cd claude-code && git log -1 --oneline
-# 90380ef
-
-# Step 3: port the published matcher to Python and attack the shell path.
-# Every direct form denied: curl -A, curl --user-agent, curl -user,
-# wget -U, iwr -UserAgent, | bash, bash -c '...', eval "...", the
-# assembled literal "user""@""example.com" (collapses, matches), and
-# the quoted-flag form curl '-A' '<addr>'.
-
-# Step 4: decode the shipped matcher out of the 2.1.318 binary and port
-# that too. It is a different program: it also watches Tmux and the web
-# tools, it asks instead of denying, and it fires on a named network
-# client rather than a User-Agent word. Run the same calls through both
-# ports and the table above is the diff. Neither one sees an address the
-# call does not literally contain.
-
-# Step 4: read the refusal the mod ships. It names the gap:
-# "The match cannot tell where in the input the two sit."
-```
-
-I went in expecting to demonstrate the quoting bypass the report implied. I could not. The matcher handles it. So I am writing up what is actually there instead of what I hoped to find.
-
 ## Impact
 
 - An email address does not rotate and it ties back to a real identity. Leaked once, it is leaked for good.

@@ -180,38 +180,6 @@ Mod'un taşıdığı refusal mesajı bunu yüksek sesle söylüyor, ki çoğu gu
 
 Tek satır metin üzerinde iki kelime eşleşmesi, o satırın dışından gelen bir değeri göremez. Kodda bunu kapatan hiçbir şey yok, README de kapatıyormuş gibi yapmıyor.
 
-## Gerçekte neyi doğruladım
-
-Bu yazıdaki iddia bir bypass değil kapsam, o yüzden yöntem de sonuç da dürüst:
-
-```bash
-# Adım 1: sürümü çek ve damgasını oku
-npm view @anthropic-ai/claude-code dist-tags.latest
-# 2.1.318
-
-# Adım 2: yayınlanmış kaynağı al
-git clone https://github.com/anthropics/claude-code
-cd claude-code && git log -1 --oneline
-# 90380ef
-
-# Adım 3: yayınlanan matcher'ı Python'a taşı ve shell yoluna saldır.
-# Her doğrudan form reddedildi: curl -A, curl --user-agent, curl -user,
-# wget -U, iwr -UserAgent, | bash, bash -c '...', eval "...", parça
-# parça kurulmuş "user""@""example.com" (çöküyor, eşleşiyor) ve
-# tırnaklı flag formu curl '-A' '<addr>'.
-
-# Adım 4: dağıtılan matcher'ı 2.1.318 binary'sinden çıkar, onu da Python'a
-# taşı. Farklı bir program: Tmux'u ve web tool'larını da izliyor, reddetmek
-# yerine soruyor, ve User-Agent kelimesi yerine adı geçen bir ağ client'ında
-# tetikliyor. Aynı çağrıları iki porttan da geçirin; yukarıdaki tablo farkın
-# kendisi. İkisi de çağrının literal olarak içermediği adresi görmüyor.
-
-# Adım 4: mod'un taşıdığı refusal'ı oku. Açığı kendisi söylüyor:
-# "The match cannot tell where in the input the two sit."
-```
-
-Raporun ima ettiği tırnak bypass'ını göstermek için oturdum masaya. Gösteremedim. Matcher onu hallediyor. O yüzden bulmayı umduğumu değil gerçekte olanı yazıyorum.
-
 ## Etki
 
 - E-posta adresi dönmez ve gerçek bir kimliğe bağlanır. Bir kez sızdı mı, kalıcı olarak sızmıştır.
