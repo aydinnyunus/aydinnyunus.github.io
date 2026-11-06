@@ -113,11 +113,13 @@ export function textOf(input: unknown): string {
 
 I tried to break it. An assembled literal like `"user""@""example.com"` collapses in the unquoted reading and matches. Every form a shell would run with a real address in it got denied. Whoever wrote this one thought about the obvious evasions, and it shows.
 
-## Root cause: the guard only reads shell calls
+## Root cause: where the guard runs, and where it does not
 
-Now look at which tools the hook runs on. `SHELL_TOOLS` is Bash, Monitor and PowerShell. The privacy README says the rest in one line: "WebFetch and WebSearch are not checked, and neither are MCP tools."
+Now look at which tools the hook runs on. In the published source `SHELL_TOOLS` is Bash, Monitor and PowerShell, and the privacy README says the rest in one line: "WebFetch and WebSearch are not checked, and neither are MCP tools."
 
-The original leak did not come out of a Bash call. It came out of a web fetch. The model reached for `WebFetch`, the site asked who it was, and out went the address. The guard written to stop an email from reaching a third party over HTTP does not run on the tools that make the HTTP request.
+The shipped build does not read that list. It registers its hook on `[...webTools, ...shellTools]`, where `webTools` is `WebBrowser`, `WebFetch` and `WebSearch`. So the tools that made the original request are covered in the artifact, even though the README still says they are not.
+
+The original leak did not come out of a Bash call. It came out of a web fetch. The model reached for `WebFetch`, the site asked who it was, and out went the address. The guard now sits on `WebFetch` and `WebSearch`, so that shape is closed. What it still cannot see is an address the call never contains, and an MCP tool call whose text happens to hold no URL.
 
 A curious reader will pull the shipped binary and find `["WebBrowser","WebFetch","WebSearch"]` in the tool list, which looks better than the published source. It is better, and on the day I first wrote this I stopped at that string and told you not to trust it. That was the wrong call. I went back and read the emitted code, and the shipped guard is a different program from the published one, in ways that matter. Here is the shipped matcher, recovered from `2.1.318`:
 
@@ -153,7 +155,7 @@ Put the two side by side and the story changes. This is not a stale copy of the 
 | verdict | `deny`, no prompt | `ask`, with a prompt |
 | fires when | the address **and** a User-Agent word appear | the address, **and** either a web tool **or** a network client named in the line |
 
-So the shipped build does watch `WebFetch` and `WebSearch` — the exact gap the README admits the published source has. It also watches `Tmux`, and it recognizes `nc`, `ncat`, `socat`, `telnet`, `ssh`, `scp`, `rsync` and `rclone`, none of which the published matcher knows. And it asks instead of refusing, which is the friendlier half of the same fix.
+So the shipped build does watch `WebFetch` and `WebSearch`, the exact gap the README admits the published source has. It also watches `Tmux`, and it recognizes `nc`, `ncat`, `socat`, `telnet`, `ssh`, `scp`, `rsync` and `rclone`, none of which the published matcher knows. And it asks instead of refusing, which is the friendlier half of the same fix.
 
 I reproduced both in Python and ran the same calls through each. They disagree:
 
@@ -164,7 +166,7 @@ I reproduced both in Python and ran the same calls through each. They disagree:
 
 Both still miss the same thing: an address the call does not literally contain. `$EMAIL`, or a value read from a file at run time, is invisible to both, because both only ever see the text of the call. That gap is real and it is in the shipped code, not just the published copy.
 
-What the comparison does not support is the sentence I wrote the first time, that the published source is simply not the artifact anyone runs. It is the source of it — the commit says so itself — and the binary carries a later, wider rewrite. The honest version is narrower and more useful: **the repo and the release do not implement the same guard, so auditing one tells you nothing about the other.** Read the artifact you execute.
+What the comparison does not support is the sentence I wrote the first time, that the published source is simply not the artifact anyone runs. It is the source of it, as the commit itself says, and the binary carries a later, wider rewrite. The honest version is narrower and more useful: **the repo and the release do not implement the same guard, so auditing one tells you nothing about the other.** Read the artifact you execute.
 
 ## The second gap: an address the line never contains
 
@@ -183,7 +185,7 @@ Two word matches over one line of text cannot see a value that arrives from outs
 ## Impact
 
 - An email address does not rotate and it ties back to a real identity. Leaked once, it is leaked for good.
-- Web fetches and MCP tool calls sit outside the published guard, and those are the tools agents use to reach the network.
+- MCP tool calls are not named in the shipped tool list either. They are caught only when the call text happens to contain `https`, `curl` or another client name, which is an accident of the input rather than a rule about MCP.
 - An address the model fetches indirectly, from an environment variable or a file, never enters the guard's window.
 - A server-side flag can switch the mod off without a single signal reaching the user.
 
@@ -193,7 +195,7 @@ There is no remote code execution here. It is quiet, permanent data exposure, an
 
 Two changes, both small.
 
-Run the hook where the network calls happen. The published list is the shell. It should also sit on `WebFetch` and `WebSearch` and the MCP tools, because that is where an address leaves the process.
+Run the hook where the network calls happen. The shipped build already sits on `WebFetch` and `WebSearch`; the published source and the README still say it does not, so fix the source to match the artifact. MCP tool calls are the remaining hole: name them in the tool list instead of catching them by accident when the call text happens to hold a URL.
 
 Then decide what a match means. A pattern over one line of text is a tripwire, not a boundary, and pretending otherwise is how a real leak slips past a green checkmark. If the intention is a boundary, the check has to see the value the request will carry, not only the value written in the call.
 

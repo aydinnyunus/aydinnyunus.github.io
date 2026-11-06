@@ -113,11 +113,13 @@ export function textOf(input: unknown): string {
 
 Kırmayı denedim. `"user"\"@\"\"example.com"` gibi parça parça kurulmuş bir literal, tırnaksız okumada çöküyor ve eşleşiyor. İçinde gerçek adres bulunan, shell'in çalıştıracağı her form reddedildi. Bunu yazan kişi bariz kaçışları düşünmüş; kod bunu belli ediyor.
 
-## Kök neden: guard yalnızca shell çağrılarını okuyor
+## Kök neden: guard nerede çalışıyor, nerede çalışmıyor
 
-Şimdi hook'un hangi tool'larda çalıştığına bakalım. `SHELL_TOOLS` Bash, Monitor ve PowerShell. Privacy README gerisini tek satırda söylüyor: "WebFetch and WebSearch are not checked, and neither are MCP tools."
+Şimdi hook'un hangi tool'larda çalıştığına bakalım. Yayınlanan kaynakta `SHELL_TOOLS` Bash, Monitor ve PowerShell; privacy README de gerisini tek satırda söylüyor: "WebFetch and WebSearch are not checked, and neither are MCP tools."
 
-Asıl sızıntı bir Bash çağrısından çıkmadı, bir web fetch'ten çıktı. Model `WebFetch`'e gitti, site kim olduğunu sordu, adres de dışarı çıktı. E-postanın HTTP üzerinden üçüncü bir tarafa gitmesini engellemek için yazılan guard, HTTP isteğini yapan tool'da çalışmıyor.
+Dağıtılan sürüm bu listeyi okumuyor. Hook'u `[...webTools, ...shellTools]` üzerine kaydediyor; `webTools` ise `WebBrowser`, `WebFetch` ve `WebSearch`. Yani asıl isteği yapan tool'lar binary'de kapsanıyor, README hâlâ kapsanmadığını yazsa da.
+
+Asıl sızıntı bir Bash çağrısından çıkmadı, bir web fetch'ten çıktı. Model `WebFetch`'e gitti, site kim olduğunu sordu, adres de dışarı çıktı. Guard artık `WebFetch` ve `WebSearch` üzerinde duruyor, yani o şekil kapandı. Hâlâ göremediği iki şey var: çağrının hiç içermediği bir adres, ve metninde tesadüfen URL bulunmayan bir MCP tool çağrısı.
 
 Meraklı bir okur dağıtılan binary'yi açıp tool listesinde `["WebBrowser","WebFetch","WebSearch"]` bulacak; bu, yayınlanan kaynaktan iyi görünüyor. Gerçekten de daha iyi. Ama bunu ilk yazdığım gün o string'de durup size "güvenmeyin" dedim. Yanlış bir karardı. Geri dönüp üretilen kodu okudum: dağıtılan guard, yayınlanandan farklı bir program, üstelik önemli yerlerde. `2.1.318`'den çıkarılan matcher şu:
 
@@ -183,7 +185,7 @@ Tek satır metin üzerinde iki kelime eşleşmesi, o satırın dışından gelen
 ## Etki
 
 - E-posta adresi dönmez ve gerçek bir kimliğe bağlanır. Bir kez sızdı mı, kalıcı olarak sızmıştır.
-- Web fetch ve MCP tool çağrıları yayınlanan guard'ın dışında kalıyor ve ajanların ağa çıkmak için kullandığı tool'lar tam olarak bunlar.
+- MCP tool çağrıları dağıtılan tool listesinde adıyla geçmiyor. Yalnızca çağrı metninde `https`, `curl` ya da başka bir istemci adı geçtiğinde yakalanıyorlar; bu MCP'ye dair bir kural değil, girdinin tesadüfü.
 - Modelin dolaylı yoldan, bir environment variable'dan ya da dosyadan çektiği adres guard'ın penceresine hiç girmez.
 - Sunucu tarafındaki bir flag, mod'u kullanıcıya tek bir sinyal bile gitmeden kapatabiliyor.
 
@@ -193,7 +195,7 @@ Burada remote code execution yok. Sessiz ve kalıcı bir veri ifşası var; kims
 
 İki değişiklik yeter, ikisi de küçük.
 
-Hook'u ağ çağrılarının yapıldığı yerde çalıştırın. Yayınlanan liste shell. `WebFetch` ve `WebSearch` ile MCP tool'larında da durmalı, çünkü adres süreçten tam orada çıkıyor.
+Hook'u ağ çağrılarının yapıldığı yerde çalıştırın. Dağıtılan sürüm `WebFetch` ve `WebSearch` üzerinde zaten duruyor; yayınlanan kaynak ve README hâlâ durmadığını söylüyor, o yüzden kaynağı binary'yle eşleştirin. Kalan delik MCP tool çağrıları: çağrı metninde tesadüfen bir URL geçtiğinde yakalamak yerine onları tool listesinde adıyla sayın.
 
 Sonra bir eşleşmenin ne anlama geldiğine karar verin. Tek satır metin üzerindeki bir pattern bir tripwire'dır, sınır değil. Tersini varsaymak, gerçek bir sızıntının yeşil bir checkmark'ın altından geçmesinin yolu. Niyet bir sınırsa, kontrol request'in taşıyacağı değeri görmek zorunda; yalnızca çağrıda yazılı olanı değil.
 
