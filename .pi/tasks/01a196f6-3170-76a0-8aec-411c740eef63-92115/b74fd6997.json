@@ -1,0 +1,27 @@
+{
+  "id": "b74fd6997",
+  "name": "locate exposure warning",
+  "command": "cd /Users/yunus.aydin/.omo && echo \"=== search 'exposure must be' in binary-runtime ===\"; grep -rl \"exposure must be\" binary-runtime/ 2>/dev/null | head; echo \"=== search 'is not connected' in binary-runtime ===\"; grep -rl \"is not connected\" binary-runtime/ 2>/dev/null | head; echo \"=== root of binary-runtime ===\"; ls binary-runtime/; echo \"=== find senpi/pi/engine binaries ===\"; find binary-runtime -maxdepth 3 -type d 2>/dev/null | head -40",
+  "status": "completed",
+  "outputPath": ".pi/tasks/01a196f6-3170-76a0-8aec-411c740eef63-92115/b74fd6997.output",
+  "cwd": "/Users/yunus.aydin/Research/aydinnyunus.github.io",
+  "startTime": 1793534319669,
+  "endTime": 1793534375735,
+  "exitCode": 0,
+  "signal": null,
+  "pid": 98050,
+  "bytesWritten": 2272,
+  "isAgent": false,
+  "surviveReload": false,
+  "notified": true,
+  "notifyOnCompletion": true,
+  "triggerOnCompletion": true,
+  "shellPolicy": {
+    "policy": "inherit",
+    "executable": "/bin/zsh",
+    "argvPrefix": [
+      "-c"
+    ],
+    "dialect": "posix"
+  }
+}

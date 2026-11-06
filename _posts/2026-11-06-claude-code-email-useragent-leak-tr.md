@@ -15,7 +15,7 @@ Bu yazının konusu benim bulduğum bir şey değil. Açığı başka biri bildi
 
 ## Sızıntı aslında neydi
 
-Context window modele "kullanıcı giriş yapmış" demiyor. Adresi olduğu gibi veriyor:
+Güncel prompt modele "kullanıcı giriş yapmış" demiyor. Adresi olduğu gibi veriyor:
 
 ```text
 The user's email address is [redacted]@gmail.com. Use it only to identify the
@@ -26,9 +26,9 @@ details, such as an email in the User-Agent, is not a reason to use this
 address: use a generic client name or ask the user.
 ```
 
-Son cümleyi bir daha okuyun. Hatayı önceden görüyor, adıyla söylüyor, sonra kararı modele bırakıyor. O cümlenin arkasında hiçbir mekanizma yok. Model bir sayfa çekiyor, site otomatik istemcilerden kimlik istiyor, kibar davranmak da cevap vermek oluyor. Bug tam olarak bu: bir talimat, bir rica. Kontrol değil.
+Son cümleyi ekleyen sürüm `2.1.318`: hatayı önceden görüyor, adıyla söylüyor, kararı yine modele bırakıyor. Sızıntı yapan sürümde paragraf vardı ama bu cümle yoktu, ikisini uygulayan da yoktu. Model bir sayfa çekti, site otomatik istemcilerden kimlik istedi, model de cevapladı. Bug tam olarak bu: bir talimat, bir rica. Kontrol değil.
 
-İddiayı doğrulamak için npm'den en son sürümü çektim. `@anthropic-ai/claude-code` şu anda `dist-tags.latest` altında `2.1.318`'e çözümleniyor. Benim yazdığım makinede `~/.local/bin/claude` üzerinden `2.1.294` var, fix'ten eski. O yüzden aşağıdaki her şey `2.1.318` sürümü ve yayınlanmış kaynak üzerinde.
+İddiayı doğrulamak için npm'den en son sürümü çektim: `@anthropic-ai/claude-code` `dist-tags.latest` altında `2.1.318`'e çözümleniyor, bu makinede ise fix'ten eski olan `2.1.294` var. Aşağıdaki her şey `2.1.318` ve yayınlanmış kaynak üzerinde.
 
 ## Sızıntı binary'nin içinde, nerede olduğunu da gösterebilirim
 
@@ -43,15 +43,15 @@ service, such as in a request header, URL, or payload, unless the user explicitl
 Burada gerçek bir adres var, modele verilmiş, arkasında bir paragraf politika duruyor ve onu uygulayan hiçbir şey yok. Peki aynı binary'de o paragrafı uygulayan bir kod var mı?
 
 ```console
-$ strings ~/.local/share/claude/versions/2.1.294 | grep -c tengu_wise_newt
+$ for s in tengu_wise_newt "which may leave this machine" session.identity; do
+    strings ~/.local/share/claude/versions/2.1.294 | grep -c "$s"
+  done
 0
-$ strings ~/.local/share/claude/versions/2.1.294 | grep -c "which may leave this machine"
 0
-$ strings ~/.local/share/claude/versions/2.1.294 | grep -c session.identity
 0
 ```
 
-Sıfır, sıfır, sıfır. Modele adresinizi veren sürümde, o adresin nereye gittiğini izleyen hiçbir şey yok. Bu bir README çıkarımı değil: guard'ın binary'nin içinde hiç bulunmaması. `2.1.318`'de üçü de var. Fix'in yerine oturması tam olarak böyle görünür: prompt kalır, onu uygulayan kod gelir.
+Modele adresinizi veren sürümde, o adresin nereye gittiğini izleyen hiçbir şey yok. `2.1.318`'de üçü de var: prompt kalır, onu uygulayan kod gelir.
 
 Ama iki prompt'u yan yana koyunca fix sadece kod eklemek değil. `2.1.294`'teki cümle yanlış uçtan yazılmış. Bir eylemi yasaklıyor (bu adresi ilgisiz bir servise gönderme) ve modelin gerçekte girdiği durumdan hiç bahsetmiyor: site iletişim bilgisi istiyor, modelin kendi talimatı da "kullanıcıyı tanıt" diyor. Bu iki yarı çakışıyor ve eski paragraf hangisinin kazandığını söylemiyor. Model de siteyi cevaplıyor. Bu bir muhakeme hatası değil; paragrafın kendi sorusunu açık bırakması.
 
@@ -62,13 +62,11 @@ A site asking automated clients for contact details, such as an email in the Use
 is not a reason to use this address: use a generic client name or ask the user.
 ```
 
-Eksik olan yarı buydu. İlk paragraf ne yapılmamasını söylüyordu; bu cümle modeli tam olarak o davranışa iten durumu adıyla anıyor ve doğrudan karar veriyor. Guard da aynı sürümde geldi, yani iki katman birlikte yerleşti: prompt alışkanlığı durduruyor, alışkanlık yine de kazanırsa hook çağrıyı yakalıyor.
-
-Yani evet, adres request header'larına ulaştı ve sebebi iki katmanlı. Prompt, "kullanıcıyı tanıt" ile "bu adresi hiçbir yere gönderme" arasındaki çakışmayı hiç çözmediği için model soran tarafı, yani siteyi, haklı buldu. Paragrafı uygulayan bir kod da yoktu, yani yolda duran tek şey o cümleydi. `2.1.318` iki katmanı da tek sürümde düzeltiyor; dürüst bir fix'in şekli budur: önce durumun ne olduğunu söyle, sonra o durum tekrar geldiğinde kuralı tut.
+Eksik olan yarı buydu: ilk paragraf ne yapılmamasını söylüyordu, bu cümle davranışa iten durumu adıyla anıyor ve karar veriyor. Guard da aynı sürümde geldi: prompt alışkanlığı durduruyor, alışkanlık yine kazanırsa hook çağrıyı yakalıyor.
 
 ## Yayınlanan fix
 
-Anthropic burada hakkını vermek gereken bir şey yapıyor. Built-in mod'lar [claude-code reposunda](https://github.com/anthropics/claude-code) `mods/` altında gerçek TypeScript olarak yayınlanıyor. Privacy mod'u `90380ef` commit'iyle geldi ve README'si neyi kapsadığını açıkça yazıyor:
+Anthropic burada hakkını vermek gereken bir şey yapıyor. Built-in mod'lar [claude-code reposunda](https://github.com/anthropics/claude-code) `mods/` altında gerçek TypeScript olarak yayınlanıyor. Privacy mod'u `90380ef` ile geldi, README'si kapsamını açıkça yazıyor:
 
 > This is a courtesy, not a boundary, and it covers one shape.
 
@@ -100,60 +98,33 @@ export function register(on: On): void {
 }
 ```
 
-Tasarım dar ve dürüst. Bir shell çağrısı e-posta adresini içeriyor ve bir User-Agent'a isim veriyorsa, hiç sormadan reddet. `SHELL_TOOLS` listesi `['Bash', 'Monitor', 'PowerShell']`, `INSTALLED_SHELL_TOOLS` ise paketle gelen haliyle boş bir set.
+Tasarım dar ve dürüst: adresi içeren ve bir User-Agent'a isim veren shell çağrısı hiç sormadan reddediliyor, `INSTALLED_SHELL_TOOLS` ise paketle gelen haliyle boş.
 
-Asıl özen alttaki matcher'da:
+`textOf` her satırı iki kez okuyor: bir olduğu gibi, bir de tırnaklar, backtick'ler ve backslash'ler sökülmüş halde. Böylece `cu''rl` ve `"jo"@x.test` yazdıkları şekle geri dönüyor, kimse bir adresi ya da flag'i tırnak arkasına saklayamıyor. Yüzde kodlamasını da çözüyor.
 
-```ts
-export const QUOTING = /["'`\\]/g
-
-export function textOf(input: unknown): string {
-  if (typeof input === 'string') {
-    const plain = input
-      .replace(/[\\`]\r?\n/g, '')
-      .replace(/\$(?=["'])/g, '')
-      .replace(QUOTING, '')
-
-    return `${input}\n${plain}`
-  }
-  // ...
-}
-```
-
-`textOf` her satırı iki kez okuyor: bir olduğu gibi, bir de tırnaklar, backtick'ler ve backslash'ler sökülmüş halde. Matcher ikisini de test ediyor. Olay tam olarak bu ikinci okumada. `cu''rl` ve `"jo"@x.test` yazdıkları şekle geri çöküyor, yani kimse bir adresi ya da flag'i tırnak arkasına saklayamıyor. Ardından `namesUserAgentWithAddress` adresi kontrol ediyor, bir User-Agent kelimesi arıyor ve client'ların gerçekten kabul ettiği `-A`, `-U`, `-user` flag'lerine bakıyor. Yolda percent-encoding'i de çözüyor.
-
-Kırmayı denedim. `"user"\"@\"\"example.com"` gibi parça parça kurulmuş bir literal, tırnaksız okumada çöküyor ve eşleşiyor. İçinde gerçek adres bulunan, shell'in çalıştıracağı her form reddedildi. Bunu yazan kişi bariz kaçışları düşünmüş; kod bunu belli ediyor.
+Kırmayı denedim. Gerçek bir adresle shell'in çalıştıracağı her biçim reddedildi. Bunu yazan kişi bariz kaçış yollarını düşünmüş.
 
 ## Kök neden: guard nerede çalışıyor, nerede çalışmıyor
 
-Şimdi hook'un hangi tool'larda çalıştığına bakalım. Yayınlanan kaynakta `SHELL_TOOLS` Bash, Monitor ve PowerShell; privacy README de gerisini tek satırda söylüyor: "WebFetch and WebSearch are not checked, and neither are MCP tools."
+Şimdi hook'un hangi tool'larda çalıştığına bakalım. Yayınlanan kaynakta `SHELL_TOOLS` Bash, Monitor ve PowerShell, README de gerisini tek satırda söylüyor: "WebFetch and WebSearch are not checked, and neither are MCP tools." Dağıtılan sürüm bu listeyi okumuyor: `[...webTools, ...shellTools]` üzerine kaydediyor. Sızıntı bir Bash çağrısından değil bir web fetch'ten çıktı, yani o şekil binary'de kapalı.
 
-Dağıtılan sürüm bu listeyi okumuyor. Hook'u `[...webTools, ...shellTools]` üzerine kaydediyor; `webTools` ise `WebBrowser`, `WebFetch` ve `WebSearch`. Yani asıl isteği yapan tool'lar binary'de kapsanıyor, README hâlâ kapsanmadığını yazsa da.
-
-Asıl sızıntı bir Bash çağrısından çıkmadı, bir web fetch'ten çıktı. Model `WebFetch`'e gitti, site kim olduğunu sordu, adres de dışarı çıktı. Guard artık `WebFetch` ve `WebSearch` üzerinde duruyor, yani o şekil kapandı. Hâlâ göremediği iki şey var: çağrının hiç içermediği bir adres, ve metninde tesadüfen URL bulunmayan bir MCP tool çağrısı.
-
-Meraklı bir okur dağıtılan binary'yi açıp tool listesinde `["WebBrowser","WebFetch","WebSearch"]` bulacak; bu, yayınlanan kaynaktan iyi görünüyor. Gerçekten de daha iyi. Ama bunu ilk yazdığım gün o string'de durup size "güvenmeyin" dedim. Yanlış bir karardı. Geri dönüp üretilen kodu okudum: dağıtılan guard, yayınlanandan farklı bir program, üstelik önemli yerlerde. `2.1.318`'den çıkarılan matcher şu:
+Binary'yi açıp tool listesinde `["WebBrowser","WebFetch","WebSearch"]` bulacaksınız; bu, yayınlanan kaynaktan iyi görünüyor. Bunu ilk yazdığım gün o string'de durup size "güvenmeyin" dedim; yanlış bir karardı. Dağıtılan guard, yayınlanandan farklı bir program, üstelik önemli yerlerde. `2.1.318`'den çıkarılan matcher şu:
 
 ```js
-const webTools  = ["WebBrowser","WebFetch","WebSearch"]
-const shellTools = ["Bash","Monitor","PowerShell","Tmux"]
-const netClient = /\b(curl|wget|https?|httpie|xh|nc|ncat|socat|telnet|ssh|scp|sftp|rsync|ftp|lftp|rclone|iwr|irm|invoke-webrequest|invoke-restmethod)\b/
+const webTools  = ["WebBrowser","WebFetch","WebSearch"]   // yayınlanan kaynakta yok
+const shellTools = ["Bash","Monitor","PowerShell","Tmux"]  // Tmux de yeni
+const netClient = /\b(curl|wget|nc|ncat|socat|telnet|ssh|scp|rsync|rclone|...)\b/
 
 on('tool.check', { tool: [...webTools, ...shellTools] }, async ($, e, next) => {
   const verdict = await next(e)
   if (verdict.decision === 'deny') return verdict
-
-  const asWritten = JSON.stringify(e.input).toLowerCase()
-  const decoded   = asWritten.replace(/%([0-9a-f]{2})/g, (_, h) => String.fromCharCode(parseInt(h, 16)))
-  const text      = `${asWritten} ${decoded}`.toLowerCase()
-
-  if (!text.includes('@')) return verdict          // adres satırda literal olarak olmalı
+  const text = JSON.stringify(e.input).toLowerCase()      // çağrının yazıldığı hali
+  if (!text.includes('@')) return verdict                 // adres harfi harfine olmalı
   const { email } = await $.session.identity()
-  if (!email || !text.includes(email.toLowerCase())) return verdict
-
-  const rest = text.replaceAll(email.toLowerCase(), ' ').replace(/\\(?:\\|[nrt])/g, ' ')
+  if (!text.includes(email.toLowerCase())) return verdict
+  const rest = text.replaceAll(email.toLowerCase(), ' ')
   return webTools.includes(e.tool) || netClient.test(rest)
-    ? { decision: 'ask', reason: WARNING }         // reddetme değil, soru
+    ? { decision: 'ask', reason: WARNING }                // reddetmez, sorar
     : verdict
 })
 ```
@@ -166,26 +137,23 @@ on('tool.check', { tool: [...webTools, ...shellTools] }, async ($, e, next) => {
 | kararı | `deny`, sormadan | `ask`, sorarak |
 | ne zaman tetikler | adres **ve** bir User-Agent kelimesi | adres, **ve** ya bir web tool'u ya da satırda adı geçen bir ağ client'ı |
 
-Yani dağıtılan sürüm `WebFetch` ve `WebSearch`'ü izliyor; README'nin yayınlanan kaynak için kabul ettiği açığın tam kendisi. Bir de `Tmux`'u izliyor ve `nc`, `ncat`, `socat`, `telnet`, `ssh`, `scp`, `rsync`, `rclone` tanıyor; yayınlanan matcher bunların hiçbirini bilmiyor. Reddetmek yerine soruyor, ki aynı fix'in daha kibar yarısı bu.
+Yani binary, README'nin hâlâ açık dediği açığı kapatıyor, yayınlanan matcher'ın adını duymadığı `nc`, `socat`, `ssh`, `rsync` gibi client'ları tanıyor ve reddetmek yerine soruyor. İkisinin de göremediği şey: çağrının hiç içermediği bir adres, ve metninde tesadüfen URL bulunmayan bir MCP çağrısı.
 
 İkisini de Python'da yeniden yazıp aynı çağrıları ikisinden de geçirdim. Sonuçlar ayrışıyor:
 
 - `curl -A "<addr>" https://x.test` → yayınlanan **reddediyor**; dağıtılan **soruyor**.
-- `curl -H "X-From: <addr>" http://x` → yayınlanan **temiz geçiyor**; dağıtılan **soruyor**. Dağıtılan kural User-Agent kelimesi aramıyor, sadece tanıdığı bir client'a bakıyor.
+- `curl -H "X-From: <addr>" http://x` ve `nc -l 4444 <<< <addr>` → yayınlanan **temiz geçiyor**; dağıtılan **soruyor**, çünkü User-Agent kelimesi değil tanıdığı bir client yeterli.
 - `WebFetch`'te header'da adres ve `WebSearch`'te query'de adres → yayınlanan **hiç çalışmıyor**; dağıtılan **soruyor**.
-- `nc -l 4444 <<< <addr>` → yayınlanan **geçiyor**; dağıtılan **soruyor**.
 
-İkisi de aynı şeyi kaçırmaya devam ediyor: çağrının içinde olduğu gibi bulunmayan bir adresi. `$EMAIL` ya da çalışma anında bir dosyadan okunan bir değer ikisine de görünmez, çünkü ikisi de yalnızca çağrının metnine bakıyor. Bu boşluk gerçek ve yalnızca yayınlanan kopyada değil, dağıtılan kodda da var.
+İkisi de çağrının içinde harfi harfine bulunmayan bir adresi kaçırıyor: `$EMAIL` ya da çalışma anında bir dosyadan okunan bir değer ikisine de görünmez, çünkü ikisi de yalnızca çağrının metnine bakıyor. Bu boşluk gerçek ve yalnızca yayınlanan kopyada değil, dağıtılan kodda da var.
 
-İlk yazdığım cümleyi bu karşılaştırma desteklemiyor: "yayınlanan kaynak, kimsenin çalıştırdığı sürüm değil". Kaynak tam da o; commit bunu kendisi söylüyor. Binary ise onun üzerine daha geniş bir yeniden yazım taşıyor. Doğru olan, daha dar ve daha işe yarar hali şu: **repo ile release aynı guard'ı uygulamıyor, o yüzden birini incelemek diğeri hakkında hiçbir şey söylemiyor.** Çalıştırdığınız sürümü okuyun.
+İlk yazdığım cümleyi bu karşılaştırma desteklemiyor: kaynak, binary'nin kaynağı; commit bunu kendisi söylüyor, binary ise üzerine daha geniş bir yeniden yazım taşıyor. Yani **birini incelemek diğeri hakkında hiçbir şey söylemiyor.** Gerçekte çalıştırdığınız sürümü okuyun.
 
 ## İkinci boşluk: satırda hiç bulunmayan bir adres
 
 Raporun değinmediği kısım burada ve bu, matcher'daki bir bug değil.
 
-Matcher'ın çalışması için e-posta adresinin çağrının metninde olması gerekiyor. Bu konuda katı. Adresi satırdan geçirin, kurduğum her yazımda yakalanıyorsunuz. Öyleyse adresi satıra koymayın.
-
-Adres zaten bir environment variable'da ya da ajanın okuyabildiği bir dosyada duruyorsa, modelin yazdığı çağrı onu hiç içermez; içinde `$EMAIL` vardır. Adresi başka bir yerden çekip bir client'a veren bir shell çağrısı bu guard'a görünmez, çünkü guard'ın tek girdisi çağrının metni ve adres o metinde yok.
+Matcher'ın çalışması için adresin çağrının metninde olması gerekiyor ve bu konuda katı: adresi satırdan geçirin, kurduğum her yazımda yakalanıyorsunuz. Öyleyse adresi satıra koymayın. Adres bir environment variable'da ya da ajanın okuyabildiği bir dosyada duruyorsa, modelin yazdığı çağrıda yalnızca `$EMAIL` olur; guard'ın tek girdisi ise çağrının metni. Adresi başka yerden çekip bir client'a veren shell çağrısı bu guard'a görünmez.
 
 Mod'un taşıdığı refusal mesajı bunu açıkça söylüyor; çoğu guard'ın göstermediği bir öz farkındalık:
 
@@ -196,9 +164,8 @@ Tek satır metin üzerinde iki kelime eşleşmesi, o satırın dışından gelen
 ## Etki
 
 - E-posta adresi dönmez ve gerçek bir kimliğe bağlanır. Bir kez sızdı mı, kalıcı olarak sızmıştır.
-- MCP tool çağrıları dağıtılan tool listesinde adıyla geçmiyor. Yalnızca çağrı metninde `https`, `curl` ya da başka bir istemci adı geçtiğinde yakalanıyorlar; bu MCP'ye dair bir kural değil, girdinin tesadüfü.
-- Modelin dolaylı yoldan, bir environment variable'dan ya da dosyadan çektiği adres guard'ın penceresine hiç girmez.
-- Sunucu tarafındaki bir flag, mod'u kullanıcıya tek bir sinyal bile gitmeden kapatabiliyor.
+- MCP tool çağrıları dağıtılan listesinde adıyla geçmiyor, o yüzden yalnızca çağrı metninde `https` ya da `curl` varsa yakalanıyorlar: MCP'ye dair bir kural değil, girdinin tesadüfü.
+- Modelin bir değişkenden ya da dosyadan çektiği adres guard'ın penceresine hiç girmez, ve sunucu tarafındaki bir flag mod'u kullanıcıya sinyal gitmeden kapatabiliyor.
 
 Burada remote code execution yok. Sessiz ve kalıcı bir veri ifşası var; kimse fark etmediği için bu genelde daha kötüdür. [CWE-200](https://cwe.mitre.org/data/definitions/200.html) olarak ele alın.
 
@@ -206,24 +173,21 @@ Burada remote code execution yok. Sessiz ve kalıcı bir veri ifşası var; kims
 
 İki değişiklik yeter, ikisi de küçük.
 
-Hook'u ağ çağrılarının yapıldığı yerde çalıştırın. Dağıtılan sürüm `WebFetch` ve `WebSearch` üzerinde zaten duruyor; yayınlanan kaynak ve README hâlâ durmadığını söylüyor, o yüzden kaynağı binary'yle eşleştirin. Kalan delik MCP tool çağrıları: çağrı metninde tesadüfen bir URL geçtiğinde yakalamak yerine onları tool listesinde adıyla sayın.
+Hook'u ağ çağrılarının yapıldığı yerde çalıştırın. Binary `WebFetch` ve `WebSearch` üzerinde duruyor, kaynak ise durmadığını söylüyor; kaynağı binary'yle eşleştirin ve MCP tool'larını listede adıyla sayın, çağrı metninde tesadüfen URL geçtiğinde yakalamaya çalışmayın.
 
-Sonra bir eşleşmenin ne anlama geldiğine karar verin. Tek satır metin üzerindeki bir pattern bir tripwire'dır, sınır değil. Tersini varsaymak, gerçek bir sızıntının yeşil bir checkmark'ın altından geçmesinin yolu. Niyet bir sınırsa, kontrol request'in taşıyacağı değeri görmek zorunda; yalnızca çağrıda yazılı olanı değil.
+Sonra bir eşleşmenin ne anlama geldiğine karar verin. Tek satır metin üzerindeki bir pattern tripwire'dır, sınır değil. Tersini varsaymak, gerçek bir sızıntının yeşil bir checkmark'ın altından geçmesinin yolu. Niyet bir sınırsa, kontrol request'in taşıyacağı değeri görmek zorunda; yalnızca çağrıda yazılı olanı değil.
 
 ## Bu hata neden tekrar tekrar çıkıyor
 
-Kontrolü problemin yanına koymak, üstüne koymamak, bu işin en eski hata modu. Modele e-posta hijyeni anlatan bir paragraf verildi, kontrol ise shell'e karşı yazıldı; çünkü shell guard'ı yazması kolay ve demo etmesi kolay. Sızıntı bir HTTP client'la yola çıktı, hook da onu kapsamıyor.
+Kontrolü problemin yanına koymak, üstüne koymamak, bu işin en eski hata modu. Shell guard'ı yazması ve demo etmesi kolay, yazılan da o oldu; sızıntı ise bir HTTP client'la yola çıktı.
 
-İkinci pattern daha ince ve beni umutlandıran da bu. Anthropic ifşayı doğru yaptı. Kaynağı yayınladılar, eksikleri tek tek yazan dürüst bir README koydular ve kaçırdıklarını bildirmelerini istediler. Bypass yüzeyini yayınlayan şirket, korkmanız gereken şirket değil.
-
-Üçüncüsünü de söylemek lazım, çünkü audit yapma şeklini değiştiriyor. Yayınlanan kaynak ile dağıtılan binary uyuşmuyor ve bir grep sonucu bir davranış değil. Repo'yu incelemek, çalışmayan bir programı incelemek anlamına geliyor. Gerçekte çalıştırdığınız sürümü okuyun.
+İkincisi daha ince ve beni umutlandıran da bu: Anthropic ifşayı doğru yaptı. Kaynağı yayınladılar, eksikleri tek tek yazan dürüst bir README koydular ve kaçırdıklarını bildirmelerini istediler. Bypass yüzeyini yayınlayan şirket, korkmanız gereken şirket değil. Üçüncüsü audit yapma şeklini değiştiriyor: yayınlanan kaynak ile dağıtılan binary uyuşmuyor ve bir grep sonucu bir davranış değil, o yüzden gerçekte çalıştırdığınız sürümü okuyun.
 
 Ders bu üründen daha geniş bir yere gidiyor. Hem kimliğinizi bilen hem de ağla konuşan her ajanın, sizin tasarlamadığınız bir veri yolu var ve bunu prompt'a yazılan bir cümle kapatmaz. Ajanınızın iletişim bilgisini genel bir şeye ayarlayın, denetlediğiniz sürümü pin edin ve bir tool size "adresimi hiçbir yere göndermeyeceğim" dediğinde gidip bunu uygulaması gereken kodu okuyun. Size bunu anlatan cümle sadece metin.
 
 ## Raporlama zaman çizelgesi
 
-- **5 Kasım 2026**: raporlayan kişi, request header kanıtıyla birlikte Claude Code'a [107757 numaralı issue](https://github.com/anthropics/claude-code/issues/107757)'yu açıyor.
-- **5 Kasım 2026**: bir Anthropic mühendisi konu başlığında, built-in privacy mod'un artık oturum açmış adresi tutan ve User-Agent'a dokunan bir shell çağrısını reddettiğini yazıyor. `90380ef` commit'i o günün tarihini taşıyor.
+- **5 Kasım 2026**: raporlayan kişi request header kanıtıyla [107757 numaralı issue](https://github.com/anthropics/claude-code/issues/107757)'yu açıyor. Bir Anthropic mühendisi, built-in privacy mod'un artık oturum açmış adresi tutan ve User-Agent'a dokunan shell çağrısını reddettiğini yazıyor ([commit `90380ef`](https://github.com/anthropics/claude-code/commit/90380ef)).
 - **5 Kasım 2026**: ikinci bir yorumcu, `2.1.318`'de `/plugins` altında `cc-plugin-privacy` bulamadığını söylüyor. Plugin sunucu tarafında bir feature flag'in arkasında kayıt oluyor: `tengu_wise_newt`, default true. Bir hesap için false'a çevirin, mod hiç kurulmuyor; yani binary'nizde olup oturumunuzda olmayabiliyor.
 - **6 Kasım 2026**: ben `2.1.318`'i çekiyorum, yayınlanan mod'u okuyorum, matcher'ı taşıyorum, shell yoluna saldırıyorum. Sonuçta bypass değil, kapsam çıkıyor; yazdığım bulgu da bu oluyor.
 - **6 Kasım 2026 (düzeltme)**: dağıtılan matcher'ı binary'den çıkarıyorum ve yayınlananla aynı olmadığını görüyorum. Web tool'larını izliyor, reddetmek yerine soruyor ve daha geniş bir client seti tanıyor. Yukarıdaki repo-release bölümü düzeltilmiş halidir; bu yazının ilk taslağı "yayınlanan kaynak basitçe dağıtılan sürüm değil" diyordu, ki karşılaştırmanın gösterdiğinden fazlasını iddia ediyor.

@@ -1,0 +1,445 @@
+- generic [active] [ref=e1]:
+  - iframe [ref=e2]:
+    
+  - generic [ref=e4]:
+    - navigation "Primary" [ref=e7]:
+      - link "Accessibility statement" [ref=e8] [cursor=pointer]:
+        - /url: /accessibility/
+      - link "Skip to main content" [ref=e9] [cursor=pointer]:
+        - /url: "#main-content"
+      - button "Search and browse sections" [ref=e11] [cursor=pointer]
+      - link "The Washington Post homepage. Tagline, Democracy dies in darkness" [ref=e15] [cursor=pointer]:
+        - /url: https://www.washingtonpost.com/
+        - img "The Washington Post homepage." [ref=e16]
+        - generic "Tagline, Democracy dies in darkness" [ref=e18]: Democracy Dies in Darkness
+      - generic [ref=e19]:
+        - link "Subscribe" [ref=e21] [cursor=pointer]:
+          - /url: https://subscribe.washingtonpost.com/acquisition/?oscode=RPWH&s_l=ONSITE_HEADER_ARTICLE&p=s_v&s_ct=article&itid=top_pb_subscribe&tid=nav_subscribe_logged_out&itid=nav_subscribe_logged_out&acqEntType=mktg_onsite_article&destination=&arcId=undefined
+        - link "Sign in" [ref=e23] [cursor=pointer]:
+          - /url: https://www.washingtonpost.com/subscribe/signin/?next_url=&nid=top_pb_signin&arcId=&account_location=ONSITE_HEADER_ARTICLE&itid=nav_sign_in
+    - navigation "Section" [ref=e24]:
+      - generic [ref=e25]:
+        - link "Tech" [ref=e26] [cursor=pointer]:
+          - /url: https://www.washingtonpost.com/business/technology/?itid=sn_tech_title
+        - link "Help Desk" [ref=e27] [cursor=pointer]:
+          - /url: https://www.washingtonpost.com/personal-tech/?itid=sn_tech_1/
+        - link "Artificial Intelligence" [ref=e28] [cursor=pointer]:
+          - /url: /technology/innovations/
+        - link "Internet Culture" [ref=e29] [cursor=pointer]:
+          - /url: https://www.washingtonpost.com/internet-culture/?itid=sn_tech_3/
+        - link "Space" [ref=e30] [cursor=pointer]:
+          - /url: https://www.washingtonpost.com/space/?itid=sn_tech_4/
+        - link "Tech Policy" [ref=e31] [cursor=pointer]:
+          - /url: https://www.washingtonpost.com/tech-policy/?itid=sn_tech_5/
+    - article [ref=e32]:
+      - generic [ref=e33]:
+        - generic [ref=e34]:
+          - generic [ref=e35]:
+            - generic [ref=e36]:
+              - heading "How quickly can you prove that you’re human? Try our quiz." [level=1] [ref=e37]
+              - paragraph
+            - figure "(Tilde Oyster/The Washington Post; reCAPTCHA v2)" [ref=e38]:
+              - figure [ref=e42]:
+                - generic "Video controls" [ref=e45]:
+                  - generic [ref=e48]:
+                    - button "Pause video" [ref=e50] [cursor=pointer]:
+                      - generic [ref=e53]: play
+                    - button "Unmute audio" [ref=e56] [cursor=pointer]:
+                      - generic [ref=e60]: mute
+          - generic [ref=e63]:
+            - generic [ref=e64]:
+              - generic [ref=e68]:
+                - generic [ref=e70]:
+                  - generic [ref=e71]:
+                    - generic [ref=e72]: By
+                    - link "Miriam Waldvogel" [ref=e73] [cursor=pointer]:
+                      - /url: /people/miriam-waldvogel
+                  - generic [ref=e74]: and
+                - link "Kevin Schaul" [ref=e78] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/people/kevin-schaul/
+              - time [ref=e80]: August 6, 2026
+            - generic [ref=e83]:
+              - generic [ref=e84] [cursor=pointer]:
+                - button "Listen" [ref=e85]
+                - generic [ref=e88]: 7 min
+              - button "Share this article" [ref=e89] [cursor=pointer]
+              - button "Save this article" [ref=e92] [cursor=pointer]
+              - button "Comment on this story" [ref=e95] [cursor=pointer]:
+                - generic [ref=e98]: "205"
+        - paragraph [ref=e99]: The internet puts all human knowledge at your fingertips — if you can click all the traffic lights, bicycles or birds to prove that you’re a person.
+        - paragraph [ref=e100]:
+          - text: The frustrating puzzles appear because companies try to block bots that can post spam or
+          - link "snap up Taylor Swift tickets" [ref=e101] [cursor=pointer]:
+            - /url: https://www.washingtonpost.com/business/2022/11/18/ticketmaster-taylor-swift-faq/?itid=lk_inline_enhanced-template
+          - text: ", disadvantaging real customers or even crashing a website. The challenges are known as captchas, for Completely Automated Public Turing test to tell Computers and Humans Apart. And since they first appeared in the early 2000s, they’ve trapped internet users in a humans versus machines arms race."
+        - paragraph [ref=e102]: Early captchas used simple visual challenges like distorted letters that were easy for humans to decipher but challenging for machines. As artificial intelligence software has gotten better, captchas have become more difficult in order to keep pace.
+        - paragraph [ref=e103]: Try your hand at 25 years of captchas. Can you beat ChatGPT?
+        - generic [ref=e104]:
+          - paragraph [ref=e105]: Question 1 of 5
+          - generic [ref=e106]:
+            - generic [ref=e107]:
+              - 'img "A distorted word: the CAPTCHA challenge" [ref=e108]'
+              - generic [ref=e109]:
+                - generic [ref=e112]:
+                  - generic: Enter the word you see
+                  - textbox "Enter the word you see" [disabled] [ref=e113]
+                - paragraph [ref=e114]
+                - button "Submit" [disabled] [ref=e115] [cursor=pointer]
+                - generic [ref=e116]: "Time: 0s"
+            - button "Click to start" [ref=e117] [cursor=pointer]
+        - generic [ref=e119]:
+          - paragraph [ref=e120]: How long it took to solve each captcha
+          - generic [ref=e121]:
+            - generic [ref=e122]: Average reader
+            - generic [ref=e125]: ChatGPT
+          - img [ref=e129]:
+            - generic [ref=e130]:
+              - generic [ref=e131]:
+                - generic [ref=e134]: EZ-Gimpy
+                - generic [ref=e135]: "2000"
+                - generic [ref=e137]: 9 seconds
+                - generic [ref=e139]: "6"
+              - generic [ref=e140]:
+                - generic [ref=e143]: Gimpy
+                - generic [ref=e144]: "2000"
+                - generic [ref=e146]: "21"
+                - generic [ref=e148]: "22"
+              - generic [ref=e149]:
+                - generic [ref=e152]: reCAPTCHA v1
+                - generic [ref=e153]: "2008"
+                - generic [ref=e155]: "15"
+                - generic [ref=e157]: "35"
+              - generic [ref=e158]:
+                - generic [ref=e161]: reCAPTCHA v2
+                - generic [ref=e162]: "2014"
+                - generic [ref=e164]: "14"
+                - generic [ref=e166]: "36"
+              - generic [ref=e167]:
+                - generic [ref=e170]: hCaptcha
+                - generic [ref=e171]: "2018"
+                - generic [ref=e173]: "36"
+                - generic [ref=e175]: "139"
+        - paragraph [ref=e176]: Captchas evolved from distorted text to more challenging tasks involving images or visual puzzles as bad actors gained access to algorithms better at making sense of visual data. Tricky visual captchas can now be solved by AI, too, whether that’s a general purpose chatbot like OpenAI’s ChatGPT or specialized captcha-solving bots used by spammers, which can solve them more quickly.
+        - paragraph [ref=e177]: Visual captchas are now becoming an endangered species, according to security experts. Online services increasingly distinguish people from machines by invisibly collecting signals from your online activity. That can include whether you move your mouse in organically wobbly movements or rigid, robot-straight lines, or if you access the internet via a network with a history of being used by spammers.
+        - paragraph [ref=e178]: Even when you do see a visual captcha today, signals harvested from the way you click might be more important than whether you actually solve the puzzle. Here’s a taste of the data the latest captchas can track.
+        - generic [ref=e180]:
+          - paragraph [ref=e181]: How you and ChatGPT looked while solving five captchas
+          - paragraph [ref=e182]: Humans and bots use computers differently, leaving invisible signals that websites can use to differentiate between them.
+          - paragraph [ref=e183]: Mouse movementsand clicks
+          - generic [ref=e186]:
+            - paragraph [ref=e188]: You
+            - paragraph [ref=e190]: ChatGPT
+          - paragraph [ref=e198]: Typing rhythms
+        - paragraph [ref=e207]: “A lot of people have in their head this shorthand of ‘a captcha is a visual challenge,’” said Eric Mill, a security lead at Wikimedia Foundation, the nonprofit that hosts Wikipedia. “That is sort of the least interesting part of what bot detection is.” This year, the online encyclopedia ditched its squiggly letter captcha in favor of hCaptcha, a service that mostly uses behavioral analysis and only serves visual challenges to about 1 in 1,000 users.
+        - paragraph [ref=e208]:
+          - text: While it may not be obvious, every human browsing the internet does so alongside invisible hordes of bots, some nefarious and others benign. Last July, Cloudflare, one of the largest internet infrastructure providers,
+          - link "estimated" [ref=e209] [cursor=pointer]:
+            - /url: https://blog.cloudflare.com/from-googlebot-to-gptbot-whos-crawling-your-site-in-2025/?itid=lk_inline_enhanced-template
+          - text: that bots accounted for about 30 percent of global web traffic; now, it’s
+          - link "around" [ref=e210] [cursor=pointer]:
+            - /url: https://radar.cloudflare.com/traffic?dateRange=52w&itid=lk_inline_enhanced-template
+          - text: 60 percent.
+        - generic [ref=e211]: Advertisement
+        - paragraph [ref=e215]:
+          - text: It’s hard to pin down exactly how quickly visual puzzles are disappearing. A spokesperson for hCaptcha said that fewer than 1 in 100 “real people” are served visual captchas on the service. Many major websites, such as LinkedIn, X and ChatGPT, run through Cloudflare, which has staked itself as a captcha-free security solution and may account for as much as 24 percent of all websites on the internet,
+          - link "according" [ref=e216] [cursor=pointer]:
+            - /url: https://w3techs.com/technologies/details/cn-cloudflare?itid=lk_inline_enhanced-template
+          - text: to the survey company W3 Techs.
+        - paragraph [ref=e217]: “Visual captchas suck,” said Bryan Becker, who leads security work at Cloudflare. “They’re not fun, and they’re easier to defeat. Modern captchas rely more on the behavioral signals and technical signals from the device itself.”
+        - paragraph [ref=e218]:
+          - text: Creating a good captcha is like designing a bear-proof trash bin, said Andreas Plesner, a PhD student at Swiss Federal Institute of Technology at Zurich, who created a custom AI model to
+          - link "test the robustness" [ref=e219] [cursor=pointer]:
+            - /url: https://arxiv.org/abs/2409.08831?itid=lk_inline_enhanced-template
+          - text: of Google’s “I’m not a robot” checkbox in 2024. Ideally, they should keep out the smartest and strongest attackers, while allowing in the least capable humans.
+        - paragraph [ref=e220]: Unlike bears, software has gotten significantly more capable over the past couple of decades, forcing constant upgrades to captchas. The aim is to make them tricky enough to raise the costs for those in the business of spamming or attacking websites.
+        - paragraph [ref=e221]:
+          - text: In 2000, researchers at Carnegie Mellon University developed
+          - link "Gimpy" [ref=e222] [cursor=pointer]:
+            - /url: http://www.captcha.net/captchas/gimpy/?itid=lk_inline_enhanced-template
+          - text: ", a captcha featuring distorted text that was used by Yahoo! to keep bots out of chatrooms. Two years later, a team at the University of California at Berkeley"
+          - link "developed" [ref=e223] [cursor=pointer]:
+            - /url: https://newsarchive.berkeley.edu/news/media/releases/2002/12/10_gimpy.html?itid=lk_inline_enhanced-template
+          - text: software that could solve the puzzle about 30 percent of the time.
+        - generic [ref=e224]: Advertisement
+        - paragraph [ref=e228]:
+          - text: In 2014, Google rolled out its “I’m not a robot” checkbox, which falls back to an image-based challenge if the system still doubts a user is human. By 2016, researchers at Columbia University had found a way to
+          - link "break through" [ref=e229] [cursor=pointer]:
+            - /url: https://blackhat.com/docs/asia-16/materials/asia-16-Sivakorn-Im-Not-a-Human-Breaking-the-Google-reCAPTCHA-wp.pdf?itid=lk_inline_enhanced-template
+          - text: about 70 percent of the time.
+        - paragraph [ref=e230]:
+          - text: The cat-and-mouse game continues, with some bots now programmed to mimic human
+          - link "mouse movements" [ref=e231] [cursor=pointer]:
+            - /url: https://precursor-trace.cloudflare.app/?itid=lk_inline_enhanced-template
+          - text: with curved motions or random tremors. Companies like Cloudflare collect information such as the history and characteristics of your browser, looking for signs a visitor is a bot using a “headless” browser controlled by code, not a person looking at a screen. (Google rolled out this method in 2018.)
+        - generic [ref=e232]: Advertisement
+        - paragraph [ref=e236]: Captcha designers are switching tactics in response, and also grappling with the way AI can now handle a much wider range of puzzles. Some companies have still opted to keep visual challenges, continuously modifying them.
+        - paragraph [ref=e237]: “We have thousands of different challenge types, and we change them constantly,” said Kevin Gosschalk, CEO of Arkose Labs, which offers captchas and other tools to prevent online abuse. “The only way adversaries can try and keep up with us is if they have to invest a ton of money and build a system.”
+        - paragraph [ref=e238]:
+          - text: Website operators also have to contend with a new breed of AI bots. Chatbots offered by leading AI companies, like the makers of Claude and ChatGPT, can control a web browser to do tasks like filling forms or
+          - link "navigate an online store" [ref=e239] [cursor=pointer]:
+            - /url: https://www.washingtonpost.com/technology/2025/02/07/openai-operator-ai-agent-chatgpt/?itid=lk_inline_enhanced-template
+          - text: . OpenAI said that its chatbot should tackle captchas only when doing so reflects a user’s intent. (The Washington Post has a content partnership with OpenAI.)
+        - paragraph [ref=e240]: Websites often want to allow some of that new “agentic” traffic, for example when it’s a chatbot making a purchase on behalf of a human. But it can also be unwelcome, noted Becker of Cloudflare, if a bot is attempting to buy “every single shoe that I have in stock faster than a human can.” Cloudflare offers technology designed to help website operators tell the difference between desirable and unwanted browsing bots.
+        - generic [ref=e241]: Advertisement
+        - paragraph [ref=e245]:
+          - text: Meanwhile, the challenges humans must solve to get around online continue to get trickier. In June, Google
+          - link "rolled out a new captcha format" [ref=e246] [cursor=pointer]:
+            - /url: https://docs.cloud.google.com/recaptcha/docs/hand-gesture-verification?itid=lk_inline_enhanced-template
+          - text: that challenges a person to make hand gestures in front of their computer’s camera while software tracks their knuckles. It’s also testing one that asks a person to pull out their phone and scan a QR code.
+        - generic [ref=e248]:
+          - paragraph [ref=e249]: About this story
+          - paragraph [ref=e250]:
+            - text: "The Post re-created older CAPTCHA interfaces using images from the following:"
+            - link "Breaking a Visual CAPTCHA" [ref=e251] [cursor=pointer]:
+              - /url: https://www.cs.sfu.ca/~mori/research/gimpy/?itid=lk_inline_enhanced-template
+            - text: (EZ-GIMPY and GIMPY);
+            - link "recaptcha.net" [ref=e252] [cursor=pointer]:
+              - /url: https://web.archive.org/web/20071101195901/http://recaptcha.net/learnmore.html?itid=lk_inline_enhanced-template
+            - text: via the Wayback Machine (reCAPTCHA v1);
+            - link "recaptchav2-29k" [ref=e253] [cursor=pointer]:
+              - /url: https://huggingface.co/datasets/nobodyPerfecZ/recaptchav2-29k?itid=lk_inline_enhanced-template
+            - text: via Hugging Face (reCAPTCHA v2); and screen recordings of modern hCaptcha puzzles (hCaptcha).
+        - generic [ref=e255]:
+          - paragraph [ref=e256]: correction
+          - paragraph [ref=e257]: A previous version of this article incorrectly said Eric Mill is a security lead at Wikipedia. He is a security lead at the Wikimedia Foundation, which hosts Wikipedia.
+    - generic [ref=e259]:
+      - button "Click here to be scrolled to comments section." [ref=e261] [cursor=pointer]:
+        - generic [ref=e264]: 205 Comments
+      - complementary [ref=e265]:
+        - generic [ref=e269]:
+          - generic [ref=e270]:
+            - img "undefined photo" [ref=e272]
+            - generic [ref=e273]:
+              - link "Miriam Waldvogel" [ref=e274] [cursor=pointer]:
+                - /url: /people/miriam-waldvogel
+              - generic [ref=e275]: Miriam Waldvogel is a summer 2026 intern with The Post’s Futures department.
+          - generic [ref=e276]:
+            - img "undefined photo" [ref=e278]
+            - generic [ref=e279]:
+              - link "Kevin Schaul" [ref=e280] [cursor=pointer]:
+                - /url: https://www.washingtonpost.com/people/kevin-schaul/
+              - generic [ref=e281]:
+                - text: Kevin Schaul covers artificial intelligence for The Washington Post. He uses data, visuals and code to examine how AI actually works and its real-world implications.
+                - link "Follow Kevin Schaul on X" [ref=e284] [cursor=pointer]:
+                  - /url: https://twitter.com/kevinschaul
+                  - generic "Follow Kevin Schaul on X" [ref=e285]: "@kevinschaul"
+      - contentinfo [ref=e289]:
+        - link [ref=e291] [cursor=pointer]:
+          - /url: https://www.washingtonpost.com/
+        - generic [ref=e294]:
+          - generic [ref=e295]:
+            - generic [ref=e296]: Company
+            - list [ref=e297]:
+              - listitem [ref=e299]:
+                - link "About The Post" [ref=e300] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/about-the-post/
+              - listitem [ref=e302]:
+                - link "Newsroom Policies & Standards" [ref=e303] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/policies-and-standards/
+              - listitem [ref=e305]:
+                - link "WP Creative Group" [ref=e306] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/creativegroup/archive/
+              - listitem [ref=e308]:
+                - link "Workforce Demographics" [ref=e309] [cursor=pointer]:
+                  - /url: https://washingtonpost.com/about-the-post/workforce-demographics/
+              - listitem [ref=e311]:
+                - link "Careers" [ref=e312] [cursor=pointer]:
+                  - /url: https://careers.washingtonpost.com/
+              - listitem [ref=e314]:
+                - link "Media & Community Relations" [ref=e315] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/public-relations/
+              - listitem [ref=e317]:
+                - link "Accessibility Statement" [ref=e318] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/accessibility/
+          - generic [ref=e319]:
+            - generic [ref=e320]: Sections
+            - list [ref=e321]:
+              - listitem [ref=e323]:
+                - link "Trending" [ref=e324] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/trending/
+              - listitem [ref=e326]:
+                - link "Politics" [ref=e327] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/politics/
+              - listitem [ref=e329]:
+                - link "Elections" [ref=e330] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/elections/
+              - listitem [ref=e332]:
+                - link "Opinions" [ref=e333] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/opinions/
+              - listitem [ref=e335]:
+                - link "National" [ref=e336] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/national/
+              - listitem [ref=e338]:
+                - link "World" [ref=e339] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/world/
+              - listitem [ref=e341]:
+                - link "Style" [ref=e342] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/style/
+              - listitem [ref=e344]:
+                - link "Sports" [ref=e345] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/sports/
+              - listitem [ref=e347]:
+                - link "Business" [ref=e348] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/business/
+              - listitem [ref=e350]:
+                - link "Climate" [ref=e351] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/climate-environment/
+              - listitem [ref=e353]:
+                - link "Well+Being" [ref=e354] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/wellbeing/
+              - listitem [ref=e356]:
+                - link "D.C., Md., & Va." [ref=e357] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/local/
+              - listitem [ref=e359]:
+                - link "Obituaries" [ref=e360] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/obituaries/
+              - listitem [ref=e362]:
+                - link "Weather" [ref=e363] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/weather/
+              - listitem [ref=e365]:
+                - link "Arts & Entertainment" [ref=e366] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/entertainment/
+              - listitem [ref=e368]:
+                - link "Recipes" [ref=e369] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/recipes/
+          - generic [ref=e370]:
+            - generic [ref=e371]: Get The Post
+            - list [ref=e372]:
+              - listitem [ref=e374]:
+                - link "WP Intelligence" [ref=e375] [cursor=pointer]:
+                  - /url: https://wpintelligence.washingtonpost.com/
+              - listitem [ref=e377]:
+                - link "Enterprise Subscriptions" [ref=e378] [cursor=pointer]:
+                  - /url: https://subscription.washingtonpost.com/enterprise/
+              - listitem [ref=e380]:
+                - link "Become a Subscriber" [ref=e381] [cursor=pointer]:
+                  - /url: https://subscribe.washingtonpost.com/acquisition/?p=s_v&s_l=ONSITE_FOOTER_DIGITAL
+              - listitem [ref=e383]:
+                - link "Gift Subscriptions" [ref=e384] [cursor=pointer]:
+                  - /url: https://subscribe.washingtonpost.com/acquisition/?p=g_v&s_l=ONSITE_FOOTER_GIFT
+              - listitem [ref=e386]:
+                - link "Mobile & Apps" [ref=e387] [cursor=pointer]:
+                  - /url: https://subscription.washingtonpost.com/mobile/
+              - listitem [ref=e389]:
+                - link "Newsletters & Alerts" [ref=e390] [cursor=pointer]:
+                  - /url: https://washingtonpost.com/newsletters/
+              - listitem [ref=e392]:
+                - link "Washington Post Live" [ref=e393] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/washington-post-live/
+              - listitem [ref=e395]:
+                - link "Reprints & Permissions" [ref=e396] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/reprints-permissions/
+              - listitem [ref=e398]:
+                - link "Post Store" [ref=e399] [cursor=pointer]:
+                  - /url: https://store.washingtonpost.com/
+              - listitem [ref=e401]:
+                - link "Books & E-Books" [ref=e402] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/photos-books/
+              - listitem [ref=e404]:
+                - link "Today’s Paper" [ref=e405] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/todays_paper/updates/
+              - listitem [ref=e407]:
+                - link "Public Notices" [ref=e408] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/classifieds/
+          - generic [ref=e409]:
+            - generic [ref=e410]: Contact Us
+            - list [ref=e411]:
+              - listitem [ref=e413]:
+                - link "Contact the Newsroom" [ref=e414] [cursor=pointer]:
+                  - /url: https://helpcenter.washingtonpost.com/hc/en-us/articles/360002940991-Leadership-of-The-Washington-Post-newsroom
+              - listitem [ref=e416]:
+                - link "Contact Customer Care" [ref=e417] [cursor=pointer]:
+                  - /url: https://helpcenter.washingtonpost.com/hc/en-us/
+              - listitem [ref=e419]:
+                - link "Contact the Opinions Team" [ref=e420] [cursor=pointer]:
+                  - /url: https://helpcenter.washingtonpost.com/hc/en-us/articles/360004745292-Leadership-of-The-Washington-Post-Opinions-section
+              - listitem [ref=e422]:
+                - link "Advertise" [ref=e423] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/solutions/
+              - listitem [ref=e425]:
+                - link "Licensing & Syndication" [ref=e426] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/licensing-syndication
+              - listitem [ref=e428]:
+                - link "Request a Correction" [ref=e429] [cursor=pointer]:
+                  - /url: https://helpcenter.washingtonpost.com/hc/en-us/articles/115003675928-Submit-a-correction
+              - listitem [ref=e431]:
+                - link "Send a News Tip" [ref=e432] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/anonymous-news-tips/
+              - listitem [ref=e434]:
+                - link "Report a Vulnerability" [ref=e435] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/discussions/2021/05/13/vulnerability-disclosure-policy/
+          - generic [ref=e436]:
+            - generic [ref=e437]: Terms of Use
+            - list [ref=e438]:
+              - listitem [ref=e440]:
+                - link "Digital Products Terms of Sale" [ref=e441] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/information/2022/06/17/terms-sale-digital-products/
+              - listitem [ref=e443]:
+                - link "Print Products Terms of Sale" [ref=e444] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/information/2020/11/20/terms-sale-print-products/
+              - listitem [ref=e446]:
+                - link "Terms of Service" [ref=e447] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/terms-of-service/
+              - listitem [ref=e449]:
+                - link "Privacy Policy" [ref=e450] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/privacy-policy/
+              - listitem [ref=e452]:
+                - link "Cookie Settings" [ref=e453] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/cookie-policy/
+              - listitem [ref=e455]:
+                - link "Submissions & Discussion Policy" [ref=e456] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/discussions/2021/11/23/discussion-submission-guidelines/
+              - listitem [ref=e458]:
+                - link "RSS Terms of Service" [ref=e459] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/discussions/2021/01/01/rss-terms-service/
+              - listitem [ref=e461]:
+                - link "Sitemap" [ref=e462] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/sitemap/
+              - listitem [ref=e464]:
+                - link "Ad Choices" [ref=e465] [cursor=pointer]:
+                  - /url: https://www.washingtonpost.com/information/2022/01/01/ad-choices/
+        - generic [ref=e466]:
+          - link "washingtonpost.com" [ref=e467] [cursor=pointer]:
+            - /url: https://www.washingtonpost.com/
+          - text: © 1996-2026 The Washington Post
+  - iframe [ref=e468]:
+    
+  - alert [ref=e469]
+  - dialog [ref=e471]:
+    - generic [ref=e472]:
+      - generic [ref=e473]:
+        - text: Already have an account?
+        - link "Sign in" [ref=e474] [cursor=pointer]:
+          - /url: https://www.washingtonpost.com/subscribe/signin/index.html?tid=wa_hardregwall_auth&next_url=https://www.washingtonpost.com/technology/interactive/2026/08/06/why-ai-is-causing-visual-captchas-get-more-difficult-less-common/&
+      - separator [ref=e477]
+      - generic [ref=e478]: FLASH SALE
+      - heading "Two ways to read this article:" [level=1] [ref=e481]
+      - generic [ref=e482]:
+        - generic [ref=e484]:
+          - generic [ref=e485]:
+            - generic [ref=e486]: Create an account
+            - generic [ref=e487]: Free
+            - list [ref=e490]:
+              - listitem [ref=e491]:
+                - generic [ref=e494]: Access this article
+          - generic [ref=e495]:
+            - generic [ref=e496]:
+              - generic [ref=e501]:
+                - generic: Enter email address
+                - textbox "Enter email address" [ref=e502]
+              - alert
+            - button "Start reading" [ref=e503] [cursor=pointer]
+        - generic [ref=e506]:
+          - img [ref=e508]:
+            - generic [ref=e509]: SALE
+          - generic [ref=e514]:
+            - generic [ref=e515]: Subscribe
+            - generic [ref=e516]:
+              - generic [ref=e517]: $2 USD
+              - generic [ref=e518]: every four weeks for the first year
+            - list [ref=e520]:
+              - listitem [ref=e521]:
+                - generic [ref=e524]: Unlimited access to all articles
+              - listitem [ref=e525]:
+                - generic [ref=e528]: 24/7 live news updates
+          - button "Subscribe" [ref=e529] [cursor=pointer]
