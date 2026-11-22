@@ -158,13 +158,24 @@ if (token_len < 4) {
 
 The upstream fix goes further, and the extra steps are worth copying: rejecting the input instead of decoding it, being explicit about the prefix instead of letting `sscanf` rewrite the buffer, and letting the allocator do the zeroing instead of doing it by hand at a computed offset.
 
-## Why this pattern keeps showing up
+## Why this bug is easy to miss
 
-The habit underneath this bug is writing code that *knows* the input is a Base64 credential and never proving it. The author computed a decode length from the header, allocated that many bytes, and then wrote three bytes at fixed offsets from the end, because they had a valid token in mind when they wrote it. The fuzzer does not have a valid token in mind. Neither does an attacker.
+The code was written for a valid token. Whoever wrote it knew the input was a Base64
+credential, computed the decode length from the header, allocated that many bytes, and
+wrote three bytes at fixed offsets from the end. A fuzzer assumes no such token, and
+neither does an attacker.
 
-There is a second, quieter assumption in the same three lines: that subtracting from a length is safe because a length is a number. In C, a length is an unsigned number, and `len - 2` on a length of 1 is not minus one, it is `SIZE_MAX`. I have written that line. So has almost everyone who has spent an afternoon on C string handling, and it is why the compiler flag matters more than the review: UBSAN caught this in 34 executions, while reading the same three lines by eye is exactly the kind of thing a reviewer waves through because the intent ("clear the padding") is obvious and the boundary ("what if there is no padding") is not. If you maintain a parser, turning on `-fsanitize=address,undefined` in CI and throwing a fuzzer at the entry point is cheaper than one more careful read. This one is a cousin of the classic OWASP-inscribed out-of-bounds write family (CWE-787), and the underflow mask on top (CWE-191) is the specific trick that makes the index look innocent.
+The second assumption is quieter: that subtracting from a length is safe because a
+length is a number. In C it is an unsigned number, so `len - 2` on a length of 1 is not
+minus one, it is `SIZE_MAX`. I have written that line myself, and so has most anyone who
+has spent an afternoon on C string handling. That is also why a sanitizer beats a careful
+read here. UBSAN found this in 34 executions, while the same three lines are easy to wave
+through by eye: the intent (clear the padding) is obvious and the boundary (what if there
+is no padding) is not. If you maintain a parser, put `-fsanitize=address,undefined` in CI
+and point a fuzzer at the entry point. It will catch this class of bug long before a
+reviewer does.
 
-## Affected surface
+## Who is affected
 
 Vulnerable in **0.24.13** and earlier, for any deployment where the HTTP management API is reachable. That is the default `nanomq.conf` if you enable the REST server on 8081. The fix landed in **0.24.14**, so if your version string sorts at or below 0.24.13 you are on the vulnerable code and a curl at the brokers endpoint is enough to know whether 8081 answers at all.
 

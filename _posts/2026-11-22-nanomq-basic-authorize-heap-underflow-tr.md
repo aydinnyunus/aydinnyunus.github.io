@@ -158,11 +158,21 @@ if (token_len < 4) {
 
 Upstream fix daha ileri gidiyor ve bu fazladan adımlar kopyalanmaya değer: girdiyi decode etmek yerine reddetmek, buffer'ı `sscanf`'e yeniden yazdırmak yerine prefix'i açıkça yönetmek, ve hesaplanmış offset'te elle sıfırlamak yerine sıfırlamayı allocator'a bırakmak.
 
-## Bu pattern neden tekrar tekrar çıkıyor
+## Bu bug neden gözden kaçıyor
 
-Bu bug'ın altındaki alışkanlık şu: kodu yazan kişi, girdinin Base64 bir credential olduğunu *biliyor* ama bunu hiç kanıtlamıyor. Header'dan bir decode uzunluğu hesaplıyor, o kadar byte ayırıyor, sonra sonda sabit offset üç byte yazıyor; çünkü yazarken kafasında geçerli bir token vardı. Fuzzer'ın kafasında geçerli bir token yok. Saldırganın kafasında da.
+Kod geçerli bir token varsayımıyla yazılmış. Yazan kişi girdinin Base64 bir credential
+olduğunu biliyor, header'dan decode uzunluğunu hesaplıyor, o kadar byte ayırıyor ve sonda
+sabit offset'lere üç byte yazıyor. Fuzzer geçerli bir token varsaymıyor; saldırgan da
+varsaymıyor.
 
-Aynı üç satırda daha sessiz ikinci bir varsayım var: bir uzunluktan çıkarmanın güvenli olduğu, çünkü uzunluğun bir sayı olduğu. C'de uzunluk unsigned bir sayıdır ve uzunluğu 1 olan bir değerde `len - 2`, eksi bir değil `SIZE_MAX`'tir. Bu satırı ben de yazdım. C string işleriyle bir öğleden sonra geçiren hemen herkes yazmıştır. Bu yüzden burada review'dan çok derleyici bayrağı konuşuyor: UBSAN bu hatayı 34 execution'da yakaladı, halbuki aynı üç satırı gözle okumak bir reviewer'ın kolayca geçiştirdiği türden bir şey, çünkü niyet ("padding'i temizle") bariz, sınır ise ("ya padding yoksa") değil. Elinde bir parser varsa CI'da `-fsanitize=address,undefined` açıp entry point'e fuzzer salmak, bir kez daha dikkatli okumaktan daha ucuz. Klasik OWASP out-of-bounds write ailesinin (CWE-787) bir kuzeni bu; üstündeki underflow maskesi (CWE-191) de indeksin masum görünmesini sağlayan numara.
+İkinci varsayım daha sessiz: bir uzunluktan çıkarmanın güvenli olduğu, çünkü uzunluğun bir
+sayı olduğu. C'de uzunluk unsigned bir sayı, dolayısıyla uzunluğu 1 olan bir değerde
+`len - 2` eksi bir değil, `SIZE_MAX`. Bu satırı ben de yazdım, C string işleriyle bir
+öğleden sonra geçiren hemen herkes de yazmıştır. Bu yüzden burada dikkatli bir okumadan
+çok sanitizer kazanıyor: UBSAN bu hatayı 34 execution'da buldu, aynı üç satırı gözle
+okumak ise kolayca geçiştirilir, çünkü niyet (padding'i temizle) bariz, sınır (padding
+yoksa ne olur) değil. Bir parser'ın varsa CI'da `-fsanitize=address,undefined` aç ve entry
+point'e fuzzer yönlendir. Bu sınıf bug'ı bir reviewer'dan çok önce yakalar.
 
 ## Etkilenen yüzey
 
