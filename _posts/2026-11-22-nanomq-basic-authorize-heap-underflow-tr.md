@@ -105,7 +105,7 @@ Tetikleme şeklinin kredisi fuzzer'a ait. Harness, `rest_api.c`'yi `#include` ed
 - **Memory corruption.** Yazılan tek bir null byte, ama heap'in tabanına yakın, glibc'nin `malloc` chunk metadata'sını tuttuğu bir adrese düşüyor.
 - **Code execution yok.** Yazılan değer sabit `\0`, allocation kısa ömürlü ve modern glibc (2.29 ve sonrası) metadata kurcalamasını kontrollü bir yazmaya değil abort'a çeviren heap integrity kontrolleri çalıştırıyor. Burada RCE iddia etmiyorum ve kimse de "RCE vardır" varsayımıyla fix yazmasın.
 
-CVSS 3.1 skoru **7.5** (Medium): `AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H`. Network'ten ulaşılabilir, yetki gerekmiyor, kullanıcı etkileşimi yok, sadece availability. Broker cihazlarının konuştuğu şey olduğunda DoS-only de ciddi bir fatura.
+Advisory bunu **moderate** severity olarak listeliyor. Broker cihazlarının konuştuğu şey olduğunda DoS-only yine ciddi bir fatura.
 
 ## Düzeltme
 

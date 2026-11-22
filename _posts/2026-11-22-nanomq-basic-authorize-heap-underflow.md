@@ -105,7 +105,7 @@ Credit for the trigger shape: the fuzzer. The harness was a tiny `auth_harness.c
 - **Memory corruption.** The write is a single null byte, but it lands at a wild address near the base of the heap, where glibc keeps `malloc` chunk metadata.
 - **No code execution.** The written value is fixed at `\0`, the allocation is short-lived, and modern glibc (2.29 and newer) runs heap integrity checks that turn metadata tampering into an abort rather than a controlled write. I am not claiming RCE here, and nobody should ship a fix that assumes there is one.
 
-CVSS 3.1 comes out at **7.5** (Medium): `AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H`. Network reachable, no privileges, no user interaction, availability only. DoS-only is still a real bill when the broker is the thing your devices are talking to.
+The advisory lists this as **moderate** severity. A DoS-only bug is still a real bill when the broker is the thing your devices are talking to.
 
 ## The fix
 
